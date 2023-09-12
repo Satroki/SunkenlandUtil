@@ -1,0 +1,543 @@
+1 50 Cal Ammo 大口径弹药 60
+2 B1_Black Powder 黑火药 20
+3 Black Powder Ammo 黑火药弹药 60
+4 Crude Grenade 土手雷 5
+5 Military Grenade 军用手雷 5
+6 Molotov 燃烧瓶 5
+7 Pistol Ammo 手枪弹药 60
+8 Rifle Ammo 步枪弹药 60
+9 Shotgun Ammo 霰弹枪弹药 60
+200 Broken GP20 损坏的GP20 5
+201 Broken Hunting Rifle 损坏的猎枪 5
+202 Broken PM 损坏的PM手枪 5
+529 Broken DE 损坏的沙鹰 5
+208 Broken Old Bolt Action Rifle 损坏的老式栓动步枪 5
+203 Broken Pump Shotgun 损坏的泵式霰弹枪 5
+204 Broken SMG 损坏的SMG 5
+530 Broken Stun SMG 损坏的斯登冲锋枪 5
+205 Broken AK47 损坏的AK47 5
+206 Broken M14 损坏的M14 5
+207 Broken M16 损坏的M16 5
+102 A1_Crude Axe 粗糙斧子 1
+103 A2_Metal Axe 双手斧 1
+104 A3_Wooden Spear 木矛 1
+105 C1_Bow 木弓 1
+106 C2_Crossbow 十字弩 1
+107 C3_Arrow 箭 30
+108 C3_Bolt 弩弹 30
+109 Spiked Club 尖刺棍 1
+110 Stone Hatchet 石斧 1
+111 Wooden Knife 木刀 1
+112 A2B_Iron Axe 铁斧子 1
+113 A4_Iron Spear 铁矛 1
+114 A4_Scrap Metal Spear 废金属矛 1
+115 Antique Flintlock Pistol 古董燧发手枪 1
+116 Combat Knife 战斗刀 1
+117 Iron Mace 铁骨朵 1
+118 Iron Sword 铁剑 1
+119 Machete 砍刀 1
+120 Percussion Pistol 燧发枪 1
+121 Skull Crusher 锯齿斧子 1
+122 Tripple Barrel Pistol 三连发火枪 1
+123 A2_Scrap Pistol 废旧手枪 1
+124 A3_Homemade Revolver 自制左轮手枪 1
+125 A4_Double Barrel Shotgun 双管霰弹枪 1
+126 A4_PM PM 1
+127 A5_GP20 GP20 1
+128 B2_Pump Shotgun 泵式霰弹枪 1
+129 C1_SMG SMG 1
+527 C1_Stun SMG 斯登冲锋枪 1
+130 Crude Hunting Rifle 猎枪 1
+528 DEG 45 沙鹰 1
+131 E1_Old Bolt Action Rifle 老式栓动步枪 1
+132 G1_AK47 AK47 1
+133 M14 M14 1
+134 M16 M16 1
+135 Claw 爪 1
+190 Broken Footbal Helmet 损坏的足球头盔 5
+191 Broken Tactical Vest 损坏战术背心 5
+192 Broken Army Helmet 损坏的特战钢盔 5
+193 Broken Army Vest 损坏的陆军背心 5
+195 Broken Motorcycle Helmet 损坏的摩托车头盔 5
+196 Broken Police Helmet 损坏的警用头盔 5
+197 Broken Police Vest 损坏的警用防弹衣 5
+198 Broken Special Force Armor 损坏的特种部队护甲 5
+199 Broken Special Force Helmet 损坏的特种部队头盔 5
+194 Broken Tactical Armor 损坏的军用背心 5
+10 A1 Warm Jacket 保暖服 1
+11 A2_Thick Cloth Armor 皮甲 1
+12 A3_Thick Cloth Helmet 皮帽 1
+13 B1_Scrap Armor 废金属护甲 1
+14 B2_Scrap Helmet 废金属头盔 1
+15 C1_Combat Armor 战斗护甲 1
+16 C2 Helmet Heavy2 钢盔 1
+17 D1 Shorts Kneedpads 战斗护腿 1
+18 D2 TShirt_Pads 精铁甲 1
+19 Vest A 背心 A 1
+20 Vest B 背心 B 1
+21 Vest Black 黑背心 1
+22 Vest C 背心 C 1
+23 Vest1 Forest 森林背心1 1
+24 Vest1 Sand 沙背心1 1
+25 Vest3 Navy 海军背心3 1
+26 A1 Vest3 Forest 野战背心 1
+27 A2 Helmet Football 橄榄球头盔 1
+28 A3 Motorcycle Helmet 摩托车头盔 1
+29 B1 Vest Police 警用防弹衣 1
+30 B2 Police Helmet 警用头盔 1
+31 B6 Army Vest 陆军背心 1
+32 C1 Tactical Vest 战术背心 1
+33 C2 Army Helmet 特战钢盔 1
+34 D1 Spetznaz Vest Spetznaz背心 1
+35 D2 Spetsnaz Helmet Spetsnaz头盔 1
+88 A1_Sack 袋子 1
+96 A2_Backpack 大背包 1
+531 A3_Military Backpack 军用大背包 1
+86 B1_Seawater Bucket 海水桶 1
+92 B2_Diving Fins 潜水脚蹼 1
+532 B2a_Scuba Diving Fins 高级脚蹼 1
+93 B3_Fishing Rod 鱼竿 1
+85 B3_Torch 火把 1
+89 C1_Pickaxe 镐头 1
+90 C2_Reparing Hammer 修理锤 1
+543 C3_Packing Box 家具打包箱 1
+87 D5_Water Bottle 水瓶 10
+541 E1_Small Air Tank 小氧气瓶 1
+97 G1_Battery 电池 1
+100 G2_Metal Detector 矿石探测器 1
+98 G3_HeadLight 头灯 1
+94 I1_Flare 信号弹 10
+145 Blueprint Blue Patterned Chair 蓝图：蓝色花纹椅 1
+146 Blueprint Concave Cabinet 蓝图：凹字柜子 1
+147 Blueprint Desk 蓝图：书桌 1
+175 Blueprint Floor Tile (Wooden) 蓝图：木制地板 1
+148 Blueprint Plaid Couch 蓝图：格子沙发 1
+149 Blueprint Red Cloth Sofa 蓝图：红布沙发 1
+150 Blueprint Solid Wood Cabinet 蓝图：实木柜子 1
+151 Blueprint Square Table 蓝图：方桌 1
+188 Blueprint Wallpaper (Green) 蓝图：绿色壁纸 1
+152 Blueprint Armchair 蓝图：扶手椅 1
+153 Blueprint Backrest Chair 蓝图：靠背椅 1
+154 Blueprint Black Leather Chair 蓝图：黑色皮制椅 1
+155 Blueprint Black Leather Couch 蓝图：黑色皮制沙发 1
+157 Blueprint Collection Cabinet 蓝图：收藏柜 1
+158 Blueprint Counter 蓝图：柜台 1
+159 Blueprint Double Door Wardrobe 蓝图：双开门衣柜 1
+160 Blueprint Double Shelf 蓝图：双层置物架 1
+161 Blueprint Fireplace 蓝图：壁炉 1
+173 Blueprint Floor Tile (European) 蓝图：欧式地板 1
+174 Blueprint Floor Tile (White Tiles) 蓝图：白色瓷砖 1
+162 Blueprint Log Desk 蓝图：原木办公桌 1
+163 Blueprint Makeup Table 蓝图：化妆台 1
+164 Blueprint Round Glass Table 蓝图：圆形玻璃桌 1
+165 Blueprint Round Table 蓝图：圆桌 1
+166 Blueprint Single bed 蓝图：单人床 1
+187 Blueprint Wallpaper (Blue) 蓝图：蓝色壁纸 1
+189 Blueprint Wallpaper (Yellow) 蓝图：黄色壁纸 1
+167 Blueprint Chaise Leather Couch 蓝图：贵妃皮制沙发 1
+168 Blueprint Crystal Chandelier 蓝图：水晶吊灯 1
+169 Blueprint Double 蓝图：双人床 1
+170 Blueprint European Chandelier 蓝图：欧式吊灯 1
+171 Blueprint European Leather Chair 蓝图：欧式皮椅 1
+172 Blueprint Fish Tank 蓝图：鱼缸 1
+176 Blueprint French Sofa 蓝图：法式沙发 1
+177 Blueprint Green Leather Couch 蓝图：绿色皮制沙发 1
+178 Blueprint Hanging Clocks 蓝图：挂式钟表 1
+179 Blueprint Modern Floor Lamp 蓝图：现代地灯 1
+180 Blueprint Modern Garden Lamp 蓝图：现代花园灯 1
+181 Blueprint Modern Lamp Post 蓝图：现代街灯 1
+182 Blueprint Modern Wall Lamp 蓝图：现代壁灯 1
+183 Blueprint Premium Fireplace 蓝图：高级壁炉 1
+184 Blueprint Single Leather Couch 蓝图：单人皮制沙发 1
+185 Blueprint TV 蓝图：电视机 1
+186 Blueprint Vintage Leather Couch 蓝图：复古皮制沙发 1
+136 Blueprint Motor Boat 蓝图：快艇 1
+137 Blueprint Antique Flintlock Pistol 蓝图：古董火枪 1
+534 Blueprint Ore Detector 蓝图: 矿石探测器 1
+138 Blueprint Reinforced Structures 蓝图：加固的基础结构 1
+139 Blueprint Jetski 蓝图：摩托艇 1
+535 Blueprint Jetstream Bowrider 蓝图：喷流号快艇 1
+536 Blueprint Military Backpack 蓝图：军用大背包 1
+144 Blueprint Paint 蓝图：油漆 1
+537 Blueprint Scuba Diving Fins 蓝图：高级脚蹼 1
+141 Blueprint Helicopter 蓝图：轻型直升机 1
+538 Blueprint Large Generator 蓝图：大型发电机 1
+142 Blueprint Marine Fast Boat 蓝图：陆战队快艇 1
+539 Blueprint Military Grenade 蓝图：军用手雷 1
+143 Blueprint 50 Cal Ammo 蓝图: 大口径弹药 1
+544 BuildingItem  1
+209 2Layer TShirt A 精铁甲 1
+210 2Layer TShirt B 2层衬衫B 1
+211 2Layer TShirt E 2层衬衫E 1
+212 A1_1a 2Layer TShirt C 粗糙布衣 1
+213 A2 Baggy Pants 粗糙裤子 1
+214 A3 Zip Shoes 粗糙布鞋 1
+339 Anime T Shirt 动漫T恤 1
+215 Bandage Boots 绷带靴 1
+216 Bandana Mouth Black 黑头巾 1
+217 Bandana Mouth Olive 橄榄头巾 1
+218 Bandana Neck Black 黑色头巾颈 1
+219 Bandana Neck Sand 沙头巾颈 1
+220 Boots D 靴子 D 1
+221 Boots Forest 森林靴子 1
+222 Boots Navy 海军靴子 1
+223 Boots1 A 靴子1 A 1
+224 Boots2 A 靴子2 A 1
+226 Bracer 护腕 1
+225 Bracer C 护腕 C 1
+227 Breechcloth Pants 沙滩裤 1
+231 Camisole 吊带背心 1
+228 Camisole A 吊带背心A 1
+229 Camisole B 吊带背心B 1
+230 Camisole D 吊带背心D 1
+232 Canvas Shoes B 帆布鞋B 1
+233 Canvas Shoes C 帆布鞋C 1
+234 Canvas Shoes D 帆布鞋D 1
+235 Cargo Pants B 工装裤B 1
+236 Cargo Pants C 工装裤C 1
+237 Cargo Shorts A 工装短裤A 1
+238 Cargo Shorts B 工装短裤B 1
+239 Cargo Shorts C 工装短裤C 1
+240 Close collar longsleeves shirt C 近领长袖衬衫C 1
+241 Close collar longsleeves shirt D 近领长袖衬衫D 1
+242 Close collar short sleeves shirt E 近领长袖衬衫E 1
+243 Corset B 紧身胸衣B 1
+244 Corset C 紧身胸衣C 1
+245 Fingerless Gloves Black 黑色无指手套 1
+246 Fingerless Gloves Brown 棕色无指手套 1
+247 Flip-flops A 人字拖A 1
+248 Flip-flops C 人字拖C 1
+249 Flip-flops D 人字拖D 1
+250 Gas Mask A 防毒面具A 1
+251 Gas Mask B 防毒面具B 1
+252 Googles A 眼镜 A 1
+253 Henley Longsleeve A 亨利长袖A 1
+254 Henley Longsleeve B 亨利长袖B 1
+255 Henley Longsleeve D 亨利长袖D 1
+256 High-heels A 高跟鞋A 1
+257 High-heels B 高跟鞋B 1
+258 High-heels C 高跟鞋C 1
+259 High-heels D 高跟鞋D 1
+260 Jeans B 牛仔裤B 1
+261 Jeans C 牛仔裤C 1
+262 Jeans E 牛仔裤E 1
+263 Jeans Rivets 铆钉牛仔裤 1
+264 Knee Boots B 膝靴B 1
+265 Knee Boots C 膝靴C 1
+266 Knee Boots D 膝靴D 1
+267 Leather Jeans 皮革牛仔裤 1
+546 Lobster Hood 龙虾头帽子 1
+268 Low-rise Shorts B 低腰短裤B 1
+269 Low-rise Shorts C 低腰短裤C 1
+270 Low-rise Shorts D 低腰短裤D 1
+271 Mini Skirt A 迷你裙 (红色) 1
+272 Mini Skirt D 迷你裙D 1
+273 Moccasins Boots 鹿皮鞋靴 1
+274 Open collar longsleeves shirt C 开领长袖衬衫C 1
+275 Open collar longsleeves shirt F 开领长袖衬衫F 1
+276 Open collar longsleeves shirt H 开领长袖衬衫H 1
+277 Open collar longsleeves shirt I 开领长袖衬衫I 1
+278 P Tucked-SH Forest 森林迷彩裤 1
+279 P Tucked-SH Navy 海军迷彩裤 1
+280 P Tucked-SH Sand 沙漠迷彩裤 1
+281 Pants1 A 裤子1A 1
+282 Pants1 B 裤子1B 1
+283 Pants2 A 裤子2A 1
+284 Pants2 B 裤子2B 1
+285 Patched Pants 补丁裤 1
+286 Pencil Skirt A 铅笔裙A 1
+287 Pencil Skirt D 铅笔裙D 1
+288 Pencil Skirt E 铅笔裙E 1
+289 Rocker Jeans 摇滚牛仔裤 1
+290 S-Rolled Up Forest 森林迷彩上衣 1
+291 S-Rolled Up Navy 海军迷彩上衣 1
+292 S-Rolled Up Sand 沙漠迷彩上衣 1
+293 Scrub Pants A Scrub 裤子A 1
+294 Scrub Pants B Scrub 裤子B 1
+295 Scrub Pants C Scrub 裤子C 1
+296 Scrub Pants E Scrub 裤子E 1
+297 Shirt B 衬衫B 1
+298 Shirt E 衬衫E 1
+299 Shirt-Standart Forest 衬衫-标准森林 1
+300 Shirt-Standart Navy 衬衫-标准海军 1
+301 Shirt-Standart Sand 衬衫-标准沙 1
+302 Shirt-Tactical Forest 衬衫-作战森林 1
+303 Shirt-Tactical Navy 衬衫-作战海军 1
+304 Shirt-Tactical Sand 衬衫-作战海军 1
+305 Ski Mask A 滑雪面罩A 1
+306 Ski Mask B 滑雪面罩B 1
+307 Skinny Pants C 紧身裤C 1
+308 Skinny Pants D 紧身裤D 1
+309 Slacks B 休闲裤B 1
+310 Slacks C 休闲裤C 1
+311 Sleeves Tops B 带袖上衣B 1
+312 Sleeves Tops C 带袖上衣C 1
+313 Sleeves Tops D 带袖上衣D 1
+314 Slip-ons A 套鞋A 1
+315 Slip-ons B 套鞋B 1
+316 Slip-ons C 套鞋C 1
+317 Slit Skirt B 开衩半身裙B 1
+318 Slit Skirt C 开衩半身裙C 1
+319 Slit Skirt D 开衩半身裙D 1
+320 Sneakers B 球鞋B 1
+321 Sneakers C 球鞋C 1
+322 Sneakers D 球鞋D 1
+547 Squirrel Hood 松鼠帽子 1
+323 Style 2 背心2 1
+324 Style 3 背心3 1
+325 Style 5 背心5 1
+326 Style 6 背心6 1
+327 T-shirt A 体恤衫A 1
+328 T-shirt C 体恤衫C 1
+329 T-shirt D 体恤衫D 1
+334 Tank Top Anime 动漫背心 1
+330 Tank Top B 背心B 1
+331 Tank Top C 背心C 1
+332 Tank Top D 背心D 1
+333 Tank-Top Black 黑色背心 1
+335 TShirt Black 黑色体恤衫 1
+336 TShirt Coyote 狼体恤衫 1
+337 Tucked Pants 束行裤 1
+338 V Scrub Shirt A V Scrub上衣A 1
+340 White Gloves C 白手套C 1
+341 White Gloves D 白手套D 1
+342 Work Gloves A 工作手套A 1
+343 Work Gloves B 工作手套B 1
+344 Work Gloves C 工作手套C 1
+345 Algal Rug 藻状地毯 10
+346 Bike Toy 自行车玩具 10
+347 Blue Oil Bottle 蓝色油彩瓶 10
+348 Candlestick 烛台 10
+349 Carpet 地毯 10
+350 Ceramic Bottle 陶瓷瓶 10
+351 Colored Rug 彩色地毯 10
+352 Cooling Chair 乘凉椅 10
+353 Darts Target 飞镖靶 10
+354 Decorative Plate Stand 装饰板架 10
+355 Delicate Chandelier 精致吊灯 10
+356 Desk Clock 座钟 10
+357 Easel Covered 画架 10
+358 Exquisite Wooden Shelf 精致木制置物架 10
+359 Exquisite Wooden Table 精致木桌 10
+360 Figure Rug 花纹地毯 10
+361 Fish Statue 鱼摆件 10
+362 Floor Mirror 落地镜 10
+363 Game Console 游戏机 10
+364 Globe 地球仪 10
+365 Handbag 手提包 10
+366 Hanger 毛巾架 10
+367 Horse Statue 马摆件 10
+368 Horse Toy 玩具木马 10
+369 Household Desk Lamp 家用台灯 10
+370 Jewelry Casket 珠宝盒 10
+371 Lamp Table 台灯 10
+372 Lamp Wall 墙灯 10
+373 Lantern 油灯 10
+374 Large Vase 大花瓶 10
+375 Leather Suitcase 皮制手提箱 10
+376 Mirror 镜子 10
+377 Model Train 火车模型 10
+379 Moire 云纹 10
+378 Moire Ceramic 云纹陶瓷 10
+380 Neon Bestdayever 霓虹灯Bestdayever 10
+381 Neon Cat 霓虹灯Cat 10
+382 Neon Gamer 霓虹灯Gamer 10
+383 Neon Guitar 霓虹灯Guitar 10
+384 Neon Hotel 霓虹灯Hotel 10
+385 Neon Money 霓虹灯Money 10
+386 Neon Nightclub 霓虹灯Nightclub 10
+387 Neon Peace 霓虹灯Peace 10
+388 Neon Route66 霓虹灯Route66 10
+389 Neon Woman 1 霓虹灯Woman 1 10
+390 Neon Woman 2 霓虹灯Woman 2 10
+391 Oil Painting(Birds Singing and Flowers Fragrant) 油画（鸟语花香） 10
+392 Oil Painting(Comfortable) 油画（惬意） 10
+393 Oil Painting(Deep in the Valley) 油画（山谷深处） 10
+394 Oil Painting(Desert Oasis) 油画（荒漠绿洲） 10
+395 Oil Painting(Divine Tree) 油画（神树） 10
+396 Oil Painting(Forgotten Castle) 油画（被遗忘的城堡） 10
+397 Oil Painting(Fox in Birch Forest) 油画（白桦林的狐狸） 10
+398 Oil Painting(Happy Childhood) 油画（欢乐童年） 10
+399 Oil Painting(King Castle) 油画（国王城堡） 10
+400 Oil Painting(Landscape Dusk) 油画（山水黄昏） 10
+401 Oil Painting(Lotus) 油画（荷花） 10
+402 Oil Painting(Rural Life) 油画（乡村生活） 10
+403 Oil Painting(Small Stream in the Forest) 油画（林中小溪） 10
+404 Oil Painting(Valley Dusk) 油画（山谷黄昏） 10
+405 Oil Painting(Wilderness Scenery) 油画（野外风光） 10
+406 Old Clock 老式钟表 10
+407 Old Desk Lamp 旧台灯 10
+408 Old Style Storage Shelf 老式置物架 10
+409 Owl Toy 猫头鹰摆件 10
+410 Pan 锅 10
+411 Patterned Blue and White Pottery 花纹青花瓷 10
+412 Patterned Bronze Ware 花纹铜器 10
+540 Patterned Circular Porcelain 花纹圆形瓷器 10
+414 Plane Toy 飞机玩具 10
+415 Racing Model 赛车模型 10
+416 Radio 收音机 10
+417 Record Player Disk 1 碟片1 10
+418 Record Player Disk 2 碟片2 10
+419 Record Player Disk 3 碟片3 10
+420 Red Rug 红色地毯 10
+421 Red Sofa Chair 红色沙发椅 10
+422 Retro Rug 复古地毯 10
+413 Rubber Duck 橡皮鸭 10
+423 Rug 地毯 10
+424 Sand Watch 沙漏 10
+425 Scales 天秤 10
+545 Silly Cookies 呆饼干 10
+426 Small Globe 小地球仪 10
+427 Sofa Chair 沙发椅 10
+428 Solid Wood Shelf 实木置物架 10
+429 Stone Elephant 石象 10
+430 Striped Rug 条纹地毯 10
+431 Sword Wall 装饰剑 10
+432 Telephone Old 老电话 10
+433 Toy Bear 玩具熊 10
+434 Vanity Mirror 梳妆镜 10
+435 Vinyl Machine 唱片机 10
+436 Violin 小提琴 10
+437 Wall Clock 挂钟 10
+438 Wallet 钱包 10
+439 Wanghai Reef 望海礁 10
+440 Weighing Scale 计重秤 10
+441 Wooden Chair 木椅 10
+442 Baked Beans 罐装焗豆 20
+443 Candy Bar 巧克力棒 20
+444 Energy Drink 能量饮料 20
+445 Food Can 食品罐 20
+542 Gummy Duck 小黄鸭软糖 20
+446 Instant Ramen 方便面 20
+447 Pudding 布丁 20
+448 Soda 苏打 20
+449 Bird Meat 鸟肉 10
+450 Cabbage 白菜 10
+451 Coffee Bean 咖啡豆 10
+452 Crab Meat 蟹肉 10
+453 F3_Tarpon 鲢鱼 10
+454 F4_Wahoo 娃哈哈 10
+455 F7_Red Snapper 红鲷鱼 10
+456 F8_Bream 鳊鱼 10
+457 Large Fish Meat 大鱼肉 10
+458 Lemon 柠檬 20
+459 Mushroom 蘑菇 20
+460 Potato 土豆 20
+461 Raw Meat 生肉 10
+462 Red Algae 红藻 30
+463 Scallop 扇贝 20
+464 Strawberry 草莓 30
+465 Bottle Of Water 瓶装水 10
+466 F3_Roasted Tarpon 烤鲢鱼 5
+467 F4_Roasted Wahoo 烤瓦胡 10
+468 F7_Roasted Red Snapper 烤红鲷鱼 10
+469 F8_Roasted Bream 烤鲷鱼 10
+470 Roasted Bird Meat 烤鸟肉 10
+471 Roasted Cabbage 烤卷心菜 10
+472 Roasted Crab 烤蟹 10
+473 Roasted Fish 烤鱼 10
+474 Roasted Meat 烤肉 10
+475 Roasted Mushroom 烤蘑菇 10
+476 Roasted Potato 烤土豆 10
+477 Roasted Scallop 烤扇贝 20
+478 Water 水 10
+479 Bush Seed 灌木种子 20
+480 Cabbage Seed 白菜种子 20
+481 Cotton Seeds 棉花种子 20
+482 Fishing Bait 鱼饵 20
+483 Lemon Seeds 柠檬籽 20
+484 Strawberry Seeds 草莓种子 20
+485 A1 Salad 沙拉 10
+486 A2 Seafood Platter 海鲜拼盘 10
+487 A3 Fish Stew 鱼肉汤 10
+488 A4 Bird Meat Mushroom Soup 鸟肉蘑菇汤 10
+489 A5 Alcohol 酒精 10
+490 Baked Fish with Lemon 柠檬烤鱼 10
+491 Coffee 咖啡 10
+492 Coral Smoothie 珊瑚奶昔 10
+493 Crab Cakes 蟹饼 10
+494 Roasted Lemon Bird 柠檬鸟 10
+495 Steak Meal 牛排大餐 10
+496 Strawberry And Lemon Smoothie 草莓柠檬奶昔 10
+36 Orange Coral 橘色珊瑚 20
+37 Purple Flower 紫花 20
+38 Red Flower 红花 20
+39 White Flower 白花 20
+40 A1_Rope 绳子 20
+41 A2_Cloth 布料 20
+42 A3_Components 零件 20
+70 Advanced Alloy 高强度合金 20
+67 Advanced Parts 精密零件 20
+60 B1_Smokeless Powder 无烟火药 20
+61 Ballistic Fiber 防弹纤维 20
+43 Charcoal 木炭 40
+53 D_Gun Parts 枪零件 20
+54 E_Electronic Parts 电子零件 20
+62 Fine Wood Plank 精致木板 20
+44 Glass 玻璃 40
+63 H_Copper Ingot 铜块 10
+64 H_Copper Ore 铜矿石 5
+45 H_Cotton 棉花 40
+46 H_Duct Tape 胶带 20
+55 Hide 皮 20
+56 I_Gasoline 汽油 10
+57 Iron Ingot 铁块 10
+58 Iron Ore 铁矿石 5
+65 J_Chemical Substance 化学物质 10
+59 Leather 皮革 20
+68 Marble 大理石 10
+47 Marlin Fish Skin 马林鱼皮 20
+66 Paint 油漆 10
+71 Polymer 聚合纤维 20
+48 Rubber 橡胶 10
+49 Scrap Metal 废金属 10
+50 Shark Skin 鲨鱼皮 20
+69 Steel Igot 钢块 10
+51 Sulfur 硫磺 20
+52 Wood Plank 木板 20
+72 A1_Bandage 绷带 10
+73 A2_Herbal Medicine 草药 5
+74 A3_Lung Capacity Booster 速效润肺丸 10
+75 A3_Stamina Mix 耐力草药 5
+76 Antibiotics 抗生素 10
+77 Orange Coral 橘色珊瑚 20
+78 Converter No translation found for '' in Interactable 10
+79 MainBoard No translation found for '' in Interactable 10
+80 MotorCoil No translation found for '' in Interactable 10
+81 Note1  10
+82 PDA#1 No translation found for '' in Interactable 10
+83 Pirate Hideout Key  10
+84 SwipeCard No translation found for '' in Interactable 10
+497 Catamaran Controller 双体帆船控制杆 10
+498 Catamaran Hull 双体帆船船体 10
+499 Catamaran Sail 双体帆船风帆 10
+500 Helicopter Console 直升机操作面板 10
+501 Helicopter Empennage 直升机尾翼 10
+502 Helicopter Engine 直升机引擎 10
+503 Helicopter Gas Tank 直升机油箱 10
+504 Helicopter Propeller 直升机螺旋桨 10
+505 Jetski Controls 摩托艇控制系统 10
+506 Jetski Engine 摩托艇引擎 10
+507 Jetski Gas Tank 摩托艇油箱 10
+508 Jetski Jet Pump 摩托艇喷嘴 10
+509 Jetstream Bowrider Console 喷流号快艇操作面板 10
+510 Jetstream Bowrider Engine 喷流号快艇引擎 10
+511 Jetstream Bowrider Hull 喷流号快艇外壳 10
+512 Marine Fast Boat Console 海军快艇操作面板 10
+513 Marine Fast Boat Engine 海军快艇引擎 10
+514 Marine Fast Boat Hull 海军快艇外壳 10
+515 Motorboat Engine 快艇引擎 10
+516 Motorboat Gas Tank 快艇油箱 10
+517 Motorboat Hull 快艇船体 10
+91 C3_Binocular 望眼镜 1
+518 Cigar 雪茄 20
+519 Expensive Wine 珍藏葡萄酒 20
+520 High-end  Perfume 高档香水 20
+521 High-end Watch 高档手表 20
+522 Jewelry 钻戒 20
+523 Magazine 杂志 20
+524 Mobile Phone 手机 20
+525 Silver Coins 银币 50
+526 Zippo 高档打火机 20
+99 Alternative Gun Sight 红点瞄准镜 1
+101 UNDERWATER SCOOTER 手持式水下推进器 1
