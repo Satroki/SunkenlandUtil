@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
+using Fusion;
 using HarmonyLib;
 using System;
 using UnityEngine;
@@ -9,7 +10,7 @@ using UnityGameUI;
 
 namespace SunkenlandUtil
 {
-    [BepInPlugin("satroki.sunkenland.util", "Util Plugin", "0.0.8")]
+    [BepInPlugin("satroki.sunkenland.util", "Util Plugin", "0.0.11")]
     public class SunkenlandUtil : BaseUnityPlugin
     {
         private readonly Harmony _harmony = new Harmony("satroki.sunkenland.util");
@@ -17,8 +18,9 @@ namespace SunkenlandUtil
         private static bool worldSensor = false;
         private static bool scanOre;
         private static int sensorSpan;
-        private static bool returnBottle = false;
+        //private static bool returnBottle = false;
         private static bool sleepAnytime;
+        private static bool destroyReturnAll;
         private static float batteryPowerConsumption;
         private static Text text;
         private static GameObject uiArrow;
@@ -67,8 +69,9 @@ namespace SunkenlandUtil
             worldSensor = LoadConfig.WorldSensor.Value;
             scanOre = LoadConfig.ScanOre.Value;
             sensorSpan = LoadConfig.SensorSpan.Value;
-            returnBottle = LoadConfig.ReturnBottle.Value;
+            //returnBottle = LoadConfig.ReturnBottle.Value;
             sleepAnytime = LoadConfig.SleepAnytime.Value;
+            destroyReturnAll = LoadConfig.DestroyReturnAll.Value;
             batteryPowerConsumption = LoadConfig.HeadLightBatteryPowerConsumption.Value;
             _logger.LogInfo("UtilPlugin InitConfig");
         }
@@ -91,6 +94,8 @@ namespace SunkenlandUtil
             Traverse.Create(__instance).Property(nameof(PlayerCharacter.DefenceBody)).SetValue(__instance.DefenceBody + LoadConfig.Defence.Value);
             Traverse.Create(__instance).Property(nameof(PlayerCharacter.DefenceHead)).SetValue(__instance.DefenceHead + LoadConfig.Defence.Value);
             ___playerStorage.MaxItemsAmount += LoadConfig.MaxItemsAmount.Value;
+            if (___playerStorage.MaxItemsAmount > 50)
+                ___playerStorage.MaxItemsAmount = 50;
         }
 
         [HarmonyPatch(typeof(PlayerCharacter), "DamageArmor")]
@@ -115,31 +120,31 @@ namespace SunkenlandUtil
             _logger.LogInfo($"LoadResources Change StackAmount");
         }
 
-        [HarmonyPatch(typeof(Workstation), "CraftItem")]
-        [HarmonyPostfix]
-        public static void CraftItem(ref Transform craftItem, ref bool __result)
-        {
-            if (returnBottle && __result)
-            {
-                var component = craftItem.GetComponent<Craftable>();
-                if (component.NeedTime > 0f)
-                {
-                    var itemRequirements = component.itemRequirements;
-                    foreach (var itemRequirement in itemRequirements)
-                    {
-                        if (itemRequirement.item.GetComponent<Item>().ItemID == RM.code.FreshWaterBottle.ItemID)
-                        {
-                            Transform itemTransform = Utility.Instantiate(RM.code.EmptyWaterBottle).transform;
-                            if (!Global.code.Player.playerStorage.AddItem(itemTransform))
-                            {
-                                Global.code.Player.quickSlotStorage.AddItem(itemTransform);
-                            }
-                            Global.code.uiCombat.RefreshQuickSlot();
-                        }
-                    }
-                }
-            }
-        }
+        //[HarmonyPatch(typeof(Workstation), "CraftItem")]
+        //[HarmonyPostfix]
+        //public static void CraftItem(ref Transform craftItem, ref bool __result)
+        //{
+        //    if (returnBottle && __result)
+        //    {
+        //        var component = craftItem.GetComponent<Craftable>();
+        //        if (component.NeedTime > 0f)
+        //        {
+        //            var itemRequirements = component.itemRequirements;
+        //            foreach (var itemRequirement in itemRequirements)
+        //            {
+        //                if (itemRequirement.item.GetComponent<Item>().ItemID == RM.code.FreshWaterBottle.ItemID)
+        //                {
+        //                    Transform itemTransform = Utility.Instantiate(RM.code.EmptyWaterBottle).transform;
+        //                    if (!Global.code.Player.playerStorage.AddItem(itemTransform))
+        //                    {
+        //                        Global.code.Player.quickSlotStorage.AddItem(itemTransform);
+        //                    }
+        //                    Global.code.uiCombat.RefreshQuickSlot();
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
         [HarmonyPatch(typeof(Furnace), "Awake")]
         [HarmonyPostfix]
@@ -178,6 +183,26 @@ namespace SunkenlandUtil
         {
             if (sleepAnytime && __instance.Object.HasStateAuthority)
                 __instance.CanSleep = true;
+        }
+
+        [HarmonyPatch(typeof(BuildingPiece), "RPC_DestroyThis")]
+        [HarmonyPostfix]
+        public static void RPC_DestroyThis(bool _IsMeleeWeapon, PlayerRef playerRef, ref BuildingPiece __instance)
+        {
+            if (destroyReturnAll && playerRef == __instance.Runner.LocalPlayer && _IsMeleeWeapon && !__instance.transform.GetComponent<Item>())
+            {
+                var M_Craftable = __instance.M_Craftable;
+                for (int i = 0; i < M_Craftable.itemRequirements.Length; i++)
+                {
+                    var num0 = M_Craftable.itemRequirements[i].amount;
+                    if (num0 > 1 && Utility.Instantiate(M_Craftable.itemRequirements[i].item).TryGetComponent<Item>(out var component))
+                    {
+                        int num3 = Mathf.FloorToInt(num0 / 2f);
+                        component.Amount = num0 - num3;
+                        Global.code.Player.playerStorage.AddItem(component, showHint: true);
+                    }
+                }
+            }
         }
         #endregion
 
@@ -235,7 +260,7 @@ namespace SunkenlandUtil
             nearestObj = null;
             foreach (var collectable in WorldScene.code.worldCollectableContinuingInteractions)
             {
-                if (collectable)
+                if (collectable && collectable.isActiveAndEnabled)
                 {
                     float num = Vector3.Distance(collectable.transform.position, position);
                     if (num < nearestDistanceSqr)
@@ -247,7 +272,7 @@ namespace SunkenlandUtil
             }
             foreach (var scavengeable in WorldScene.code.worldScavengables)
             {
-                if (scavengeable)
+                if (scavengeable && scavengeable.isActiveAndEnabled)
                 {
                     float num = Vector3.Distance(scavengeable.transform.position, position);
                     if (num < nearestDistanceSqr)
@@ -259,7 +284,7 @@ namespace SunkenlandUtil
             }
             foreach (var breakable in WorldScene.code.worldBreakables)
             {
-                if (breakable)
+                if (breakable && breakable.isActiveAndEnabled)
                 {
                     float num = Vector3.Distance(breakable.transform.position, position);
                     if (num < nearestDistanceSqr)
@@ -271,7 +296,7 @@ namespace SunkenlandUtil
             }
             foreach (var chest in WorldScene.code.worldChests)
             {
-                if (chest)
+                if (chest && chest.isActiveAndEnabled)
                 {
                     float num = Vector3.Distance(chest.transform.position, position);
                     if (num < nearestDistanceSqr)
@@ -285,7 +310,7 @@ namespace SunkenlandUtil
             {
                 foreach (var choppable in WorldScene.code.choppables)
                 {
-                    if (choppable && choppable.M_ChoppableType != ChoppableType.Other)
+                    if (choppable && choppable.isActiveAndEnabled && choppable.M_ChoppableType != ChoppableType.Other)
                     {
                         float num = Vector3.Distance(choppable.transform.position, position);
                         if (num < nearestDistanceSqr)

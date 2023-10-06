@@ -20,11 +20,12 @@ namespace SunkenlandUtil
         public static ConfigEntry<bool> ScanOre;
         public static ConfigEntry<int> SensorSpan;
         public static ConfigEntry<bool> DamageArmor;
-        public static ConfigEntry<bool> ReturnBottle;
+        //public static ConfigEntry<bool> ReturnBottle;
         public static ConfigEntry<float> MetalProcessingDuration;
 
         public static ConfigEntry<float> HeadLightBatteryPowerConsumption;
         public static ConfigEntry<bool> SleepAnytime;
+        public static ConfigEntry<bool> DestroyReturnAll;
 
         const string Section = "General";
         internal static void Init(ConfigFile config)
@@ -49,13 +50,15 @@ namespace SunkenlandUtil
 
             DamageArmor = config.Bind(Section, nameof(DamageArmor), defaultValue: true, "护甲损坏");
 
-            ReturnBottle = config.Bind(Section, nameof(ReturnBottle), defaultValue: false, "灶台返还水瓶");
+            //ReturnBottle = config.Bind(Section, nameof(ReturnBottle), defaultValue: false, "灶台返还水瓶（0.140后不需要）");
 
             MetalProcessingDuration = config.Bind(Section, nameof(MetalProcessingDuration), defaultValue: 0f, "金属处理时间/秒, 0 不变, 游戏默认 30");
 
             HeadLightBatteryPowerConsumption = config.Bind(Section, nameof(HeadLightBatteryPowerConsumption), defaultValue: 0f, "头灯电池消耗速度, 0 不变, 游戏默认 0.01");
 
             SleepAnytime = config.Bind(Section, nameof(SleepAnytime), defaultValue: false, "随时睡觉");
+
+            DestroyReturnAll = config.Bind(Section, nameof(DestroyReturnAll), defaultValue: false, "拆除返还全部材料");
         }
     }
 }
