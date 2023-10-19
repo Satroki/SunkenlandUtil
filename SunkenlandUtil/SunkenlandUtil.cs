@@ -10,7 +10,7 @@ using UnityGameUI;
 
 namespace SunkenlandUtil
 {
-    [BepInPlugin("satroki.sunkenland.util", "Util Plugin", "0.0.11")]
+    [BepInPlugin("satroki.sunkenland.util", "Util Plugin", "0.0.12")]
     public class SunkenlandUtil : BaseUnityPlugin
     {
         private readonly Harmony _harmony = new Harmony("satroki.sunkenland.util");
@@ -93,9 +93,22 @@ namespace SunkenlandUtil
 
             Traverse.Create(__instance).Property(nameof(PlayerCharacter.DefenceBody)).SetValue(__instance.DefenceBody + LoadConfig.Defence.Value);
             Traverse.Create(__instance).Property(nameof(PlayerCharacter.DefenceHead)).SetValue(__instance.DefenceHead + LoadConfig.Defence.Value);
-            ___playerStorage.MaxItemsAmount += LoadConfig.MaxItemsAmount.Value;
-            if (___playerStorage.MaxItemsAmount > 50)
-                ___playerStorage.MaxItemsAmount = 50;
+            //___playerStorage.MaxItemsAmount += LoadConfig.MaxItemsAmount.Value;
+            //if (___playerStorage.MaxItemsAmount > 50)
+            //    ___playerStorage.MaxItemsAmount = 50;
+        }
+
+        [HarmonyPatch(typeof(Storage), "MaxItemsAmount", methodType: MethodType.Setter)]
+        [HarmonyPrefix]
+        public static bool SetMaxItemsAmount(ref Storage __instance, ref int value)
+        {
+            if (__instance == Global.code.Player.playerStorage)
+            {
+                value += LoadConfig.MaxItemsAmount.Value;
+                if (value > 50)
+                    value = 50;
+            }
+            return true;
         }
 
         [HarmonyPatch(typeof(PlayerCharacter), "DamageArmor")]
