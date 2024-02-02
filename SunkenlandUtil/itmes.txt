@@ -1,543 +1,711 @@
-1 50 Cal Ammo 大口径弹药 60
-2 B1_Black Powder 黑火药 20
-3 Black Powder Ammo 黑火药弹药 60
-4 Crude Grenade 土手雷 5
-5 Military Grenade 军用手雷 5
-6 Molotov 燃烧瓶 5
-7 Pistol Ammo 手枪弹药 60
-8 Rifle Ammo 步枪弹药 60
-9 Shotgun Ammo 霰弹枪弹药 60
-200 Broken GP20 损坏的GP20 5
-201 Broken Hunting Rifle 损坏的猎枪 5
-202 Broken PM 损坏的PM手枪 5
-529 Broken DE 损坏的沙鹰 5
-208 Broken Old Bolt Action Rifle 损坏的老式栓动步枪 5
-203 Broken Pump Shotgun 损坏的泵式霰弹枪 5
-204 Broken SMG 损坏的SMG 5
-530 Broken Stun SMG 损坏的斯登冲锋枪 5
-205 Broken AK47 损坏的AK47 5
-206 Broken M14 损坏的M14 5
-207 Broken M16 损坏的M16 5
-102 A1_Crude Axe 粗糙斧子 1
-103 A2_Metal Axe 双手斧 1
-104 A3_Wooden Spear 木矛 1
-105 C1_Bow 木弓 1
-106 C2_Crossbow 十字弩 1
-107 C3_Arrow 箭 30
-108 C3_Bolt 弩弹 30
-109 Spiked Club 尖刺棍 1
-110 Stone Hatchet 石斧 1
-111 Wooden Knife 木刀 1
-112 A2B_Iron Axe 铁斧子 1
-113 A4_Iron Spear 铁矛 1
-114 A4_Scrap Metal Spear 废金属矛 1
-115 Antique Flintlock Pistol 古董燧发手枪 1
-116 Combat Knife 战斗刀 1
-117 Iron Mace 铁骨朵 1
-118 Iron Sword 铁剑 1
-119 Machete 砍刀 1
-120 Percussion Pistol 燧发枪 1
-121 Skull Crusher 锯齿斧子 1
-122 Tripple Barrel Pistol 三连发火枪 1
-123 A2_Scrap Pistol 废旧手枪 1
-124 A3_Homemade Revolver 自制左轮手枪 1
-125 A4_Double Barrel Shotgun 双管霰弹枪 1
-126 A4_PM PM 1
-127 A5_GP20 GP20 1
-128 B2_Pump Shotgun 泵式霰弹枪 1
-129 C1_SMG SMG 1
-527 C1_Stun SMG 斯登冲锋枪 1
-130 Crude Hunting Rifle 猎枪 1
-528 DEG 45 沙鹰 1
-131 E1_Old Bolt Action Rifle 老式栓动步枪 1
-132 G1_AK47 AK47 1
-133 M14 M14 1
-134 M16 M16 1
-135 Claw 爪 1
-190 Broken Footbal Helmet 损坏的足球头盔 5
-191 Broken Tactical Vest 损坏战术背心 5
-192 Broken Army Helmet 损坏的特战钢盔 5
-193 Broken Army Vest 损坏的陆军背心 5
-195 Broken Motorcycle Helmet 损坏的摩托车头盔 5
-196 Broken Police Helmet 损坏的警用头盔 5
-197 Broken Police Vest 损坏的警用防弹衣 5
-198 Broken Special Force Armor 损坏的特种部队护甲 5
-199 Broken Special Force Helmet 损坏的特种部队头盔 5
-194 Broken Tactical Armor 损坏的军用背心 5
-10 A1 Warm Jacket 保暖服 1
-11 A2_Thick Cloth Armor 皮甲 1
-12 A3_Thick Cloth Helmet 皮帽 1
-13 B1_Scrap Armor 废金属护甲 1
-14 B2_Scrap Helmet 废金属头盔 1
-15 C1_Combat Armor 战斗护甲 1
-16 C2 Helmet Heavy2 钢盔 1
-17 D1 Shorts Kneedpads 战斗护腿 1
-18 D2 TShirt_Pads 精铁甲 1
-19 Vest A 背心 A 1
-20 Vest B 背心 B 1
-21 Vest Black 黑背心 1
-22 Vest C 背心 C 1
-23 Vest1 Forest 森林背心1 1
-24 Vest1 Sand 沙背心1 1
-25 Vest3 Navy 海军背心3 1
-26 A1 Vest3 Forest 野战背心 1
-27 A2 Helmet Football 橄榄球头盔 1
-28 A3 Motorcycle Helmet 摩托车头盔 1
-29 B1 Vest Police 警用防弹衣 1
-30 B2 Police Helmet 警用头盔 1
-31 B6 Army Vest 陆军背心 1
-32 C1 Tactical Vest 战术背心 1
-33 C2 Army Helmet 特战钢盔 1
-34 D1 Spetznaz Vest Spetznaz背心 1
-35 D2 Spetsnaz Helmet Spetsnaz头盔 1
-88 A1_Sack 袋子 1
-96 A2_Backpack 大背包 1
-531 A3_Military Backpack 军用大背包 1
-86 B1_Seawater Bucket 海水桶 1
-92 B2_Diving Fins 潜水脚蹼 1
-532 B2a_Scuba Diving Fins 高级脚蹼 1
-93 B3_Fishing Rod 鱼竿 1
-85 B3_Torch 火把 1
-89 C1_Pickaxe 镐头 1
-90 C2_Reparing Hammer 修理锤 1
-543 C3_Packing Box 家具打包箱 1
-87 D5_Water Bottle 水瓶 10
-541 E1_Small Air Tank 小氧气瓶 1
-97 G1_Battery 电池 1
-100 G2_Metal Detector 矿石探测器 1
-98 G3_HeadLight 头灯 1
-94 I1_Flare 信号弹 10
-145 Blueprint Blue Patterned Chair 蓝图：蓝色花纹椅 1
-146 Blueprint Concave Cabinet 蓝图：凹字柜子 1
-147 Blueprint Desk 蓝图：书桌 1
-175 Blueprint Floor Tile (Wooden) 蓝图：木制地板 1
-148 Blueprint Plaid Couch 蓝图：格子沙发 1
-149 Blueprint Red Cloth Sofa 蓝图：红布沙发 1
-150 Blueprint Solid Wood Cabinet 蓝图：实木柜子 1
-151 Blueprint Square Table 蓝图：方桌 1
-188 Blueprint Wallpaper (Green) 蓝图：绿色壁纸 1
-152 Blueprint Armchair 蓝图：扶手椅 1
-153 Blueprint Backrest Chair 蓝图：靠背椅 1
-154 Blueprint Black Leather Chair 蓝图：黑色皮制椅 1
-155 Blueprint Black Leather Couch 蓝图：黑色皮制沙发 1
-157 Blueprint Collection Cabinet 蓝图：收藏柜 1
-158 Blueprint Counter 蓝图：柜台 1
-159 Blueprint Double Door Wardrobe 蓝图：双开门衣柜 1
-160 Blueprint Double Shelf 蓝图：双层置物架 1
-161 Blueprint Fireplace 蓝图：壁炉 1
-173 Blueprint Floor Tile (European) 蓝图：欧式地板 1
-174 Blueprint Floor Tile (White Tiles) 蓝图：白色瓷砖 1
-162 Blueprint Log Desk 蓝图：原木办公桌 1
-163 Blueprint Makeup Table 蓝图：化妆台 1
-164 Blueprint Round Glass Table 蓝图：圆形玻璃桌 1
-165 Blueprint Round Table 蓝图：圆桌 1
-166 Blueprint Single bed 蓝图：单人床 1
-187 Blueprint Wallpaper (Blue) 蓝图：蓝色壁纸 1
-189 Blueprint Wallpaper (Yellow) 蓝图：黄色壁纸 1
-167 Blueprint Chaise Leather Couch 蓝图：贵妃皮制沙发 1
-168 Blueprint Crystal Chandelier 蓝图：水晶吊灯 1
-169 Blueprint Double 蓝图：双人床 1
-170 Blueprint European Chandelier 蓝图：欧式吊灯 1
-171 Blueprint European Leather Chair 蓝图：欧式皮椅 1
-172 Blueprint Fish Tank 蓝图：鱼缸 1
-176 Blueprint French Sofa 蓝图：法式沙发 1
-177 Blueprint Green Leather Couch 蓝图：绿色皮制沙发 1
-178 Blueprint Hanging Clocks 蓝图：挂式钟表 1
-179 Blueprint Modern Floor Lamp 蓝图：现代地灯 1
-180 Blueprint Modern Garden Lamp 蓝图：现代花园灯 1
-181 Blueprint Modern Lamp Post 蓝图：现代街灯 1
-182 Blueprint Modern Wall Lamp 蓝图：现代壁灯 1
-183 Blueprint Premium Fireplace 蓝图：高级壁炉 1
-184 Blueprint Single Leather Couch 蓝图：单人皮制沙发 1
-185 Blueprint TV 蓝图：电视机 1
-186 Blueprint Vintage Leather Couch 蓝图：复古皮制沙发 1
-136 Blueprint Motor Boat 蓝图：快艇 1
-137 Blueprint Antique Flintlock Pistol 蓝图：古董火枪 1
-534 Blueprint Ore Detector 蓝图: 矿石探测器 1
-138 Blueprint Reinforced Structures 蓝图：加固的基础结构 1
-139 Blueprint Jetski 蓝图：摩托艇 1
-535 Blueprint Jetstream Bowrider 蓝图：喷流号快艇 1
-536 Blueprint Military Backpack 蓝图：军用大背包 1
-144 Blueprint Paint 蓝图：油漆 1
-537 Blueprint Scuba Diving Fins 蓝图：高级脚蹼 1
-141 Blueprint Helicopter 蓝图：轻型直升机 1
-538 Blueprint Large Generator 蓝图：大型发电机 1
-142 Blueprint Marine Fast Boat 蓝图：陆战队快艇 1
-539 Blueprint Military Grenade 蓝图：军用手雷 1
-143 Blueprint 50 Cal Ammo 蓝图: 大口径弹药 1
-544 BuildingItem  1
-209 2Layer TShirt A 精铁甲 1
-210 2Layer TShirt B 2层衬衫B 1
-211 2Layer TShirt E 2层衬衫E 1
-212 A1_1a 2Layer TShirt C 粗糙布衣 1
-213 A2 Baggy Pants 粗糙裤子 1
-214 A3 Zip Shoes 粗糙布鞋 1
-339 Anime T Shirt 动漫T恤 1
-215 Bandage Boots 绷带靴 1
-216 Bandana Mouth Black 黑头巾 1
-217 Bandana Mouth Olive 橄榄头巾 1
-218 Bandana Neck Black 黑色头巾颈 1
-219 Bandana Neck Sand 沙头巾颈 1
-220 Boots D 靴子 D 1
-221 Boots Forest 森林靴子 1
-222 Boots Navy 海军靴子 1
-223 Boots1 A 靴子1 A 1
-224 Boots2 A 靴子2 A 1
-226 Bracer 护腕 1
-225 Bracer C 护腕 C 1
-227 Breechcloth Pants 沙滩裤 1
-231 Camisole 吊带背心 1
-228 Camisole A 吊带背心A 1
-229 Camisole B 吊带背心B 1
-230 Camisole D 吊带背心D 1
-232 Canvas Shoes B 帆布鞋B 1
-233 Canvas Shoes C 帆布鞋C 1
-234 Canvas Shoes D 帆布鞋D 1
-235 Cargo Pants B 工装裤B 1
-236 Cargo Pants C 工装裤C 1
-237 Cargo Shorts A 工装短裤A 1
-238 Cargo Shorts B 工装短裤B 1
-239 Cargo Shorts C 工装短裤C 1
-240 Close collar longsleeves shirt C 近领长袖衬衫C 1
-241 Close collar longsleeves shirt D 近领长袖衬衫D 1
-242 Close collar short sleeves shirt E 近领长袖衬衫E 1
-243 Corset B 紧身胸衣B 1
-244 Corset C 紧身胸衣C 1
-245 Fingerless Gloves Black 黑色无指手套 1
-246 Fingerless Gloves Brown 棕色无指手套 1
-247 Flip-flops A 人字拖A 1
-248 Flip-flops C 人字拖C 1
-249 Flip-flops D 人字拖D 1
-250 Gas Mask A 防毒面具A 1
-251 Gas Mask B 防毒面具B 1
-252 Googles A 眼镜 A 1
-253 Henley Longsleeve A 亨利长袖A 1
-254 Henley Longsleeve B 亨利长袖B 1
-255 Henley Longsleeve D 亨利长袖D 1
-256 High-heels A 高跟鞋A 1
-257 High-heels B 高跟鞋B 1
-258 High-heels C 高跟鞋C 1
-259 High-heels D 高跟鞋D 1
-260 Jeans B 牛仔裤B 1
-261 Jeans C 牛仔裤C 1
-262 Jeans E 牛仔裤E 1
-263 Jeans Rivets 铆钉牛仔裤 1
-264 Knee Boots B 膝靴B 1
-265 Knee Boots C 膝靴C 1
-266 Knee Boots D 膝靴D 1
-267 Leather Jeans 皮革牛仔裤 1
-546 Lobster Hood 龙虾头帽子 1
-268 Low-rise Shorts B 低腰短裤B 1
-269 Low-rise Shorts C 低腰短裤C 1
-270 Low-rise Shorts D 低腰短裤D 1
-271 Mini Skirt A 迷你裙 (红色) 1
-272 Mini Skirt D 迷你裙D 1
-273 Moccasins Boots 鹿皮鞋靴 1
-274 Open collar longsleeves shirt C 开领长袖衬衫C 1
-275 Open collar longsleeves shirt F 开领长袖衬衫F 1
-276 Open collar longsleeves shirt H 开领长袖衬衫H 1
-277 Open collar longsleeves shirt I 开领长袖衬衫I 1
-278 P Tucked-SH Forest 森林迷彩裤 1
-279 P Tucked-SH Navy 海军迷彩裤 1
-280 P Tucked-SH Sand 沙漠迷彩裤 1
-281 Pants1 A 裤子1A 1
-282 Pants1 B 裤子1B 1
-283 Pants2 A 裤子2A 1
-284 Pants2 B 裤子2B 1
-285 Patched Pants 补丁裤 1
-286 Pencil Skirt A 铅笔裙A 1
-287 Pencil Skirt D 铅笔裙D 1
-288 Pencil Skirt E 铅笔裙E 1
-289 Rocker Jeans 摇滚牛仔裤 1
-290 S-Rolled Up Forest 森林迷彩上衣 1
-291 S-Rolled Up Navy 海军迷彩上衣 1
-292 S-Rolled Up Sand 沙漠迷彩上衣 1
-293 Scrub Pants A Scrub 裤子A 1
-294 Scrub Pants B Scrub 裤子B 1
-295 Scrub Pants C Scrub 裤子C 1
-296 Scrub Pants E Scrub 裤子E 1
-297 Shirt B 衬衫B 1
-298 Shirt E 衬衫E 1
-299 Shirt-Standart Forest 衬衫-标准森林 1
-300 Shirt-Standart Navy 衬衫-标准海军 1
-301 Shirt-Standart Sand 衬衫-标准沙 1
-302 Shirt-Tactical Forest 衬衫-作战森林 1
-303 Shirt-Tactical Navy 衬衫-作战海军 1
-304 Shirt-Tactical Sand 衬衫-作战海军 1
-305 Ski Mask A 滑雪面罩A 1
-306 Ski Mask B 滑雪面罩B 1
-307 Skinny Pants C 紧身裤C 1
-308 Skinny Pants D 紧身裤D 1
-309 Slacks B 休闲裤B 1
-310 Slacks C 休闲裤C 1
-311 Sleeves Tops B 带袖上衣B 1
-312 Sleeves Tops C 带袖上衣C 1
-313 Sleeves Tops D 带袖上衣D 1
-314 Slip-ons A 套鞋A 1
-315 Slip-ons B 套鞋B 1
-316 Slip-ons C 套鞋C 1
-317 Slit Skirt B 开衩半身裙B 1
-318 Slit Skirt C 开衩半身裙C 1
-319 Slit Skirt D 开衩半身裙D 1
-320 Sneakers B 球鞋B 1
-321 Sneakers C 球鞋C 1
-322 Sneakers D 球鞋D 1
-547 Squirrel Hood 松鼠帽子 1
-323 Style 2 背心2 1
-324 Style 3 背心3 1
-325 Style 5 背心5 1
-326 Style 6 背心6 1
-327 T-shirt A 体恤衫A 1
-328 T-shirt C 体恤衫C 1
-329 T-shirt D 体恤衫D 1
-334 Tank Top Anime 动漫背心 1
-330 Tank Top B 背心B 1
-331 Tank Top C 背心C 1
-332 Tank Top D 背心D 1
-333 Tank-Top Black 黑色背心 1
-335 TShirt Black 黑色体恤衫 1
-336 TShirt Coyote 狼体恤衫 1
-337 Tucked Pants 束行裤 1
-338 V Scrub Shirt A V Scrub上衣A 1
-340 White Gloves C 白手套C 1
-341 White Gloves D 白手套D 1
-342 Work Gloves A 工作手套A 1
-343 Work Gloves B 工作手套B 1
-344 Work Gloves C 工作手套C 1
-345 Algal Rug 藻状地毯 10
-346 Bike Toy 自行车玩具 10
-347 Blue Oil Bottle 蓝色油彩瓶 10
-348 Candlestick 烛台 10
-349 Carpet 地毯 10
-350 Ceramic Bottle 陶瓷瓶 10
-351 Colored Rug 彩色地毯 10
-352 Cooling Chair 乘凉椅 10
-353 Darts Target 飞镖靶 10
-354 Decorative Plate Stand 装饰板架 10
-355 Delicate Chandelier 精致吊灯 10
-356 Desk Clock 座钟 10
-357 Easel Covered 画架 10
-358 Exquisite Wooden Shelf 精致木制置物架 10
-359 Exquisite Wooden Table 精致木桌 10
-360 Figure Rug 花纹地毯 10
-361 Fish Statue 鱼摆件 10
-362 Floor Mirror 落地镜 10
-363 Game Console 游戏机 10
-364 Globe 地球仪 10
-365 Handbag 手提包 10
-366 Hanger 毛巾架 10
-367 Horse Statue 马摆件 10
-368 Horse Toy 玩具木马 10
-369 Household Desk Lamp 家用台灯 10
-370 Jewelry Casket 珠宝盒 10
-371 Lamp Table 台灯 10
-372 Lamp Wall 墙灯 10
-373 Lantern 油灯 10
-374 Large Vase 大花瓶 10
-375 Leather Suitcase 皮制手提箱 10
-376 Mirror 镜子 10
-377 Model Train 火车模型 10
-379 Moire 云纹 10
-378 Moire Ceramic 云纹陶瓷 10
-380 Neon Bestdayever 霓虹灯Bestdayever 10
-381 Neon Cat 霓虹灯Cat 10
-382 Neon Gamer 霓虹灯Gamer 10
-383 Neon Guitar 霓虹灯Guitar 10
-384 Neon Hotel 霓虹灯Hotel 10
-385 Neon Money 霓虹灯Money 10
-386 Neon Nightclub 霓虹灯Nightclub 10
-387 Neon Peace 霓虹灯Peace 10
-388 Neon Route66 霓虹灯Route66 10
-389 Neon Woman 1 霓虹灯Woman 1 10
-390 Neon Woman 2 霓虹灯Woman 2 10
-391 Oil Painting(Birds Singing and Flowers Fragrant) 油画（鸟语花香） 10
-392 Oil Painting(Comfortable) 油画（惬意） 10
-393 Oil Painting(Deep in the Valley) 油画（山谷深处） 10
-394 Oil Painting(Desert Oasis) 油画（荒漠绿洲） 10
-395 Oil Painting(Divine Tree) 油画（神树） 10
-396 Oil Painting(Forgotten Castle) 油画（被遗忘的城堡） 10
-397 Oil Painting(Fox in Birch Forest) 油画（白桦林的狐狸） 10
-398 Oil Painting(Happy Childhood) 油画（欢乐童年） 10
-399 Oil Painting(King Castle) 油画（国王城堡） 10
-400 Oil Painting(Landscape Dusk) 油画（山水黄昏） 10
-401 Oil Painting(Lotus) 油画（荷花） 10
-402 Oil Painting(Rural Life) 油画（乡村生活） 10
-403 Oil Painting(Small Stream in the Forest) 油画（林中小溪） 10
-404 Oil Painting(Valley Dusk) 油画（山谷黄昏） 10
-405 Oil Painting(Wilderness Scenery) 油画（野外风光） 10
-406 Old Clock 老式钟表 10
-407 Old Desk Lamp 旧台灯 10
-408 Old Style Storage Shelf 老式置物架 10
-409 Owl Toy 猫头鹰摆件 10
-410 Pan 锅 10
-411 Patterned Blue and White Pottery 花纹青花瓷 10
-412 Patterned Bronze Ware 花纹铜器 10
-540 Patterned Circular Porcelain 花纹圆形瓷器 10
-414 Plane Toy 飞机玩具 10
-415 Racing Model 赛车模型 10
-416 Radio 收音机 10
-417 Record Player Disk 1 碟片1 10
-418 Record Player Disk 2 碟片2 10
-419 Record Player Disk 3 碟片3 10
-420 Red Rug 红色地毯 10
-421 Red Sofa Chair 红色沙发椅 10
-422 Retro Rug 复古地毯 10
-413 Rubber Duck 橡皮鸭 10
-423 Rug 地毯 10
-424 Sand Watch 沙漏 10
-425 Scales 天秤 10
-545 Silly Cookies 呆饼干 10
-426 Small Globe 小地球仪 10
-427 Sofa Chair 沙发椅 10
-428 Solid Wood Shelf 实木置物架 10
-429 Stone Elephant 石象 10
-430 Striped Rug 条纹地毯 10
-431 Sword Wall 装饰剑 10
-432 Telephone Old 老电话 10
-433 Toy Bear 玩具熊 10
-434 Vanity Mirror 梳妆镜 10
-435 Vinyl Machine 唱片机 10
-436 Violin 小提琴 10
-437 Wall Clock 挂钟 10
-438 Wallet 钱包 10
-439 Wanghai Reef 望海礁 10
-440 Weighing Scale 计重秤 10
-441 Wooden Chair 木椅 10
-442 Baked Beans 罐装焗豆 20
-443 Candy Bar 巧克力棒 20
-444 Energy Drink 能量饮料 20
-445 Food Can 食品罐 20
-542 Gummy Duck 小黄鸭软糖 20
-446 Instant Ramen 方便面 20
-447 Pudding 布丁 20
-448 Soda 苏打 20
-449 Bird Meat 鸟肉 10
-450 Cabbage 白菜 10
-451 Coffee Bean 咖啡豆 10
-452 Crab Meat 蟹肉 10
-453 F3_Tarpon 鲢鱼 10
-454 F4_Wahoo 娃哈哈 10
-455 F7_Red Snapper 红鲷鱼 10
-456 F8_Bream 鳊鱼 10
-457 Large Fish Meat 大鱼肉 10
-458 Lemon 柠檬 20
-459 Mushroom 蘑菇 20
-460 Potato 土豆 20
-461 Raw Meat 生肉 10
-462 Red Algae 红藻 30
-463 Scallop 扇贝 20
-464 Strawberry 草莓 30
-465 Bottle Of Water 瓶装水 10
-466 F3_Roasted Tarpon 烤鲢鱼 5
-467 F4_Roasted Wahoo 烤瓦胡 10
-468 F7_Roasted Red Snapper 烤红鲷鱼 10
-469 F8_Roasted Bream 烤鲷鱼 10
-470 Roasted Bird Meat 烤鸟肉 10
-471 Roasted Cabbage 烤卷心菜 10
-472 Roasted Crab 烤蟹 10
-473 Roasted Fish 烤鱼 10
-474 Roasted Meat 烤肉 10
-475 Roasted Mushroom 烤蘑菇 10
-476 Roasted Potato 烤土豆 10
-477 Roasted Scallop 烤扇贝 20
-478 Water 水 10
-479 Bush Seed 灌木种子 20
-480 Cabbage Seed 白菜种子 20
-481 Cotton Seeds 棉花种子 20
-482 Fishing Bait 鱼饵 20
-483 Lemon Seeds 柠檬籽 20
-484 Strawberry Seeds 草莓种子 20
-485 A1 Salad 沙拉 10
-486 A2 Seafood Platter 海鲜拼盘 10
-487 A3 Fish Stew 鱼肉汤 10
-488 A4 Bird Meat Mushroom Soup 鸟肉蘑菇汤 10
-489 A5 Alcohol 酒精 10
-490 Baked Fish with Lemon 柠檬烤鱼 10
-491 Coffee 咖啡 10
-492 Coral Smoothie 珊瑚奶昔 10
-493 Crab Cakes 蟹饼 10
-494 Roasted Lemon Bird 柠檬鸟 10
-495 Steak Meal 牛排大餐 10
-496 Strawberry And Lemon Smoothie 草莓柠檬奶昔 10
-36 Orange Coral 橘色珊瑚 20
-37 Purple Flower 紫花 20
-38 Red Flower 红花 20
-39 White Flower 白花 20
-40 A1_Rope 绳子 20
-41 A2_Cloth 布料 20
-42 A3_Components 零件 20
-70 Advanced Alloy 高强度合金 20
-67 Advanced Parts 精密零件 20
-60 B1_Smokeless Powder 无烟火药 20
-61 Ballistic Fiber 防弹纤维 20
-43 Charcoal 木炭 40
-53 D_Gun Parts 枪零件 20
-54 E_Electronic Parts 电子零件 20
-62 Fine Wood Plank 精致木板 20
-44 Glass 玻璃 40
-63 H_Copper Ingot 铜块 10
-64 H_Copper Ore 铜矿石 5
-45 H_Cotton 棉花 40
-46 H_Duct Tape 胶带 20
-55 Hide 皮 20
-56 I_Gasoline 汽油 10
-57 Iron Ingot 铁块 10
-58 Iron Ore 铁矿石 5
-65 J_Chemical Substance 化学物质 10
-59 Leather 皮革 20
-68 Marble 大理石 10
-47 Marlin Fish Skin 马林鱼皮 20
-66 Paint 油漆 10
-71 Polymer 聚合纤维 20
-48 Rubber 橡胶 10
-49 Scrap Metal 废金属 10
-50 Shark Skin 鲨鱼皮 20
-69 Steel Igot 钢块 10
-51 Sulfur 硫磺 20
-52 Wood Plank 木板 20
-72 A1_Bandage 绷带 10
-73 A2_Herbal Medicine 草药 5
-74 A3_Lung Capacity Booster 速效润肺丸 10
-75 A3_Stamina Mix 耐力草药 5
-76 Antibiotics 抗生素 10
-77 Orange Coral 橘色珊瑚 20
-78 Converter No translation found for '' in Interactable 10
-79 MainBoard No translation found for '' in Interactable 10
-80 MotorCoil No translation found for '' in Interactable 10
-81 Note1  10
-82 PDA#1 No translation found for '' in Interactable 10
-83 Pirate Hideout Key  10
-84 SwipeCard No translation found for '' in Interactable 10
-497 Catamaran Controller 双体帆船控制杆 10
-498 Catamaran Hull 双体帆船船体 10
-499 Catamaran Sail 双体帆船风帆 10
-500 Helicopter Console 直升机操作面板 10
-501 Helicopter Empennage 直升机尾翼 10
-502 Helicopter Engine 直升机引擎 10
-503 Helicopter Gas Tank 直升机油箱 10
-504 Helicopter Propeller 直升机螺旋桨 10
-505 Jetski Controls 摩托艇控制系统 10
-506 Jetski Engine 摩托艇引擎 10
-507 Jetski Gas Tank 摩托艇油箱 10
-508 Jetski Jet Pump 摩托艇喷嘴 10
-509 Jetstream Bowrider Console 喷流号快艇操作面板 10
-510 Jetstream Bowrider Engine 喷流号快艇引擎 10
-511 Jetstream Bowrider Hull 喷流号快艇外壳 10
-512 Marine Fast Boat Console 海军快艇操作面板 10
-513 Marine Fast Boat Engine 海军快艇引擎 10
-514 Marine Fast Boat Hull 海军快艇外壳 10
-515 Motorboat Engine 快艇引擎 10
-516 Motorboat Gas Tank 快艇油箱 10
-517 Motorboat Hull 快艇船体 10
-91 C3_Binocular 望眼镜 1
-518 Cigar 雪茄 20
-519 Expensive Wine 珍藏葡萄酒 20
-520 High-end  Perfume 高档香水 20
-521 High-end Watch 高档手表 20
-522 Jewelry 钻戒 20
-523 Magazine 杂志 20
-524 Mobile Phone 手机 20
-525 Silver Coins 银币 50
-526 Zippo 高档打火机 20
-99 Alternative Gun Sight 红点瞄准镜 1
-101 UNDERWATER SCOOTER 手持式水下推进器 1
+0,Vest1 Navy,海军战术背心,1
+1,Silver Coins,银币,9999
+36,Orange Coral,橘色珊瑚,20
+78,Converter,No translation found for '' in Interactable,10
+79,MainBoard,No translation found for '' in Interactable,10
+80,MotorCoil,No translation found for '' in Interactable,10
+82,PDA#1,No translation found for '' in Interactable,10
+84,SwipeCard,No translation found for '' in Interactable,10
+184,Blueprint Single Leather Couch,蓝图：单人皮制沙发,1
+444,Energy Drink,能量饮料,20
+497,Catamaran Controller,双体帆船控制杆,10
+498,Catamaran Hull,双体帆船船体,10
+499,Catamaran Sail,双体帆船风帆,10
+500,Helicopter Console,直升机操作面板,10
+501,Helicopter Empennage,直升机尾翼,10
+502,Helicopter Engine,直升机引擎,10
+503,Helicopter Gas Tank,直升机油箱,10
+504,Helicopter Propeller,直升机螺旋桨,10
+505,Jetski Controls,摩托艇控制系统,10
+506,Jetski Engine,摩托艇引擎,10
+507,Jetski Gas Tank,摩托艇油箱,10
+508,Jetski Jet Pump,摩托艇喷嘴,10
+509,Jetstream Bowrider Console,喷流号快艇操作面板,10
+510,Jetstream Bowrider Engine,喷流号快艇引擎,10
+511,Jetstream Bowrider Hull,喷流号快艇外壳,10
+512,Marine Fast Boat Console,海军快艇操作面板,10
+513,Marine Fast Boat Engine,海军快艇引擎,10
+514,Marine Fast Boat Hull,海军快艇外壳,10
+515,Motorboat Engine,快艇引擎,10
+516,Motorboat Gas Tank,快艇油箱,10
+517,Motorboat Hull,快艇船体,10
+558,Pumpkin Head,南瓜头,1
+559,Cat Statue,猫雕像,10
+560,Coffin,棺木,10
+561,Evil Glowing Pumpkin,邪恶发光南瓜,10
+562,Evil Pumpkin,邪恶南瓜,10
+563,Ghost,幽灵,10
+564,Happy Halloween Baloons,万圣节快乐,10
+565,Happy Pumpkin,快乐南瓜,10
+566,Neon Bats,霓虹蝙蝠,10
+567,Neon Boo,霓虹灯Boo,10
+568,Neon Ghost,霓虹幽灵,10
+569,Neon Pumpkin,霓虹南瓜,10
+570,Sad Pumpkin,悲伤南瓜,10
+571,Scarecrow,稻草人,10
+572,Silly Ghost,蠢鬼,10
+573,Silly Glowing Pumpkin,会发光的傻南瓜,10
+574,Silly Pumpkin,傻南瓜,10
+575,Skeleton Duck,骷髅鸭,10
+576,Skeleton Pumpkin,骷髅南瓜,10
+577,Spider,蜘蛛,10
+1001,A1_Crude Axe,粗糙斧子,1
+1002,A2_Metal Axe,双手斧,1
+1003,A3_Wooden Spear,木矛,1
+1004,C1_Bow,木弓,1
+1005,Spiked Club,尖刺棍,1
+1006,Stone Hatchet,石斧,1
+1007,Wooden Knife,木刀,1
+1008,A4_Scrap Metal Spear,废金属矛,1
+1009,Claw,爪,1
+1101,C2_Crossbow,十字弩,1
+1102,A2B_Iron Axe,铁斧子,1
+1103,A4_Iron Spear,铁矛,1
+1104,Combat Knife,战斗刀,1
+1105,Iron Mace,铁骨朵,1
+1106,Iron Sword,铁剑,1
+1107,Machete,砍刀,1
+1108,Skull Crusher,锯齿斧子,1
+1201,Antique Flintlock Pistol,古董燧发手枪,1
+1202,A3_Homemade Revolver,自制左轮手枪,1
+1203,Percussion Pistol,燧发枪,1
+1204,Tripple Barrel Pistol,三连发火枪,1
+1205,A2_Scrap Pistol,废旧手枪,1
+1301,A4_Double Barrel Shotgun,双管霰弹枪,1
+1302,A4_PM,PM,1
+1303,Crude Hunting Rifle,猎枪,1
+1304,E1_Old Bolt Action Rifle,老式栓动步枪,1
+1305,M14,M14,1
+1306,C1_Stun SMG,斯登冲锋枪,1
+1307,A6 Mauser Pistol,毛瑟手枪,1
+1308,STG44,STG44,1
+1401,A5_GP20,GP20,1
+1402,B2_Pump Shotgun,泵式霰弹枪,1
+1403,C1_SMG,SMG,1
+1404,G1_AK47,AK47,1
+1405,M16,M16,1
+1406,A7 DEG 45,沙鹰,1
+1407,LW 59,LW 59,1
+1408,US45 SMG,US45冲锋枪,1
+1409,SVD,SVD,1
+2001,Bird Meat,鸟肉,20
+2002,Cabbage,白菜,20
+2003,Coffee Bean,咖啡豆,20
+2004,Crab Meat,蟹肉,20
+2005,F3_Tarpon,鲢鱼,20
+2006,F4_Wahoo,娃哈哈,20
+2007,F7_Red Snapper,红鲷鱼,20
+2008,F8_Bream,鳊鱼,20
+2009,Large Fish Meat,大鱼肉,20
+2010,Lemon,柠檬,20
+2011,Mushroom,蘑菇,20
+2012,Potato,土豆,20
+2013,Raw Meat,生肉,20
+2014,Scallop,扇贝,20
+2015,Strawberry,草莓,20
+2016,Water,水,10
+3001,A1_Bandage,绷带,30
+3002,A2_Herbal Medicine,草药,30
+3003,A3_Lung Capacity Booster,速效润肺丸,10
+3004,A3_Stamina Mix,耐力草药,30
+3005,Antibiotics,抗生素,30
+3006,Baked Beans,罐装焗豆,30
+3007,Candy Bar,巧克力棒,30
+3009,Food Can,食品罐,30
+3010,Instant Ramen,方便面,30
+3011,Pudding,布丁,30
+3012,Soda,苏打,30
+3013,Bottle Of Water,瓶装水,30
+3014,F3_Roasted Tarpon,烤鲢鱼,20
+3015,F4_Roasted Wahoo,烤瓦胡,20
+3016,F7_Roasted Red Snapper,烤红鲷鱼,20
+3017,F8_Roasted Bream,烤鲷鱼,20
+3018,Roasted Bird Meat,烤鸟肉,20
+3019,Roasted Cabbage,烤卷心菜,20
+3020,Roasted Crab,烤蟹,20
+3021,Roasted Fish,烤鱼,20
+3022,Roasted Meat,烤肉,20
+3023,Roasted Mushroom,烤蘑菇,20
+3024,Roasted Potato,烤土豆,20
+3025,Roasted Scallop,烤扇贝,20
+3026,A1 Salad,沙拉,30
+3027,A2 Seafood Platter,海鲜拼盘,30
+3028,A3 Fish Stew,鱼肉汤,30
+3029,A4 Bird Meat Mushroom Soup,鸟肉蘑菇汤,30
+3030,A5 Alcohol,酒精,50
+3031,Baked Fish with Lemon,柠檬烤鱼,30
+3032,Coffee,咖啡,30
+3033,Coral Smoothie,珊瑚奶昔,30
+3034,Crab Cakes,蟹饼,30
+3035,Roasted Lemon Bird,柠檬鸟,30
+3036,Steak Meal,牛排大餐,30
+3037,Strawberry And Lemon Smoothie,草莓柠檬奶昔,30
+3038,Gummy Duck,小黄鸭软糖,30
+3039,Silly Cookies,呆饼干,30
+3040,Froninga,福消宁,30
+3041,E3 Portable Inflatable Bottle,便携式充气瓶,1
+3042,Portable Repair Tools,便携式修理工具,1
+4001,A1 Warm Jacket,保暖服,1
+4002,A2_Thick Cloth Armor,皮甲,1
+4003,A3_Thick Cloth Helmet,皮帽,1
+4004,B1_Scrap Armor,废金属护甲,1
+4005,B2_Scrap Helmet,废金属头盔,1
+4006,C1_Combat Armor,战斗护甲,1
+4007,B2 Helmet Heavy2,钢盔,1
+4008,A1 Vest3 Forest,野战背心,1
+4009,D3 Helmet Football,橄榄球头盔,1
+4010,A3 Motorcycle Helmet,摩托车头盔,1
+4011,C1 Vest Police,警用防弹衣,1
+4012,C2 Police Helmet,警用头盔,1
+4013,B1 Army Vest,陆军背心,1
+4016,D1 Spetznaz Vest,Spetznaz背心,1
+4017,D2 Spetsnaz Helmet,Spetsnaz头盔,1
+4018,D1 Shorts Kneedpads,战斗护腿,1
+4020,A2 P Tucked-SH Forest,森林迷彩裤,1
+4021,B3 P Tucked-SH Sand,沙漠迷彩裤,1
+4022,C3 Tucked-SH Navy,海军迷彩裤,1
+4501,Vest A,背心 A,1
+4502,Vest B,背心 B,1
+4503,Vest Black,黑背心,1
+4504,Vest C,背心 C,1
+4505,Vest1 Forest,森林背心1,1
+4506,Vest1 Sand,沙背心1,1
+4507,Vest3 Navy,海军背心3,1
+4508,2Layer TShirt A,2层衬衫A,1
+4509,2Layer TShirt B,2层衬衫B,1
+4510,2Layer TShirt E,2层衬衫E,1
+4511,A1_1a 2Layer TShirt C,粗糙布衣,1
+4512,A2 Baggy Pants,粗糙裤子,1
+4513,A3 Zip Shoes,粗糙布鞋,1
+4514,Bandage Boots,绷带靴,1
+4515,Bandana Mouth Black,黑头巾,1
+4516,Bandana Mouth Olive,橄榄头巾,1
+4517,Bandana Neck Black,黑色头巾颈,1
+4518,Bandana Neck Sand,沙头巾颈,1
+4519,Boots D,靴子 D,1
+4520,Boots Forest,森林靴子,1
+4521,Boots Navy,海军靴子,1
+4522,Boots1 A,靴子1 A,1
+4523,Boots2 A,靴子2 A,1
+4524,Bracer C,护腕 C,1
+4525,Bracer,护腕,1
+4526,Breechcloth Pants,沙滩裤,1
+4527,Camisole A,吊带背心A,1
+4528,Camisole B,吊带背心B,1
+4529,Camisole D,吊带背心D,1
+4530,Camisole,吊带背心,1
+4531,Canvas Shoes B,帆布鞋B,1
+4532,Canvas Shoes C,帆布鞋C,1
+4533,Canvas Shoes D,帆布鞋D,1
+4534,Cargo Pants B,工装裤B,1
+4535,Cargo Pants C,工装裤C,1
+4536,Cargo Shorts A,工装短裤A,1
+4537,Cargo Shorts B,工装短裤B,1
+4538,Cargo Shorts C,工装短裤C,1
+4539,Close collar longsleeves shirt C,近领长袖衬衫C,1
+4540,Close collar longsleeves shirt D,近领长袖衬衫D,1
+4541,Close collar short sleeves shirt E,近领长袖衬衫E,1
+4542,Corset B,紧身胸衣B,1
+4543,Corset C,紧身胸衣C,1
+4544,Fingerless Gloves Black,黑色无指手套,1
+4545,Fingerless Gloves Brown,棕色无指手套,1
+4546,Flip-flops A,人字拖A,1
+4547,Flip-flops C,人字拖C,1
+4548,Flip-flops D,人字拖D,1
+4549,Gas Mask A,防毒面具A,1
+4550,Gas Mask B,防毒面具B,1
+4551,Googles A,眼镜 A,1
+4552,Henley Longsleeve A,亨利长袖A,1
+4553,Henley Longsleeve B,亨利长袖B,1
+4554,Henley Longsleeve D,亨利长袖D,1
+4555,High-heels A,高跟鞋A,1
+4556,High-heels B,高跟鞋B,1
+4557,High-heels C,高跟鞋C,1
+4558,High-heels D,高跟鞋D,1
+4559,Jeans B,牛仔裤B,1
+4560,Jeans C,牛仔裤C,1
+4561,Jeans E,牛仔裤E,1
+4562,Jeans Rivets,铆钉牛仔裤,1
+4563,Knee Boots B,膝靴B,1
+4564,Knee Boots C,膝靴C,1
+4565,Knee Boots D,膝靴D,1
+4566,Leather Jeans,皮革牛仔裤,1
+4567,Low-rise Shorts B,低腰短裤B,1
+4568,Low-rise Shorts C,低腰短裤C,1
+4569,Low-rise Shorts D,低腰短裤D,1
+4570,Mini Skirt A,迷你裙 (红色),1
+4571,Mini Skirt D,迷你裙D,1
+4572,Moccasins Boots,鹿皮鞋靴,1
+4573,Open collar longsleeves shirt C,开领长袖衬衫C,1
+4574,Open collar longsleeves shirt F,开领长袖衬衫F,1
+4575,Open collar longsleeves shirt H,开领长袖衬衫H,1
+4576,Open collar longsleeves shirt I,开领长袖衬衫I,1
+4577,P Tucked-SH Forest,森林迷彩裤,1
+4578,P Tucked-SH Navy,海军迷彩裤,1
+4579,P Tucked-SH Sand,沙漠迷彩裤,1
+4580,Pants1 A,裤子1A,1
+4581,Pants1 B,裤子1B,1
+4582,Pants2 A,裤子2A,1
+4583,Pants2 B,裤子2B,1
+4584,Patched Pants,补丁裤,1
+4585,Pencil Skirt A,铅笔裙A,1
+4586,Pencil Skirt D,铅笔裙D,1
+4587,Pencil Skirt E,铅笔裙E,1
+4588,Rocker Jeans,摇滚牛仔裤,1
+4589,S-Rolled Up Forest,森林迷彩上衣,1
+4590,S-Rolled Up Navy,海军迷彩上衣,1
+4591,S-Rolled Up Sand,沙漠迷彩上衣,1
+4592,Scrub Pants A,Scrub 裤子A,1
+4593,Scrub Pants B,Scrub 裤子B,1
+4594,Scrub Pants C,Scrub 裤子C,1
+4595,Scrub Pants E,Scrub 裤子E,1
+4596,Shirt B,衬衫B,1
+4597,Shirt E,衬衫E,1
+4598,Shirt-Standart Forest,衬衫-标准森林,1
+4599,Shirt-Standart Navy,衬衫-标准海军,1
+4600,Shirt-Standart Sand,衬衫-标准沙,1
+4601,Shirt-Tactical Forest,衬衫-作战森林,1
+4602,Shirt-Tactical Navy,衬衫-作战海军,1
+4603,Shirt-Tactical Sand,衬衫-作战海军,1
+4604,Ski Mask A,滑雪面罩A,1
+4605,Ski Mask B,滑雪面罩B,1
+4606,Skinny Pants C,紧身裤C,1
+4607,Skinny Pants D,紧身裤D,1
+4608,Slacks B,休闲裤B,1
+4609,Slacks C,休闲裤C,1
+4610,Sleeves Tops B,带袖上衣B,1
+4611,Sleeves Tops C,带袖上衣C,1
+4612,Sleeves Tops D,带袖上衣D,1
+4613,Slip-ons A,套鞋A,1
+4614,Slip-ons B,套鞋B,1
+4615,Slip-ons C,套鞋C,1
+4616,Slit Skirt B,开衩半身裙B,1
+4617,Slit Skirt C,开衩半身裙C,1
+4618,Slit Skirt D,开衩半身裙D,1
+4619,Sneakers B,球鞋B,1
+4620,Sneakers C,球鞋C,1
+4621,Sneakers D,球鞋D,1
+4622,Style 2,背心2,1
+4623,Style 3,背心3,1
+4624,Style 5,背心5,1
+4625,Style 6,背心6,1
+4626,T-shirt A,体恤衫A,1
+4627,T-shirt C,体恤衫C,1
+4628,T-shirt D,体恤衫D,1
+4629,Tank Top B,背心B,1
+4630,Tank Top C,背心C,1
+4631,Tank Top D,背心D,1
+4632,Tank-Top Black,黑色背心,1
+4633,Tank Top Anime,动漫背心,1
+4634,TShirt Black,黑色体恤衫,1
+4635,TShirt Coyote,狼体恤衫,1
+4636,Tucked Pants,束行裤,1
+4637,V Scrub Shirt A,V Scrub上衣A,1
+4638,Anime T Shirt,动漫T恤,1
+4639,White Gloves C,白手套C,1
+4640,White Gloves D,白手套D,1
+4641,Work Gloves A,工作手套A,1
+4642,Work Gloves B,工作手套B,1
+4643,Work Gloves C,工作手套C,1
+4644,Lobster Hood,龙虾头帽子,1
+4645,Squirrel Hood,松鼠帽子,1
+6001,A2_Cloth,布料,20
+6002,H_Cotton,棉花,20
+6003,H_Duct Tape,胶带,20
+6004,Scrap Metal,废金属,20
+6005,Hide,皮,20
+6006,Leather,皮革,20
+6007,Marble,大理石,20
+6008,Red Algae,红藻,20
+6051,Orange Coral,橘色珊瑚,10
+6052,Purple Flower,紫花,10
+6053,Red Flower,红花,10
+6054,White Flower,白花,10
+6055,A3_Components,零件,10
+6056,Glass,玻璃,10
+6057,Marlin Fish Skin,马林鱼皮,10
+6058,Rubber,橡胶,10
+6059,Shark Skin,鲨鱼皮,10
+6060,E_Electronic Parts,电子零件,10
+6061,Iron Ore,铁矿石,10
+6062,H_Copper Ore,铜矿石,10
+6101,D_Gun Parts,枪零件,5
+6102,Ballistic Fiber,防弹纤维,5
+6103,Advanced Parts,精密零件,5
+6104,Quartz,石英,5
+6105,Anatase,锐钛矿石,5
+6151,Sulfur,硫磺,20
+6152,J_Chemical Substance,化学物质,5
+6153,Combustible Ice,可燃冰,5
+6200,Wood Plank,木板,50
+6201,I_Gasoline,汽油,20
+6202,Charcoal,木炭,100
+6251,50 Cal Ammo,大口径弹药,1000
+6252,B1_Black Powder,黑火药,50
+6253,Black Powder Ammo,黑火药弹药,100
+6254,Pistol Ammo,手枪弹药,500
+6255,Rifle Ammo,步枪弹药,200
+6256,Shotgun Ammo,霰弹枪枪弹药,200
+6257,C3_Arrow,箭,50
+6258,C3_Bolt,弩弹,50
+6259,Sniper Ammo,狙击步枪弹药,200
+6501,Crude Grenade,土手雷,5
+6502,Military Grenade,军用手雷,5
+6503,Molotov,燃烧瓶,5
+6701,Bush Seed,灌木种子,100
+6702,Cabbage Seed,白菜种子,100
+6703,Cotton Seeds,棉花种子,100
+6704,Lemon Seeds,柠檬籽,100
+6705,Strawberry Seeds,草莓种子,100
+6804,Broken Army Vest,损坏的陆军背心,20
+6806,Broken Motorcycle Helmet,损坏的摩托车头盔,20
+6807,Broken Police Helmet,损坏的警用头盔,20
+6808,Broken Police Vest,损坏的警用防弹衣,20
+6809,Broken Special Force Armor,损坏的特种部队护甲,20
+6810,Broken Special Force Helmet,损坏的特种部队头盔,20
+6811,Broken GP20,损坏的GP20,20
+6812,Broken Hunting Rifle,损坏的猎枪,20
+6813,Broken PM,损坏的PM手枪,20
+6814,Broken Pump Shotgun,损坏的泵式霰弹枪,20
+6815,Broken SMG,损坏的SMG,20
+6816,Broken AK47,损坏的AK47,20
+6817,Broken M14,损坏的M14,20
+6818,Broken M16,损坏的M16,20
+6819,Broken Old Bolt Action Rifle,损坏的老式栓动步枪,20
+6820,Broken DE,损坏的沙鹰,20
+6821,Broken Stun SMG,损坏的斯登冲锋枪,20
+6822,Broken Mauser Pistol,损坏的毛瑟手枪,20
+6823,Broken LW 59,损坏的LW59自动步枪,20
+6824,Broken US45 SMG,损坏的US45冲锋枪,20
+6825,Broken STG44,破损的STG44,20
+6826,Broken SVD,SVD,20
+6827,Broken Double Barrel Shotgun,损坏的双管霰弹枪,20
+6828,Broken Vest3 Forest,损坏的野战背心,20
+6829,Broken P Tucked-SH Forest,损坏的森林迷彩裤,20
+6830,Broken Metal Helme,损坏的钢盔,20
+6832,Broken P Tucked-SH Sand,损坏的沙地迷彩裤,20
+6833,Broken P Tucked-SH Navy,损坏的海洋迷彩裤,20
+7001,B3_Torch,火把,1
+7002,B1_Seawater Bucket,海水桶,1
+7003,D5_Water Bottle,水瓶,20
+7004,A1_Sack,袋子,1
+7005,C1_Pickaxe,镐头,1
+7006,C2_Reparing Hammer,修理锤,1
+7007,C3_Binocular,望眼镜,1
+7008,B2_Diving Fins,潜水脚蹼,1
+7009,B3_Fishing Rod,鱼竿,1
+7010,I1_Flare,信号弹,100
+7011,A2_Backpack,大背包,1
+7012,G1_Battery,电池,1
+7013,G3_HeadLight,头灯,1
+7014,Alternative Gun Sight,红点瞄准镜,1
+7015,G2_Metal Detector,矿石探测器,1
+7016,UNDERWATER SCOOTER,手持式水下推进器,1
+7017,Fishing Bait,鱼饵,100
+7018,A3_Military Backpack,军用大背包,1
+7019,B2a_Scuba Diving Fins,高级脚蹼,1
+7020,E1_Small Air Tank,小氧气瓶,1
+7021,C3_Packing Box,家具打包箱,1
+7022,Welding,维修电焊枪,1
+7023,E2 Big Air Tank,大氧气瓶,1
+7025,Lithium Battery,锂电池,1
+10001,A1_Rope,绳子,30
+10003,Iron Ingot,铁块,50
+10004,B1_Smokeless Powder,无烟火药,50
+10005,Fine Wood Plank,精致木板,50
+10006,H_Copper Ingot,铜块,50
+10007,Paint,油漆,50
+10008,Steel Igot,钢块,50
+10009,Advanced Alloy,高强度合金,50
+10010,Polymer,聚合纤维,50
+10011,Titanium Strip,钛条,50
+10012,Modern Parts,现代零件,50
+10013,Modern Gun Parts,现代枪零件,50
+15003,Blueprint Reinforced Structures,蓝图：加固的基础结构,1
+15004,Blueprint Jetski,蓝图：摩托艇,1
+15005,Blueprint Helicopter,蓝图：轻型直升机,1
+15006,Blueprint Marine Fast Boat,蓝图：陆战队快艇,1
+15007,Blueprint 50 Cal Ammo,蓝图: 大口径弹药,1
+15008,Blueprint Paint,蓝图：油漆,1
+15009,Blueprint Blue Patterned Chair,蓝图：蓝色花纹椅,1
+15010,Blueprint Concave Cabinet,蓝图：凹字柜子,1
+15011,Blueprint Desk,蓝图：书桌,1
+15012,Blueprint Plaid Couch,蓝图：格子沙发,1
+15013,Blueprint Red Cloth Sofa,蓝图：红布沙发,1
+15014,Blueprint Solid Wood Cabinet,蓝图：实木柜子,1
+15015,Blueprint Square Table,蓝图：方桌,1
+15016,Blueprint Armchair,蓝图：扶手椅,1
+15017,Blueprint Backrest Chair,蓝图：靠背椅,1
+15018,Blueprint Black Leather Chair,蓝图：黑色皮制椅,1
+15019,Blueprint Black Leather Couch,蓝图：黑色皮制沙发,1
+15020,Blueprint Collection Cabinet,蓝图：收藏柜,1
+15021,Blueprint Counter,蓝图：柜台,1
+15022,Blueprint Double Door Wardrobe,蓝图：双开门衣柜,1
+15023,Blueprint Double Shelf,蓝图：双层置物架,1
+15024,Blueprint Fireplace,蓝图：壁炉,1
+15025,Blueprint Log Desk,蓝图：原木办公桌,1
+15026,Blueprint Makeup Table,蓝图：化妆台,1
+15027,Blueprint Round Glass Table,蓝图：圆形玻璃桌,1
+15028,Blueprint Round Table,蓝图：圆桌,1
+15029,Blueprint Single bed,蓝图：单人床,1
+15030,Blueprint Chaise Leather Couch,蓝图：贵妃皮制沙发,1
+15031,Blueprint Crystal Chandelier,蓝图：水晶吊灯,1
+15032,Blueprint Double,蓝图：双人床,1
+15033,Blueprint European Chandelier,蓝图：欧式吊灯,1
+15034,Blueprint European Leather Chair,蓝图：欧式皮椅,1
+15035,Blueprint Fish Tank,蓝图：鱼缸,1
+15036,Blueprint Floor Tile (European),蓝图：欧式地板,1
+15037,Blueprint Floor Tile (White Tiles),蓝图：白色瓷砖,1
+15038,Blueprint Floor Tile (Wooden),蓝图：木制地板,1
+15039,Blueprint French Sofa,蓝图：法式沙发,1
+15040,Blueprint Green Leather Couch,蓝图：绿色皮制沙发,1
+15041,Blueprint Hanging Clocks,蓝图：挂式钟表,1
+15042,Blueprint Modern Floor Lamp,蓝图：现代地灯,1
+15043,Blueprint Modern Garden Lamp,蓝图：现代花园灯,1
+15044,Blueprint Modern Lamp Post,蓝图：现代街灯,1
+15045,Blueprint Modern Wall Lamp,蓝图：现代壁灯,1
+15047,Blueprint Premium Fireplace,蓝图：高级壁炉,1
+15048,Blueprint TV,蓝图：电视机,1
+15049,Blueprint Vintage Leather Couch,蓝图：复古皮制沙发,1
+15050,Blueprint Wallpaper (Blue),蓝图：蓝色壁纸,1
+15051,Blueprint Wallpaper (Green),蓝图：绿色壁纸,1
+15052,Blueprint Wallpaper (Yellow),蓝图：黄色壁纸,1
+15054,Blueprint Jetstream Bowrider,蓝图：喷流号快艇,1
+15055,Blueprint Military Backpack,蓝图：军用大背包,1
+15056,Blueprint Scuba Diving Fins,蓝图：高级脚蹼,1
+15057,Blueprint Large Generator,蓝图：大型发电机,1
+15058,Blueprint Military Grenade,蓝图：军用手雷,1
+15059,Blueprint Leather Suitcase,蓝图：皮制手提箱,1
+15061,Blueprint Fridge,蓝图：冰箱,1
+15062,Blueprint Glass Wall,蓝图：玻璃墙,1
+15063,Blueprint Wall Spike,蓝图：墙顶,1
+15064,Blueprint Wall Trap,蓝图：掉落式陷阱,1
+15065,Blueprint Advanced Purifier,蓝图：先进净水器,1
+15067,Blueprint Flare,蓝图：信号弹,1
+15068,Blueprint Improved Gridiron,蓝图：改进烤架,1
+15069,Blueprint Safe,蓝图：保险箱,1
+15070,Blueprint Tripple Barrel Pistol,蓝图：三连发火枪,1
+15071,Blueprint Welding,蓝图：电焊,1
+15072,Blueprint Ceiling Light,蓝图：吊灯,1
+15073,Blueprint Decompose Table,蓝图：分解台,1
+15074,Blueprint HeadLight,蓝图：头灯,1
+15075,Blueprint Scrap Pistol,蓝图：废旧手枪,1
+15076,Blueprint Buoy,蓝图：浮标,1
+15078,Blueprint Searchlight,蓝图：探照灯,1
+15079,Blueprint Siren,蓝图：警笛,1
+15081,Blueprint Bow,蓝图：弓,1
+15082,Blueprint Crossbow,蓝图：十字弩,1
+15083,Blueprint Fishnet,蓝图：捕鱼笼,1
+15084,Blueprint Percussion Pistol,蓝图：燧发枪,1
+15085,Blueprint Planter,蓝图：土盆,1
+15086,Blueprint Stove,蓝图：灶台,1
+15087,Blueprint Big Air Tank,蓝图：大氧气瓶,1
+15088,Blueprint Big Fish Basket,蓝图：大鱼篓,1
+15089,Blueprint BirdTrap,蓝图：捕鸟器,1
+15091,Blueprint Homemade Revolver,蓝图：左轮手枪,1
+15092,Blueprint Portable Inflatable Bottle,蓝图：便携式充气瓶,1
+15093,Blueprint Portable Repair Tools,蓝图：便携式修理工具,1
+15096,Blueprint Biofuel Lab,蓝图：生物燃油制造台,1
+15098,Blueprint lithium battery,蓝图：大电池,1
+15099,Blueprint Weapons DisplayStands,蓝图：武器展览台,1
+20001,Cigar,雪茄,100
+20002,Expensive Wine,珍藏葡萄酒,25
+20003,High-end  Perfume,高档香水,15
+20004,High-end Watch,高档手表,5
+20005,Jewelry,钻戒,1
+20006,Magazine,杂志,100
+20007,Mobile Phone,手机,3
+20009,Zippo,高档打火机,10
+20010,Patterned Circular Porcelain,花纹圆形瓷器,5
+22001,Algal Rug,藻状地毯,20
+22002,Bike Toy,自行车玩具,20
+22003,Blue Oil Bottle,蓝色油彩瓶,20
+22004,Candlestick,烛台,20
+22005,Carpet,地毯,20
+22006,Ceramic Bottle,陶瓷瓶,20
+22007,Colored Rug,彩色地毯,20
+22008,Cooling Chair,乘凉椅,20
+22009,Darts Target,飞镖靶,20
+22010,Decorative Plate Stand,装饰板架,20
+22011,Delicate Chandelier,精致吊灯,20
+22012,Desk Clock,座钟,20
+22013,Easel Covered,画架,20
+22014,Exquisite Wooden Shelf,精致木制置物架,20
+22015,Exquisite Wooden Table,精致木桌,20
+22016,Figure Rug,花纹地毯,20
+22017,Fish Statue,鱼摆件,20
+22018,Floor Mirror,落地镜,20
+22019,Game Console,游戏机,20
+22020,Globe,地球仪,20
+22021,Handbag,手提包,20
+22022,Hanger,毛巾架,20
+22023,Horse Statue,马摆件,20
+22024,Horse Toy,玩具木马,20
+22025,Household Desk Lamp,家用台灯,20
+22026,Jewelry Casket,珠宝盒,20
+22027,Lamp Table,台灯,20
+22028,Lamp Wall,墙灯,20
+22029,Lantern,油灯,20
+22030,Large Vase,大花瓶,20
+22031,Mirror,镜子,20
+22032,Model Train,火车模型,20
+22033,Moire Ceramic,云纹陶瓷,20
+22034,Moire,云纹,20
+22035,Neon Bestdayever,霓虹灯Bestdayever,20
+22036,Neon Cat,霓虹灯Cat,20
+22037,Neon Gamer,霓虹灯Gamer,20
+22038,Neon Guitar,霓虹灯Guitar,20
+22039,Neon Hotel,霓虹灯Hotel,20
+22040,Neon Money,霓虹灯Money,20
+22041,Neon Nightclub,霓虹灯Nightclub,20
+22042,Neon Peace,霓虹灯Peace,20
+22043,Neon Route66,霓虹灯Route66,20
+22044,Neon Woman 1,霓虹灯Woman 1,20
+22045,Neon Woman 2,霓虹灯Woman 2,20
+22046,Oil Painting(Birds Singing and Flowers Fragrant),油画（鸟语花香）,20
+22047,Oil Painting(Comfortable),油画（惬意）,20
+22048,Oil Painting(Deep in the Valley),油画（山谷深处）,20
+22049,Oil Painting(Desert Oasis),油画（荒漠绿洲）,20
+22050,Oil Painting(Divine Tree),油画（神树）,20
+22051,Oil Painting(Forgotten Castle),油画（被遗忘的城堡）,20
+22052,Oil Painting(Fox in Birch Forest),油画（白桦林的狐狸）,20
+22053,Oil Painting(Happy Childhood),油画（欢乐童年）,20
+22054,Oil Painting(King Castle),油画（国王城堡）,20
+22055,Oil Painting(Landscape Dusk),油画（山水黄昏）,20
+22056,Oil Painting(Lotus),油画（荷花）,20
+22057,Oil Painting(Rural Life),油画（乡村生活）,20
+22058,Oil Painting(Small Stream in the Forest),油画（林中小溪）,20
+22059,Oil Painting(Valley Dusk),油画（山谷黄昏）,20
+22060,Oil Painting(Wilderness Scenery),油画（野外风光）,20
+22061,Old Clock,老式钟表,20
+22062,Old Desk Lamp,旧台灯,20
+22063,Old Style Storage Shelf,老式置物架,20
+22064,Owl Toy,猫头鹰摆件,20
+22065,Pan,锅,20
+22066,Patterned Blue and White Pottery,花纹青花瓷,20
+22067,Patterned Bronze Ware,花纹铜器,20
+22068,Rubber Duck,橡皮鸭,20
+22069,Plane Toy,飞机玩具,20
+22070,Racing Model,赛车模型,20
+22071,Radio,收音机,20
+22072,Record Player Disk 1,碟片1,20
+22073,Record Player Disk 2,碟片2,20
+22074,Record Player Disk 3,碟片3,20
+22075,Red Rug,红色地毯,20
+22076,Red Sofa Chair,红色沙发椅,20
+22077,Retro Rug,复古地毯,20
+22078,Rug,地毯,20
+22079,Sand Watch,沙漏,20
+22080,Scales,天秤,20
+22081,Small Globe,小地球仪,20
+22082,Sofa Chair,沙发椅,20
+22083,Solid Wood Shelf,实木置物架,20
+22084,Stone Elephant,石象,20
+22085,Striped Rug,条纹地毯,20
+22086,Sword Wall,装饰剑,20
+22087,Telephone Old,老电话,20
+22088,Toy Bear,玩具熊,20
+22089,Vanity Mirror,梳妆镜,20
+22090,Vinyl Machine,唱片机,20
+22091,Violin,小提琴,20
+22092,Wall Clock,挂钟,20
+22093,Wallet,钱包,20
+22094,Wanghai Reef,望海礁,20
+22095,Weighing Scale,计重秤,20
+22096,Wooden Chair,木椅,20
+24001,Broken double-pipe scrap iron casing,双管废铁机匣,20
+24002,Broken double-barreled fine iron receiver,双管精铁机匣,20
+24003,Broken capitalist times‘s scrap iron barrel,近现代废铁枪管,20
+24004,Broken capitalist times‘s  iron barrel,近现代精铁枪管,20
+24005,Broken scrap iron sight,废铁瞄准器,20
+24006,Broken PM scrap iron receiver,PM废铁机匣,20
+24007,Broken PM iron casing,PM精铁机匣,20
+24008,Broken PM alloy receiver,PM合金机匣,20
+24009,Broken short barrel of  capitalist times‘s pistol,近现代手枪短枪管,20
+24010,Broken long barrel of  capitalist times‘s pistol,近现代手枪长枪管,20
+24011,Broken calibrated barrel of  capitalist times‘s pistol,近现代手枪校准枪管,20
+24012,Broken red dot sight,红点瞄准器,20
+24013,Broken pistol magazine,手枪弹匣,20
+24014,Broken long magazines for pistol,手枪长弹匣,20
+24015,Broken GP20 scrap iron casing,GP20废铁机匣,20
+24016,Broken GP20  iron receiver,GP20精铁机匣,20
+24017,Broken GP20 alloy receiver,GP20合金机匣,20
+24018,Broken pistol drums,手枪弹鼓,20
+24019,Broken Mauser scrap iron receiver,毛瑟废铁机匣,20
+24020,Broken Mauser iron receiver,毛瑟精铁机匣,20
+24021,Broken WWII pistol short barrel,二战手枪短枪管,20
+24022,Broken WWII pistol long barrel,二战手枪长枪管,20
+24023,Broken WWII pistol calibrated barrel,二战手枪校准枪管,20
+24025,Broken Desert Eagle scrap iron receiver,沙漠之鹰废铁机匣,20
+24026,Broken Desert Eagle Iron Receiver,沙漠之鹰精铁机匣,20
+24027,Broken Desert Eagle alloy receiver,沙漠之鹰合金机匣,20
+24028,Broken Desert Eagle high-tech receiver,沙漠之鹰高科技机匣,20
+24029,Broken short barrel of a modern pistol,现代手枪短枪管,20
+24030,Broken long barrel of a modern pistol,现代手枪长枪管,20
+24031,Broken calibrated barrel of modern pistol,现代手枪校准枪管,20
+24032,Broken high-powered pistol magazine,手枪高威力弹匣,20
+24033,Broken pump-type scrap iron casing,泵式废铁机匣,20
+24034,Broken pump-type fine iron casing,泵式精铁机匣,20
+24035,Broken pump-type alloy casing,泵式合金机匣,20
+24036,Broken pump-type high-tech casing,泵式高科技机匣,20
+24037,Broken capitalist times‘s alloy barrel,近现代合金枪管,20
+24038,Broken capitalist times‘s high-tech barrel,近现代高科技枪管,20
+24039,Broken scrap iron stock,废铁枪托,20
+24040,Broken  iron stock,精铁枪托,20
+24041,Broken alloy stock,合金枪托,20
+24042,Broken high-tech stock,高科技枪托,20
+24043,Broken SMG scrap iron casing,SMG废铁机匣,20
+24044,Broken SMG fine iron casing,SMG精铁机匣,20
+24045,Broken SMG alloy casing,SMG合金机匣,20
+24046,Broken submachine gun magazine,冲锋枪弹夹,20
+24047,Broken long magazine for submachine gun,冲锋枪长弹匣,20
+24048,Broken submachine gun drum,冲锋枪弹鼓,20
+24049,Broken magazines of hollow-point bullets for submachine gun,冲锋枪空尖弹弹匣,20
+24050,Broken Stern scrap metal receiver,斯登废铁机匣,20
+24051,Broken Stern iron receiver,斯登精铁机匣,20
+24052,Broken WWII scrap iron barrel,二战废铁枪管,20
+24053,Broken WWII iron barrel,二战精铁枪管,20
+24054,Broken shotgun scrap iron receiver,猎枪废铁机匣,20
+24055,Broken shotgun iron receiver,猎枪精铁机匣,20
+24056,Broken sniper rifle standard magazine,狙击步枪标准弹夹,20
+24057,Broken bolt-action rifle scrap iron receiver,栓动步枪废铁机匣,20
+24058,Broken bolt-action rifle  iron receiver,栓动步枪精铁机匣,20
+24059,Broken bolt-action rifle alloy receiver,栓动步枪合金机匣,20
+24060,Broken M14 scrap iron receiver,M14废铁机匣,20
+24061,Broken M14 stainless iron receiver,M14精铁机匣,20
+24062,Broken M14 alloy receiver,M14合金机匣,20
+24063,Broken WWII alloy barrel,二战合金枪管,20
+24064,Broken doubles,二倍镜,20
+24065,Broken long magazines for sniper rifle,狙击步枪长弹夹,20
+24066,Broken SVD sniper rifle scrap iron receiver,SVD狙击步枪废铁机匣,20
+24067,Broken SVD sniper rifle  iron receiver,SVD狙击步枪精铁机匣,20
+24068,Broken SVD sniper rifle  alloy receiver,SVD狙击步枪合金机匣,20
+24069,Broken SVD sniper rifle high-tech receiver,SVD狙击步枪高科技机匣,20
+24070,Broken modern scrap iron barrel,现代废铁枪管,20
+24071,Broken modern  iron barrel,现代精铁枪管,20
+24072,Broken modern alloy barrel,现代合金枪管,20
+24073,Broken modern high-tech barrel,现代高科技枪管,20
+24074,Broken quadruple,四倍镜,20
+24075,Broken sniper rifle armor-piercing magazine,狙击步枪脱壳穿甲弹夹,20
+24076,Broken AK scrap iron receiver,AK废铁机匣,20
+24077,Broken AK iron receiver,AK精铁机匣,20
+24078,Broken AK alloy receiver,AK合金机匣,20
+24079,Broken AK high-tech receiver,AK高科技机匣,20
+24080,Broken automatic rifle short magazine,自动步枪短弹匣,20
+24081,Broken long magazine for automatic rifle,自动步枪长弹匣,20
+24082,Broken automatic rifle drum,自动步枪弹鼓,20
+24083,Broken LW59 scrap iron casing,LW59废铁机匣,20
+24084,Broken LW59  iron casing,LW59精铁机匣,20
+24085,Broken LW59 alloy casing,LW59合金机匣,20
+24086,Broken LW59 high-tech receiver,LW59高科技机匣,20
+24087,Broken M16 scrap iron casing,M16废铁机匣,20
+24088,Broken M16  iron receiver,M16精铁机匣,20
+24089,Broken M16 alloy receiver,M16合金机匣,20
+24090,Broken M16 high-tech receiver,M16高科技机匣,20
+24091,Broken STG44 scrap iron receiver,STG44废铁机匣,20
+24092,Broken STG44 fine iron receiver,STG44精铁机匣,20
+24093,Broken STG44 alloy receiver,STG44合金机匣,20
+24094,Broken US45 scrap iron receiver,US45废铁机匣,20
+24095,Broken US45 stainless iron receiver,US45精铁机匣,20
+24096,Broken US45 alloy receiver,US45合金机匣,20
+24097,Broken US45 high-tech receiver,US45高科技机匣,20

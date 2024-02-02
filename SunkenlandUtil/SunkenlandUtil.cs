@@ -4,32 +4,39 @@ using BepInEx.Logging;
 using Fusion;
 using HarmonyLib;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityGameUI;
 
 namespace SunkenlandUtil
 {
-    [BepInPlugin("satroki.sunkenland.util", "Util Plugin", "0.0.12")]
+    [BepInPlugin("satroki.sunkenland.util", "Util Plugin", "0.1.0")]
     public class SunkenlandUtil : BaseUnityPlugin
     {
         private readonly Harmony _harmony = new Harmony("satroki.sunkenland.util");
         public static ManualLogSource _logger;
         private static bool worldSensor = false;
         private static bool scanOre;
+        private static bool scanBluePrint;
         private static int sensorSpan;
-        //private static bool returnBottle = false;
         private static bool sleepAnytime;
         private static bool destroyReturnAll;
         private static float batteryPowerConsumption;
-        private static Text text;
-        private static GameObject uiArrow;
-        private static RectTransform arrowTransform;
+        private static float boatSpeedRate;
+        private static SensorUI worldObj;
+        private static SensorUI worldOreObj;
+        private static SensorUI worldBluePrintObj;
         private static int fcnt;
-        private static Component nearestObj;
         private static GameObject uiPanel;
-        private static GameObject uiText;
         private static ConfigFile config;
+        private static Dictionary<int, int> stackBakDict;
+        private static ChoppableType[] scanOreTypes;
+        private static Dictionary<string, BlueprintContainer> blueprints = new Dictionary<string, BlueprintContainer>();
 
         private void Awake()
         {
@@ -61,6 +68,8 @@ namespace SunkenlandUtil
         {
             config?.Reload();
             InitConfig();
+
+            //ChangeStackAmount(RM.code);
         }
 
         private static void InitConfig()
@@ -68,11 +77,16 @@ namespace SunkenlandUtil
             LoadConfig.Init(config);
             worldSensor = LoadConfig.WorldSensor.Value;
             scanOre = LoadConfig.ScanOre.Value;
+            scanBluePrint = LoadConfig.ScanBluePrint.Value;
             sensorSpan = LoadConfig.SensorSpan.Value;
-            //returnBottle = LoadConfig.ReturnBottle.Value;
             sleepAnytime = LoadConfig.SleepAnytime.Value;
             destroyReturnAll = LoadConfig.DestroyReturnAll.Value;
             batteryPowerConsumption = LoadConfig.HeadLightBatteryPowerConsumption.Value;
+            boatSpeedRate = LoadConfig.BoatSpeedRate.Value;
+            if (LoadConfig.ScanOreTypes.Value is string s)
+                scanOreTypes = s.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(t => Enum.Parse<ChoppableType>(t)).ToArray();
+            else
+                scanOreTypes = null;
             _logger.LogInfo("UtilPlugin InitConfig");
         }
 
@@ -85,17 +99,19 @@ namespace SunkenlandUtil
             __instance.MaxAir += LoadConfig.MaxAir.Value;
             __instance.MaxHealth += LoadConfig.MaxHealth.Value;
 
-            __instance.AirConsumtionRate *= LoadConfig.AirConsumtionRate.Value;
             __instance.EnergyConsumptionRate *= LoadConfig.EnergyConsumptionRate.Value;
+            __instance.AirConsumtionRate *= LoadConfig.AirConsumtionRate.Value;
+            __instance.HealthRecoveryRate *= LoadConfig.HealthRecoveryRate.Value;
             __instance.StaminaRecoveryRate *= LoadConfig.StaminaRecoveryRate.Value;
             __instance.FoodConsumtionRate *= LoadConfig.FoodConsumtionRate.Value;
-            __instance.HealthRecoveryRate *= LoadConfig.HealthRecoveryRate.Value;
+            __instance.WaterConsumtionRate *= LoadConfig.WaterConsumtionRate.Value;
+
+            FPSRigidBodyWalker.code.swimSpeed += LoadConfig.AdditionalSwimSpped.Value;
+            FPSRigidBodyWalker.code.walkSpeed += LoadConfig.AdditionalWalkSpped.Value;
 
             Traverse.Create(__instance).Property(nameof(PlayerCharacter.DefenceBody)).SetValue(__instance.DefenceBody + LoadConfig.Defence.Value);
             Traverse.Create(__instance).Property(nameof(PlayerCharacter.DefenceHead)).SetValue(__instance.DefenceHead + LoadConfig.Defence.Value);
-            //___playerStorage.MaxItemsAmount += LoadConfig.MaxItemsAmount.Value;
-            //if (___playerStorage.MaxItemsAmount > 50)
-            //    ___playerStorage.MaxItemsAmount = 50;
+            Traverse.Create(__instance).Property(nameof(PlayerCharacter.DefenceLeg)).SetValue(__instance.DefenceLeg + LoadConfig.Defence.Value);
         }
 
         [HarmonyPatch(typeof(Storage), "MaxItemsAmount", methodType: MethodType.Setter)]
@@ -124,40 +140,42 @@ namespace SunkenlandUtil
         [HarmonyPostfix]
         public static void LoadResources(ref RM __instance)
         {
-            var m = LoadConfig.StackAmount.Value;
-            foreach (var item in __instance.ItemDictionary.Values)
-            {
-                if (item.stackAmount > 1)
-                    item.stackAmount *= m;
-            }
-            _logger.LogInfo($"LoadResources Change StackAmount");
+            _logger.LogInfo($"LoadResources");
+            ChangeStackAmount(__instance);
         }
 
-        //[HarmonyPatch(typeof(Workstation), "CraftItem")]
-        //[HarmonyPostfix]
-        //public static void CraftItem(ref Transform craftItem, ref bool __result)
-        //{
-        //    if (returnBottle && __result)
-        //    {
-        //        var component = craftItem.GetComponent<Craftable>();
-        //        if (component.NeedTime > 0f)
-        //        {
-        //            var itemRequirements = component.itemRequirements;
-        //            foreach (var itemRequirement in itemRequirements)
-        //            {
-        //                if (itemRequirement.item.GetComponent<Item>().ItemID == RM.code.FreshWaterBottle.ItemID)
-        //                {
-        //                    Transform itemTransform = Utility.Instantiate(RM.code.EmptyWaterBottle).transform;
-        //                    if (!Global.code.Player.playerStorage.AddItem(itemTransform))
-        //                    {
-        //                        Global.code.Player.quickSlotStorage.AddItem(itemTransform);
-        //                    }
-        //                    Global.code.uiCombat.RefreshQuickSlot();
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
+        public static void ChangeStackAmount(RM rm)
+        {
+            if (!rm || !rm.ItemDictionary.Any())
+                return;
+            var m = LoadConfig.StackAmount.Value;
+            if (m <= 1)
+                return;
+
+            //if (stackBakDict == null)
+            //{
+            //    using var txt = File.CreateText("d:\\items.txt");
+            //    foreach (var kv in rm.ItemDictionary.OrderBy(r => r.Key))
+            //    {
+            //        var item = kv.Value;
+            //        var dn = item.name;
+            //        try
+            //        {
+            //            txt.WriteLine($"{item.ItemID},{item.name.Trim()},{item.DisplayName.Trim()},{item.stackAmount}");
+            //        }
+            //        catch { }
+            //    }
+            //}
+
+            stackBakDict ??= rm.ItemDictionary.Where(v => v.Value.stackAmount > 1).ToDictionary(v => v.Key, v => v.Value.stackAmount);
+
+            foreach (var kv in rm.ItemDictionary)
+            {
+                if (stackBakDict.TryGetValue(kv.Key, out var amt))
+                    kv.Value.stackAmount = amt * m;
+            }
+            _logger.LogInfo($"Change StackAmount × {m}");
+        }
 
         [HarmonyPatch(typeof(Furnace), "Awake")]
         [HarmonyPostfix]
@@ -198,24 +216,49 @@ namespace SunkenlandUtil
                 __instance.CanSleep = true;
         }
 
-        [HarmonyPatch(typeof(BuildingPiece), "RPC_DestroyThis")]
-        [HarmonyPostfix]
-        public static void RPC_DestroyThis(bool _IsMeleeWeapon, PlayerRef playerRef, ref BuildingPiece __instance)
+        [HarmonyPatch(typeof(BuildingPiece), "DestroyThis")]
+        [HarmonyTranspiler]
+        public static IEnumerable<CodeInstruction> DestroyThis(IEnumerable<CodeInstruction> instructions)
         {
-            if (destroyReturnAll && playerRef == __instance.Runner.LocalPlayer && _IsMeleeWeapon && !__instance.transform.GetComponent<Item>())
+            if (destroyReturnAll)
             {
-                var M_Craftable = __instance.M_Craftable;
-                for (int i = 0; i < M_Craftable.itemRequirements.Length; i++)
-                {
-                    var num0 = M_Craftable.itemRequirements[i].amount;
-                    if (num0 > 1 && Utility.Instantiate(M_Craftable.itemRequirements[i].item).TryGetComponent<Item>(out var component))
-                    {
-                        int num3 = Mathf.FloorToInt(num0 / 2f);
-                        component.Amount = num0 - num3;
-                        Global.code.Player.playerStorage.AddItem(component, showHint: true);
-                    }
-                }
+                var codes = instructions.ToList();
+                var si = codes.FindIndex(c => c.opcode == OpCodes.Conv_R4);
+                var ei = codes.FindIndex(si, c => c.opcode == OpCodes.Call);
+                codes.RemoveRange(si, ei - si + 1);
+                _logger.LogInfo($"Enable DestroyReturnAll");
+                return codes;
             }
+            return instructions;
+        }
+
+        [HarmonyPatch(typeof(PlayerCharacter), "Die")]
+        [HarmonyTranspiler]
+        public static IEnumerable<CodeInstruction> PlayerCharacterDie(IEnumerable<CodeInstruction> instructions)
+        {
+            if (LoadConfig.NotDropItemWhenDie.Value)
+            {
+                var codes = instructions.ToList();
+                var smi = AccessTools.Method(typeof(Storage), nameof(Storage.RemoveAndDestroyAllItems));
+                var si = codes.FindIndex(c => c.opcode == OpCodes.Ldloc_0);
+                var ei = codes.FindIndex(si, c => c.opcode == OpCodes.Callvirt && c.operand is MethodInfo mi && mi == smi);
+                codes[si].MoveLabelsTo(codes[ei + 1]);
+                codes.RemoveRange(si, ei - si + 1);
+                _logger.LogInfo($"Enable NotDropItemWhenDie");
+                return codes;
+            }
+            return instructions;
+        }
+
+        [HarmonyPatch(typeof(Boat), "Spawned")]
+        [HarmonyPostfix]
+        public static void Boat(ref Boat __instance)
+        {
+            if (boatSpeedRate == 1f)
+                return;
+            var f = __instance.enginePower;
+            __instance.enginePower = f * boatSpeedRate;
+            _logger.LogInfo($"Set {__instance.name} Speed From {f} To {__instance.enginePower}");
         }
         #endregion
 
@@ -234,43 +277,43 @@ namespace SunkenlandUtil
                 }
                 if (fcnt >= sensorSpan)
                 {
-                    text.text = GetNearestObject(Global.code.Player.transform.position);
+                    GetNearestObject(Global.code.Player.transform.position);
                     fcnt = 0;
-                    uiPanel.SetActive((bool)nearestObj);
+                    uiPanel.SetActive(worldObj.Active || worldOreObj.Active || worldBluePrintObj.Active);
                 }
-                UpdateArrow();
+                worldObj.UpdateArrow();
+                worldOreObj.UpdateArrow();
+                worldBluePrintObj.UpdateArrow();
             }
+        }
+
+        [HarmonyPatch(typeof(BlueprintContainer), "Awake")]
+        [HarmonyPostfix]
+        public static void BlueprintContainer(ref BlueprintContainer __instance, ref Blueprint ___Blueprint)
+        {
+            var name = __instance.BlueprintItem.DisplayName;
+            if (___Blueprint.UnlockItems?.Length > 0)
+                name = ___Blueprint.UnlockItems[0].DisplayName;
+            if (___Blueprint.UnlockBuildings?.Length > 0)
+                name = ___Blueprint.UnlockBuildings[0].DisplayName;
+            blueprints[name] = __instance;
         }
 
         private static void CreateUI()
         {
             GameObject canvas = UIControls.createUICanvas();
-            uiPanel = UIControls.createUIPanel(canvas, "50", "240", Screen.width - 120, Screen.height - 75, null);
+            uiPanel = UIControls.createUIPanel(canvas, "150", "300", Screen.width - 150, Screen.height - 75, null);
             uiPanel.GetComponent<Image>().color = UIControls.HTMLString2Color("#00000000");
 
-            uiText = UIControls.createUIText(uiPanel, null, "#FFFFFFFF");
-            uiText.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
-            text = uiText.GetComponent<Text>();
-            text.text = "";
-            text.fontSize = 20;
-            text.fontStyle = FontStyle.Bold;
-            text.alignment = TextAnchor.MiddleCenter;
-
-            uiArrow = UIControls.createUIText(uiPanel, null, "#FFFFFFFF");
-            arrowTransform = uiArrow.GetComponent<RectTransform>();
-            arrowTransform.localPosition = new Vector3(-90, 0, 0);
-            arrowTransform.sizeDelta = new Vector2(40, 40);
-            var arrowText = uiArrow.GetComponent<Text>();
-            arrowText.text = "↑";
-            arrowText.fontSize = 30;
-            arrowText.fontStyle = FontStyle.Bold;
-            arrowText.alignment = TextAnchor.MiddleCenter;
+            worldObj = new SensorUI(uiPanel, 0);
+            worldOreObj = new SensorUI(uiPanel, -36);
+            worldBluePrintObj = new SensorUI(uiPanel, -72);
         }
 
-        public static string GetNearestObject(Vector3 position)
+        public static void GetNearestObject(Vector3 position)
         {
             var nearestDistanceSqr = float.PositiveInfinity;
-            nearestObj = null;
+            Component nearestObj = null;
             foreach (var collectable in WorldScene.code.worldCollectableContinuingInteractions)
             {
                 if (collectable && collectable.isActiveAndEnabled)
@@ -295,18 +338,6 @@ namespace SunkenlandUtil
                     }
                 }
             }
-            foreach (var breakable in WorldScene.code.worldBreakables)
-            {
-                if (breakable && breakable.isActiveAndEnabled)
-                {
-                    float num = Vector3.Distance(breakable.transform.position, position);
-                    if (num < nearestDistanceSqr)
-                    {
-                        nearestDistanceSqr = num;
-                        nearestObj = breakable;
-                    }
-                }
-            }
             foreach (var chest in WorldScene.code.worldChests)
             {
                 if (chest && chest.isActiveAndEnabled)
@@ -316,21 +347,6 @@ namespace SunkenlandUtil
                     {
                         nearestDistanceSqr = num;
                         nearestObj = chest;
-                    }
-                }
-            }
-            if (scanOre)
-            {
-                foreach (var choppable in WorldScene.code.choppables)
-                {
-                    if (choppable && choppable.isActiveAndEnabled && choppable.M_ChoppableType != ChoppableType.Other)
-                    {
-                        float num = Vector3.Distance(choppable.transform.position, position);
-                        if (num < nearestDistanceSqr)
-                        {
-                            nearestDistanceSqr = num;
-                            nearestObj = choppable;
-                        }
                     }
                 }
             }
@@ -346,22 +362,150 @@ namespace SunkenlandUtil
                     y = -y;
                 }
 
-                return $"{nearestDistanceSqr:0.0}    {y:0}{sy}";
+                worldObj.UpdateObjectAndText(nearestObj, $"{nearestDistanceSqr:0}  {y:0}{sy}  {GetObjName(nearestObj)}");
             }
-            nearestObj = null;
-            return null;
+            else
+            {
+                worldObj.UpdateObjectAndText(null, null);
+            }
+
+            if (scanOre)
+            {
+                var nearestOreDistanceSqr = float.PositiveInfinity;
+                Choppable nearestOreObj = null;
+                foreach (var choppable in WorldScene.code.choppables)
+                {
+                    if (choppable && choppable.isActiveAndEnabled)
+                    {
+                        if (scanOreTypes != null && scanOreTypes.Length > 0 && Array.IndexOf(scanOreTypes, choppable.M_ChoppableType) < 0)
+                            continue;
+                        float num = Vector3.Distance(choppable.transform.position, position);
+                        if (num < nearestOreDistanceSqr)
+                        {
+                            nearestOreDistanceSqr = num;
+                            nearestOreObj = choppable;
+                        }
+                    }
+                }
+
+                if (nearestOreDistanceSqr < 300)
+                {
+                    var y = nearestOreObj.transform.position.y - position.y;
+                    string sy;
+                    if (y >= 0)
+                        sy = "↑";
+                    else
+                    {
+                        sy = "↓";
+                        y = -y;
+                    }
+                    var type = nearestOreObj.M_ChoppableType.ToString().Replace("Mine", "");
+                    worldOreObj.UpdateObjectAndText(nearestOreObj, $"{nearestOreDistanceSqr:0}  {y:0}{sy}  {type}");
+                }
+                else
+                {
+                    worldOreObj.UpdateObjectAndText(null, null);
+                }
+            }
+
+            if (scanBluePrint)
+            {
+                var nearestBpDistanceSqr = float.PositiveInfinity;
+                BlueprintContainer nearestBpObj = null;
+                string name = null;
+                foreach (var (k, blueprint) in blueprints)
+                {
+                    if (blueprint && blueprint.isActiveAndEnabled && GlobalDataHelper.IsGlobalDataValid && !Mainframe.code.GlobalData.HasBlueprint(blueprint.BlueprintItem.ItemID))
+                    {
+                        float num = Vector3.Distance(blueprint.transform.position, position);
+                        if (num < nearestBpDistanceSqr)
+                        {
+                            nearestBpDistanceSqr = num;
+                            nearestBpObj = blueprint;
+                            name = k;
+                        }
+                    }
+                }
+
+                if (nearestBpObj)
+                {
+                    worldBluePrintObj.UpdateObjectAndText(nearestBpObj, $"{nearestBpDistanceSqr:0}  {name}");
+                }
+                else
+                {
+                    worldBluePrintObj.UpdateObjectAndText(null, null);
+                }
+            }
         }
 
-        public static void UpdateArrow()
+        private static string GetObjName(Component component)
         {
-            if (nearestObj && uiArrow)
-            {
-                var vf = Vector3.ProjectOnPlane(FPSPlayer.code.transform.forward, Vector3.up);
-                var vt = Vector3.ProjectOnPlane(nearestObj.transform.position - FPSPlayer.code.transform.position, Vector3.up);
-                float num = Utility.ContAngle(vf, vt, Vector3.up);
-                arrowTransform.localRotation = Quaternion.Euler(0f, 0f, 0f - num);
-            }
+            var name = component.name;
+            if (string.IsNullOrEmpty(name))
+                return string.Empty;
+
+            var ri = name.IndexOf('_');
+            if (ri >= 0)
+                name = name.Remove(ri);
+            ri = name.IndexOf("(");
+            if (ri >= 0)
+                name = name.Remove(ri);
+            if (char.IsLower(name[0]))
+                name = char.ToUpper(name[0]).ToString() + name[1..];
+            return name.Trim();
         }
         #endregion
+    }
+
+    public class SensorUI
+    {
+        private Text text;
+        private GameObject uiArrow;
+        private RectTransform arrowTransform;
+        private Component nearestObj;
+        private GameObject uiText;
+        public bool Active => (bool)nearestObj;
+
+        public SensorUI(GameObject uiPanel, int y)
+        {
+            uiText = UIControls.createUIText(uiPanel, null, "#FFFFFFFF");
+            uiText.GetComponent<RectTransform>().localPosition = new Vector3(0, y, 0);
+            text = uiText.GetComponent<Text>();
+            text.text = "";
+            text.fontSize = 18;
+            text.fontStyle = FontStyle.Bold;
+            text.alignment = TextAnchor.MiddleLeft;
+
+            uiArrow = UIControls.createUIText(uiPanel, null, "#FFFFFFFF");
+            arrowTransform = uiArrow.GetComponent<RectTransform>();
+            arrowTransform.localPosition = new Vector3(-120, y, 0);
+            arrowTransform.sizeDelta = new Vector2(36, 36);
+            var arrowText = uiArrow.GetComponent<Text>();
+            arrowText.text = "↑";
+            arrowText.fontSize = 26;
+            arrowText.fontStyle = FontStyle.Bold;
+            arrowText.alignment = TextAnchor.MiddleCenter;
+        }
+
+        public void UpdateObjectAndText(Component obj, string text)
+        {
+            nearestObj = obj;
+            this.text.text = text;
+        }
+
+        public void UpdateArrow()
+        {
+            if (uiArrow)
+            {
+                uiArrow.SetActive((bool)nearestObj);
+                if (nearestObj)
+                {
+                    var vf = Vector3.ProjectOnPlane(FPSPlayer.code.transform.forward, Vector3.up);
+                    var vt = Vector3.ProjectOnPlane(nearestObj.transform.position - FPSPlayer.code.transform.position, Vector3.up);
+                    float num = Utility.ContAngle(vf, vt, Vector3.up);
+                    arrowTransform.localRotation = Quaternion.Euler(0f, 0f, 0f - num);
+                }
+            }
+        }
     }
 }
