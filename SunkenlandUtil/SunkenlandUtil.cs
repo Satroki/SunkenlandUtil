@@ -15,7 +15,7 @@ using UnityGameUI;
 
 namespace SunkenlandUtil
 {
-    [BepInPlugin("satroki.sunkenland.util", "Util Plugin", "0.1.0")]
+    [BepInPlugin("satroki.sunkenland.util", "Util Plugin", "0.1.1")]
     public class SunkenlandUtil : BaseUnityPlugin
     {
         private readonly Harmony _harmony = new Harmony("satroki.sunkenland.util");
@@ -108,6 +108,7 @@ namespace SunkenlandUtil
 
             FPSRigidBodyWalker.code.swimSpeed += LoadConfig.AdditionalSwimSpped.Value;
             FPSRigidBodyWalker.code.walkSpeed += LoadConfig.AdditionalWalkSpped.Value;
+            FPSRigidBodyWalker.code.sprintSpeed += LoadConfig.AdditionalWalkSpped.Value;
 
             Traverse.Create(__instance).Property(nameof(PlayerCharacter.DefenceBody)).SetValue(__instance.DefenceBody + LoadConfig.Defence.Value);
             Traverse.Create(__instance).Property(nameof(PlayerCharacter.DefenceHead)).SetValue(__instance.DefenceHead + LoadConfig.Defence.Value);
@@ -190,11 +191,11 @@ namespace SunkenlandUtil
 
         [HarmonyPatch(typeof(SteelFurnace), "Awake")]
         [HarmonyPostfix]
-        public static void SteelFurnaceAwake(ref float ___itemProcessingDuration)
+        public static void SteelFurnaceAwake(ref int ___itemProcessingDuration)
         {
             if (LoadConfig.MetalProcessingDuration.Value > 0)
             {
-                ___itemProcessingDuration = LoadConfig.MetalProcessingDuration.Value;
+                ___itemProcessingDuration = (int)LoadConfig.MetalProcessingDuration.Value;
                 _logger.LogInfo($"SteelFurnace Set ItemProcessingDuration {___itemProcessingDuration}");
             }
         }
