@@ -1,13 +1,10 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
-using Fusion;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Reflection.Emit;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,7 +12,7 @@ using UnityGameUI;
 
 namespace SunkenlandUtil
 {
-    [BepInPlugin("satroki.sunkenland.util", "Util Plugin", "0.1.1")]
+    [BepInPlugin("satroki.sunkenland.util", "Util Plugin", "0.1.3")]
     public class SunkenlandUtil : BaseUnityPlugin
     {
         private readonly Harmony _harmony = new Harmony("satroki.sunkenland.util");
@@ -122,8 +119,8 @@ namespace SunkenlandUtil
             if (__instance == Global.code.Player.playerStorage)
             {
                 value += LoadConfig.MaxItemsAmount.Value;
-                if (value > 50)
-                    value = 50;
+                if (value > 100)
+                    value = 100;
             }
             return true;
         }
@@ -200,6 +197,39 @@ namespace SunkenlandUtil
             }
         }
 
+        [HarmonyPatch(typeof(DecomposeTable), "Awake")]
+        [HarmonyPostfix]
+        public static void DecomposeTableAwake(ref int ___DecomposeTime)
+        {
+            if (LoadConfig.DecomposeTime.Value > 0)
+            {
+                ___DecomposeTime = LoadConfig.DecomposeTime.Value;
+                _logger.LogInfo($"DecomposeTable Set DecomposeTime {___DecomposeTime}");
+            }
+        }
+
+        [HarmonyPatch(typeof(AutomaticFirearmsRecoveryStation), "CS")]
+        [HarmonyPrefix]
+        public static bool AutomaticFirearmsRecoveryStation(ref AutomaticFirearmsRecoveryStation __instance)
+        {
+            if (__instance.IsWorking && LoadConfig.FirearmsRecoveryTime.Value > 0)
+            {
+                __instance.RecoveryTime = LoadConfig.FirearmsRecoveryTime.Value;
+            }
+            return true;
+        }
+
+        [HarmonyPatch(typeof(Sawmill), "Awake")]
+        [HarmonyPostfix]
+        public static void SawmillAwake(ref int ___NeedTime)
+        {
+            if (LoadConfig.SawmillNeedTime.Value > 0)
+            {
+                ___NeedTime = LoadConfig.SawmillNeedTime.Value;
+                _logger.LogInfo($"Sawmill Set NeedTime {___NeedTime}");
+            }
+        }
+
         [HarmonyPatch(typeof(HeadLight), "ConsumeBatteryPower")]
         [HarmonyPrefix]
         public static bool HeadLightConsumeBatteryPower(ref float ___batteryPowerConsumptionPerSecond)
@@ -233,23 +263,23 @@ namespace SunkenlandUtil
             return instructions;
         }
 
-        [HarmonyPatch(typeof(PlayerCharacter), "Die")]
-        [HarmonyTranspiler]
-        public static IEnumerable<CodeInstruction> PlayerCharacterDie(IEnumerable<CodeInstruction> instructions)
-        {
-            if (LoadConfig.NotDropItemWhenDie.Value)
-            {
-                var codes = instructions.ToList();
-                var smi = AccessTools.Method(typeof(Storage), nameof(Storage.RemoveAndDestroyAllItems));
-                var si = codes.FindIndex(c => c.opcode == OpCodes.Ldloc_0);
-                var ei = codes.FindIndex(si, c => c.opcode == OpCodes.Callvirt && c.operand is MethodInfo mi && mi == smi);
-                codes[si].MoveLabelsTo(codes[ei + 1]);
-                codes.RemoveRange(si, ei - si + 1);
-                _logger.LogInfo($"Enable NotDropItemWhenDie");
-                return codes;
-            }
-            return instructions;
-        }
+        //[HarmonyPatch(typeof(PlayerCharacter), "Die")]
+        //[HarmonyTranspiler]
+        //public static IEnumerable<CodeInstruction> PlayerCharacterDie(IEnumerable<CodeInstruction> instructions)
+        //{
+        //    if (LoadConfig.NotDropItemWhenDie.Value)
+        //    {
+        //        var codes = instructions.ToList();
+        //        var smi = AccessTools.Method(typeof(Storage), nameof(Storage.RemoveAndDestroyAllItems));
+        //        var si = codes.FindIndex(c => c.opcode == OpCodes.Ldloc_0);
+        //        var ei = codes.FindIndex(si, c => c.opcode == OpCodes.Callvirt && c.operand is MethodInfo mi && mi == smi);
+        //        codes[si].MoveLabelsTo(codes[ei + 1]);
+        //        codes.RemoveRange(si, ei - si + 1);
+        //        _logger.LogInfo($"Enable NotDropItemWhenDie");
+        //        return codes;
+        //    }
+        //    return instructions;
+        //}
 
         [HarmonyPatch(typeof(Boat), "Spawned")]
         [HarmonyPostfix]

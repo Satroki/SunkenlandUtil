@@ -31,10 +31,14 @@ namespace SunkenlandUtil
 
         public static ConfigEntry<bool> DamageArmor;
         public static ConfigEntry<float> MetalProcessingDuration;
+        public static ConfigEntry<int> DecomposeTime;
+        public static ConfigEntry<int> SawmillNeedTime;
+        public static ConfigEntry<int> FirearmsRecoveryTime;
+        
         public static ConfigEntry<float> HeadLightBatteryPowerConsumption;
         public static ConfigEntry<bool> SleepAnytime;
         public static ConfigEntry<bool> DestroyReturnAll;
-        public static ConfigEntry<bool> NotDropItemWhenDie;
+        //public static ConfigEntry<bool> NotDropItemWhenDie;
         public static ConfigEntry<float> BoatSpeedRate;
 
         const string Section = "General";
@@ -66,13 +70,16 @@ namespace SunkenlandUtil
             DamageArmor = config.Bind(Section, nameof(DamageArmor), defaultValue: true, "护甲损坏 / Toggle  Damage Armor");
 
             MetalProcessingDuration = config.Bind(Section, nameof(MetalProcessingDuration), defaultValue: 0f, "金属处理时间/秒, 0 不变, 游戏默认 30");
+            DecomposeTime = config.Bind(Section, nameof(DecomposeTime), defaultValue: 0, "分解台 (DecomposeTable) 速度/秒, 0 不变, 游戏默认 30");
+            SawmillNeedTime = config.Bind(Section, nameof(SawmillNeedTime), defaultValue: 0, "锯木厂速度/秒, 0 不变, 游戏默认 30");
+            FirearmsRecoveryTime = config.Bind(Section, nameof(FirearmsRecoveryTime), defaultValue: 0, "枪械回收速度/秒, 0 不变, 游戏默认 30");
 
             HeadLightBatteryPowerConsumption = config.Bind(Section, nameof(HeadLightBatteryPowerConsumption), defaultValue: 0f, "头灯电池消耗速度, 0 不变, 游戏默认 0.01");
 
             SleepAnytime = config.Bind(Section, nameof(SleepAnytime), defaultValue: false, "随时睡觉");
 
             DestroyReturnAll = config.Bind(Section, nameof(DestroyReturnAll), defaultValue: false, "拆除返还全部材料");
-            NotDropItemWhenDie = config.Bind(Section, nameof(NotDropItemWhenDie), defaultValue: false, "死亡不掉落物品");
+            //NotDropItemWhenDie = config.Bind(Section, nameof(NotDropItemWhenDie), defaultValue: false, "死亡不掉落物品");
             BoatSpeedRate = config.Bind(Section, nameof(BoatSpeedRate), defaultValue: 1f, "船速 倍率 / Multiplier");
         }
     }
