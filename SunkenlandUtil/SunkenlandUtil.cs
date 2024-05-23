@@ -12,14 +12,14 @@ using UnityGameUI;
 
 namespace SunkenlandUtil
 {
-    [BepInPlugin("satroki.sunkenland.util", "Util Plugin", "0.1.3")]
+    [BepInPlugin("satroki.sunkenland.util", "Util Plugin", "0.1.5")]
     public class SunkenlandUtil : BaseUnityPlugin
     {
         private readonly Harmony _harmony = new Harmony("satroki.sunkenland.util");
         public static ManualLogSource _logger;
         private static bool worldSensor = false;
         private static bool scanOre;
-        private static bool scanBluePrint;
+        //private static bool scanBluePrint;
         private static int sensorSpan;
         private static bool sleepAnytime;
         private static bool destroyReturnAll;
@@ -27,13 +27,13 @@ namespace SunkenlandUtil
         private static float boatSpeedRate;
         private static SensorUI worldObj;
         private static SensorUI worldOreObj;
-        private static SensorUI worldBluePrintObj;
+        //private static SensorUI worldBluePrintObj;
         private static int fcnt;
         private static GameObject uiPanel;
         private static ConfigFile config;
         private static Dictionary<int, int> stackBakDict;
         private static ChoppableType[] scanOreTypes;
-        private static Dictionary<string, BlueprintContainer> blueprints = new Dictionary<string, BlueprintContainer>();
+        //private static Dictionary<string, BlueprintContainer> blueprints = new Dictionary<string, BlueprintContainer>();
 
         private void Awake()
         {
@@ -74,7 +74,7 @@ namespace SunkenlandUtil
             LoadConfig.Init(config);
             worldSensor = LoadConfig.WorldSensor.Value;
             scanOre = LoadConfig.ScanOre.Value;
-            scanBluePrint = LoadConfig.ScanBluePrint.Value;
+            //scanBluePrint = LoadConfig.ScanBluePrint.Value;
             sensorSpan = LoadConfig.SensorSpan.Value;
             sleepAnytime = LoadConfig.SleepAnytime.Value;
             destroyReturnAll = LoadConfig.DestroyReturnAll.Value;
@@ -109,14 +109,13 @@ namespace SunkenlandUtil
 
             Traverse.Create(__instance).Property(nameof(PlayerCharacter.DefenceBody)).SetValue(__instance.DefenceBody + LoadConfig.Defence.Value);
             Traverse.Create(__instance).Property(nameof(PlayerCharacter.DefenceHead)).SetValue(__instance.DefenceHead + LoadConfig.Defence.Value);
-            Traverse.Create(__instance).Property(nameof(PlayerCharacter.DefenceLeg)).SetValue(__instance.DefenceLeg + LoadConfig.Defence.Value);
         }
 
         [HarmonyPatch(typeof(Storage), "MaxItemsAmount", methodType: MethodType.Setter)]
         [HarmonyPrefix]
         public static bool SetMaxItemsAmount(ref Storage __instance, ref int value)
         {
-            if (__instance == Global.code.Player.playerStorage)
+            if (__instance == Global.code.Player.PlayerStorage)
             {
                 value += LoadConfig.MaxItemsAmount.Value;
                 if (value > 100)
@@ -310,25 +309,26 @@ namespace SunkenlandUtil
                 {
                     GetNearestObject(Global.code.Player.transform.position);
                     fcnt = 0;
-                    uiPanel.SetActive(worldObj.Active || worldOreObj.Active || worldBluePrintObj.Active);
+                    uiPanel.SetActive(worldObj.Active || worldOreObj.Active);
                 }
                 worldObj.UpdateArrow();
                 worldOreObj.UpdateArrow();
-                worldBluePrintObj.UpdateArrow();
+                //worldBluePrintObj.UpdateArrow();
             }
         }
 
-        [HarmonyPatch(typeof(BlueprintContainer), "Awake")]
-        [HarmonyPostfix]
-        public static void BlueprintContainer(ref BlueprintContainer __instance, ref Blueprint ___Blueprint)
-        {
-            var name = __instance.BlueprintItem.DisplayName;
-            if (___Blueprint.UnlockItems?.Length > 0)
-                name = ___Blueprint.UnlockItems[0].DisplayName;
-            if (___Blueprint.UnlockBuildings?.Length > 0)
-                name = ___Blueprint.UnlockBuildings[0].DisplayName;
-            blueprints[name] = __instance;
-        }
+        //[HarmonyPatch(typeof(BlueprintContainer), "Start")]
+        //[HarmonyPostfix]
+        //public static void BlueprintContainer(ref BlueprintContainer __instance)
+        //{
+        //    var name = __instance.BlueprintItem.DisplayName;
+        //    var bp = __instance.Blueprint;
+        //    if (bp.UnlockItems?.Length > 0)
+        //        name = bp.UnlockItems[0].DisplayName;
+        //    if (bp.UnlockBuildings?.Length > 0)
+        //        name = bp.UnlockBuildings[0].DisplayName;
+        //    blueprints[name] = __instance;
+        //}
 
         private static void CreateUI()
         {
@@ -338,7 +338,7 @@ namespace SunkenlandUtil
 
             worldObj = new SensorUI(uiPanel, 0);
             worldOreObj = new SensorUI(uiPanel, -36);
-            worldBluePrintObj = new SensorUI(uiPanel, -72);
+            //worldBluePrintObj = new SensorUI(uiPanel, -72);
         }
 
         public static void GetNearestObject(Vector3 position)
@@ -439,34 +439,34 @@ namespace SunkenlandUtil
                 }
             }
 
-            if (scanBluePrint)
-            {
-                var nearestBpDistanceSqr = float.PositiveInfinity;
-                BlueprintContainer nearestBpObj = null;
-                string name = null;
-                foreach (var (k, blueprint) in blueprints)
-                {
-                    if (blueprint && blueprint.isActiveAndEnabled && GlobalDataHelper.IsGlobalDataValid && !Mainframe.code.GlobalData.HasBlueprint(blueprint.BlueprintItem.ItemID))
-                    {
-                        float num = Vector3.Distance(blueprint.transform.position, position);
-                        if (num < nearestBpDistanceSqr)
-                        {
-                            nearestBpDistanceSqr = num;
-                            nearestBpObj = blueprint;
-                            name = k;
-                        }
-                    }
-                }
+            //if (scanBluePrint)
+            //{
+            //    var nearestBpDistanceSqr = float.PositiveInfinity;
+            //    BlueprintContainer nearestBpObj = null;
+            //    string name = null;
+            //    foreach (var (k, blueprint) in blueprints)
+            //    {
+            //        if (blueprint && blueprint.isActiveAndEnabled && GlobalDataHelper.IsGlobalDataValid && !Mainframe.code.GlobalData.HasBlueprint(blueprint.BlueprintItem.ItemID))
+            //        {
+            //            float num = Vector3.Distance(blueprint.transform.position, position);
+            //            if (num < nearestBpDistanceSqr)
+            //            {
+            //                nearestBpDistanceSqr = num;
+            //                nearestBpObj = blueprint;
+            //                name = k;
+            //            }
+            //        }
+            //    }
 
-                if (nearestBpObj)
-                {
-                    worldBluePrintObj.UpdateObjectAndText(nearestBpObj, $"{nearestBpDistanceSqr:0}  {name}");
-                }
-                else
-                {
-                    worldBluePrintObj.UpdateObjectAndText(null, null);
-                }
-            }
+            //    if (nearestBpObj)
+            //    {
+            //        worldBluePrintObj.UpdateObjectAndText(nearestBpObj, $"{nearestBpDistanceSqr:0}  {name}");
+            //    }
+            //    else
+            //    {
+            //        worldBluePrintObj.UpdateObjectAndText(null, null);
+            //    }
+            //}
         }
 
         private static string GetObjName(Component component)

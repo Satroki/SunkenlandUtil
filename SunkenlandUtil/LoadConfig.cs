@@ -27,7 +27,7 @@ namespace SunkenlandUtil
         public static ConfigEntry<string> ScanOreTypes;
         public static ConfigEntry<int> SensorSpan;
 
-        public static ConfigEntry<bool> ScanBluePrint;
+        //public static ConfigEntry<bool> ScanBluePrint;
 
         public static ConfigEntry<bool> DamageArmor;
         public static ConfigEntry<float> MetalProcessingDuration;
@@ -65,7 +65,7 @@ namespace SunkenlandUtil
             ScanOre = config.Bind(Section, nameof(ScanOre), defaultValue: true, "探测矿石");
             ScanOreTypes = config.Bind(Section, nameof(ScanOreTypes), defaultValue: "MineCopper,MineIron,MineSulfur", "探测矿石类型 Empty For All (MineCopper,MineIron,MineSulfur,Anatase,Other)");
             SensorSpan = config.Bind(Section, nameof(SensorSpan), defaultValue: 30, "探测器间隔");
-            ScanBluePrint = config.Bind(Section, nameof(ScanBluePrint), defaultValue: true, "探测蓝图");
+            //ScanBluePrint = config.Bind(Section, nameof(ScanBluePrint), defaultValue: true, "探测蓝图");
 
             DamageArmor = config.Bind(Section, nameof(DamageArmor), defaultValue: true, "护甲损坏 / Toggle  Damage Armor");
 
