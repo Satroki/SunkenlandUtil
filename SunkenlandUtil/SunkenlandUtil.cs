@@ -12,7 +12,7 @@ using UnityGameUI;
 
 namespace SunkenlandUtil
 {
-    [BepInPlugin("satroki.sunkenland.util", "Util Plugin", "0.1.5")]
+    [BepInPlugin("satroki.sunkenland.util", "Util Plugin", "0.1.6")]
     public class SunkenlandUtil : BaseUnityPlugin
     {
         private readonly Harmony _harmony = new Harmony("satroki.sunkenland.util");
@@ -99,7 +99,7 @@ namespace SunkenlandUtil
             __instance.EnergyConsumptionRate *= LoadConfig.EnergyConsumptionRate.Value;
             __instance.AirConsumtionRate *= LoadConfig.AirConsumtionRate.Value;
             __instance.HealthRecoveryRate *= LoadConfig.HealthRecoveryRate.Value;
-            __instance.StaminaRecoveryRate *= LoadConfig.StaminaRecoveryRate.Value;
+            __instance.StaminaRegenPerSecond *= LoadConfig.StaminaRecoveryRate.Value;
             __instance.FoodConsumtionRate *= LoadConfig.FoodConsumtionRate.Value;
             __instance.WaterConsumtionRate *= LoadConfig.WaterConsumtionRate.Value;
 
@@ -403,12 +403,12 @@ namespace SunkenlandUtil
             if (scanOre)
             {
                 var nearestOreDistanceSqr = float.PositiveInfinity;
-                Choppable nearestOreObj = null;
-                foreach (var choppable in WorldScene.code.choppables)
+                CollectableByToolHit nearestOreObj = null;
+                foreach (var choppable in WorldScene.code.CollectableByToolHit)
                 {
                     if (choppable && choppable.isActiveAndEnabled)
                     {
-                        if (scanOreTypes != null && scanOreTypes.Length > 0 && Array.IndexOf(scanOreTypes, choppable.M_ChoppableType) < 0)
+                        if (scanOreTypes != null && scanOreTypes.Length > 0 && Array.IndexOf(scanOreTypes, choppable.ChoppableType) < 0)
                             continue;
                         float num = Vector3.Distance(choppable.transform.position, position);
                         if (num < nearestOreDistanceSqr)
@@ -430,7 +430,7 @@ namespace SunkenlandUtil
                         sy = "↓";
                         y = -y;
                     }
-                    var type = nearestOreObj.M_ChoppableType.ToString().Replace("Mine", "");
+                    var type = nearestOreObj.ChoppableType.ToString().Replace("Mine", "");
                     worldOreObj.UpdateObjectAndText(nearestOreObj, $"{nearestOreDistanceSqr:0}  {y:0}{sy}  {type}");
                 }
                 else
@@ -438,35 +438,6 @@ namespace SunkenlandUtil
                     worldOreObj.UpdateObjectAndText(null, null);
                 }
             }
-
-            //if (scanBluePrint)
-            //{
-            //    var nearestBpDistanceSqr = float.PositiveInfinity;
-            //    BlueprintContainer nearestBpObj = null;
-            //    string name = null;
-            //    foreach (var (k, blueprint) in blueprints)
-            //    {
-            //        if (blueprint && blueprint.isActiveAndEnabled && GlobalDataHelper.IsGlobalDataValid && !Mainframe.code.GlobalData.HasBlueprint(blueprint.BlueprintItem.ItemID))
-            //        {
-            //            float num = Vector3.Distance(blueprint.transform.position, position);
-            //            if (num < nearestBpDistanceSqr)
-            //            {
-            //                nearestBpDistanceSqr = num;
-            //                nearestBpObj = blueprint;
-            //                name = k;
-            //            }
-            //        }
-            //    }
-
-            //    if (nearestBpObj)
-            //    {
-            //        worldBluePrintObj.UpdateObjectAndText(nearestBpObj, $"{nearestBpDistanceSqr:0}  {name}");
-            //    }
-            //    else
-            //    {
-            //        worldBluePrintObj.UpdateObjectAndText(null, null);
-            //    }
-            //}
         }
 
         private static string GetObjName(Component component)

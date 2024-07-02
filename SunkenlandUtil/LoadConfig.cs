@@ -63,7 +63,7 @@ namespace SunkenlandUtil
 
             WorldSensor = config.Bind(Section, nameof(WorldSensor), defaultValue: false, "启用世界探测器");
             ScanOre = config.Bind(Section, nameof(ScanOre), defaultValue: true, "探测矿石");
-            ScanOreTypes = config.Bind(Section, nameof(ScanOreTypes), defaultValue: "MineCopper,MineIron,MineSulfur", "探测矿石类型 Empty For All (MineCopper,MineIron,MineSulfur,Anatase,Other)");
+            ScanOreTypes = config.Bind(Section, nameof(ScanOreTypes), defaultValue: "", "探测矿石类型 Empty For All (MineCopper,MineIron,MineSulfur,MineAnatase,MineQuartz,Other)");
             SensorSpan = config.Bind(Section, nameof(SensorSpan), defaultValue: 30, "探测器间隔");
             //ScanBluePrint = config.Bind(Section, nameof(ScanBluePrint), defaultValue: true, "探测蓝图");
 
