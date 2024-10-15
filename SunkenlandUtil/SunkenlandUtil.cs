@@ -5,6 +5,7 @@ using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,7 +13,7 @@ using UnityGameUI;
 
 namespace SunkenlandUtil
 {
-    [BepInPlugin("satroki.sunkenland.util", "Util Plugin", "0.1.6")]
+    [BepInPlugin("satroki.sunkenland.util", "Util Plugin", "0.2.0")]
     public class SunkenlandUtil : BaseUnityPlugin
     {
         private readonly Harmony _harmony = new Harmony("satroki.sunkenland.util");
@@ -279,6 +280,23 @@ namespace SunkenlandUtil
         //    }
         //    return instructions;
         //}
+        [HarmonyPatch(typeof(CollectableByToolHit), "Hit")]
+        [HarmonyTranspiler]
+        public static IEnumerable<CodeInstruction> CollectableByToolHitHit(IEnumerable<CodeInstruction> instructions)
+        {
+            var v = LoadConfig.CollectableByToolHitDropRate.Value;
+            if (v > 1)
+            {
+                var codes = instructions.ToList();
+                var m = AccessTools.PropertySetter(typeof(Item), nameof(Item.Amount));
+                var si = codes.FindIndex(c => c.opcode == OpCodes.Callvirt && c.operand is MethodInfo mi && mi == m);
+                codes[si - 1] = new CodeInstruction(OpCodes.Ldc_I4, v);
+                _logger.LogInfo($"Set CollectableByToolHitDropRate {v}");
+                return codes;
+            }
+            return instructions;
+        }
+
 
         [HarmonyPatch(typeof(Boat), "Spawned")]
         [HarmonyPostfix]

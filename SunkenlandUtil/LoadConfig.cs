@@ -34,12 +34,13 @@ namespace SunkenlandUtil
         public static ConfigEntry<int> DecomposeTime;
         public static ConfigEntry<int> SawmillNeedTime;
         public static ConfigEntry<int> FirearmsRecoveryTime;
-        
+
         public static ConfigEntry<float> HeadLightBatteryPowerConsumption;
         public static ConfigEntry<bool> SleepAnytime;
         public static ConfigEntry<bool> DestroyReturnAll;
         //public static ConfigEntry<bool> NotDropItemWhenDie;
         public static ConfigEntry<float> BoatSpeedRate;
+        public static ConfigEntry<int> CollectableByToolHitDropRate;
 
         const string Section = "General";
         internal static void Init(ConfigFile config)
@@ -51,6 +52,8 @@ namespace SunkenlandUtil
             MaxHealth = config.Bind(Section, nameof(MaxHealth), defaultValue: 0f, "额外 最大HP / Additional Max Health");
             Defence = config.Bind(Section, nameof(Defence), defaultValue: 0, "额外 防御 / Additional Defence");
             MaxItemsAmount = config.Bind(Section, nameof(MaxItemsAmount), defaultValue: 0, "额外 物品栏 / Additional Bag Slots");
+
+            CollectableByToolHitDropRate = config.Bind(Section, nameof(CollectableByToolHitDropRate), defaultValue: 1, "工具采集掉落倍数 / Multiplier");
 
             AirConsumtionRate = config.Bind(Section, nameof(AirConsumtionRate), defaultValue: 1f, "空气消耗率 倍率 / Multiplier");
             EnergyConsumptionRate = config.Bind(Section, nameof(EnergyConsumptionRate), defaultValue: 1f, "能量消耗率 倍率 / Multiplier");
