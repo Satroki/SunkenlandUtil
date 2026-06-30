@@ -26,8 +26,8 @@ namespace SunkenlandUtil
         public static ConfigEntry<bool> ScanOre;
         public static ConfigEntry<string> ScanOreTypes;
         public static ConfigEntry<int> SensorSpan;
-
-        //public static ConfigEntry<bool> ScanBluePrint;
+        public static ConfigEntry<float> SensorX;
+        public static ConfigEntry<float> SensorY;
 
         public static ConfigEntry<bool> DamageArmor;
         public static ConfigEntry<float> MetalProcessingDuration;
@@ -38,7 +38,6 @@ namespace SunkenlandUtil
         public static ConfigEntry<float> HeadLightBatteryPowerConsumption;
         public static ConfigEntry<bool> SleepAnytime;
         public static ConfigEntry<bool> DestroyReturnAll;
-        //public static ConfigEntry<bool> NotDropItemWhenDie;
         public static ConfigEntry<float> BoatSpeedRate;
         public static ConfigEntry<int> CollectableByToolHitDropRate;
 
@@ -66,9 +65,10 @@ namespace SunkenlandUtil
 
             WorldSensor = config.Bind(Section, nameof(WorldSensor), defaultValue: false, "启用世界探测器");
             ScanOre = config.Bind(Section, nameof(ScanOre), defaultValue: true, "探测矿石");
-            ScanOreTypes = config.Bind(Section, nameof(ScanOreTypes), defaultValue: "", "探测矿石类型 Empty For All (MineCopper,MineIron,MineSulfur,MineAnatase,MineQuartz,Other)");
+            ScanOreTypes = config.Bind(Section, nameof(ScanOreTypes), defaultValue: "", "探测矿石类型 Empty For All (MineCopper,MineIron,MineSulfur,MineAnatase,MineQuartz,Clay,IronOreVeins,CopperOreVeins,Other)");
             SensorSpan = config.Bind(Section, nameof(SensorSpan), defaultValue: 30, "探测器间隔");
-            //ScanBluePrint = config.Bind(Section, nameof(ScanBluePrint), defaultValue: true, "探测蓝图");
+            SensorX = config.Bind(Section, nameof(SensorX), defaultValue: 150f, "Sensor UI Position X, Set negative for right side");
+            SensorY = config.Bind(Section, nameof(SensorY), defaultValue: -75f, "Sensor UI Position Y, Set negative for top side");
 
             DamageArmor = config.Bind(Section, nameof(DamageArmor), defaultValue: true, "护甲损坏 / Toggle  Damage Armor");
 
@@ -82,7 +82,6 @@ namespace SunkenlandUtil
             SleepAnytime = config.Bind(Section, nameof(SleepAnytime), defaultValue: false, "随时睡觉");
 
             DestroyReturnAll = config.Bind(Section, nameof(DestroyReturnAll), defaultValue: false, "拆除返还全部材料");
-            //NotDropItemWhenDie = config.Bind(Section, nameof(NotDropItemWhenDie), defaultValue: false, "死亡不掉落物品");
             BoatSpeedRate = config.Bind(Section, nameof(BoatSpeedRate), defaultValue: 1f, "船速 倍率 / Multiplier");
         }
     }

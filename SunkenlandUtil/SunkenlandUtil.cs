@@ -13,14 +13,16 @@ using UnityGameUI;
 
 namespace SunkenlandUtil
 {
-    [BepInPlugin("satroki.sunkenland.util", "Util Plugin", "0.2.0")]
+    [BepInPlugin("satroki.sunkenland.util", "Util Plugin", "0.3.1")]
     public class SunkenlandUtil : BaseUnityPlugin
     {
         private readonly Harmony _harmony = new Harmony("satroki.sunkenland.util");
         public static ManualLogSource _logger;
         private static bool worldSensor = false;
         private static bool scanOre;
-        //private static bool scanBluePrint;
+        private static float sensorX;
+        private static float sensorY;
+
         private static int sensorSpan;
         private static bool sleepAnytime;
         private static bool destroyReturnAll;
@@ -28,13 +30,11 @@ namespace SunkenlandUtil
         private static float boatSpeedRate;
         private static SensorUI worldObj;
         private static SensorUI worldOreObj;
-        //private static SensorUI worldBluePrintObj;
         private static int fcnt;
         private static GameObject uiPanel;
         private static ConfigFile config;
         private static Dictionary<int, int> stackBakDict;
         private static ChoppableType[] scanOreTypes;
-        //private static Dictionary<string, BlueprintContainer> blueprints = new Dictionary<string, BlueprintContainer>();
 
         private void Awake()
         {
@@ -75,7 +75,8 @@ namespace SunkenlandUtil
             LoadConfig.Init(config);
             worldSensor = LoadConfig.WorldSensor.Value;
             scanOre = LoadConfig.ScanOre.Value;
-            //scanBluePrint = LoadConfig.ScanBluePrint.Value;
+            sensorX = LoadConfig.SensorX.Value;
+            sensorY = LoadConfig.SensorY.Value;
             sensorSpan = LoadConfig.SensorSpan.Value;
             sleepAnytime = LoadConfig.SleepAnytime.Value;
             destroyReturnAll = LoadConfig.DestroyReturnAll.Value;
@@ -263,23 +264,6 @@ namespace SunkenlandUtil
             return instructions;
         }
 
-        //[HarmonyPatch(typeof(PlayerCharacter), "Die")]
-        //[HarmonyTranspiler]
-        //public static IEnumerable<CodeInstruction> PlayerCharacterDie(IEnumerable<CodeInstruction> instructions)
-        //{
-        //    if (LoadConfig.NotDropItemWhenDie.Value)
-        //    {
-        //        var codes = instructions.ToList();
-        //        var smi = AccessTools.Method(typeof(Storage), nameof(Storage.RemoveAndDestroyAllItems));
-        //        var si = codes.FindIndex(c => c.opcode == OpCodes.Ldloc_0);
-        //        var ei = codes.FindIndex(si, c => c.opcode == OpCodes.Callvirt && c.operand is MethodInfo mi && mi == smi);
-        //        codes[si].MoveLabelsTo(codes[ei + 1]);
-        //        codes.RemoveRange(si, ei - si + 1);
-        //        _logger.LogInfo($"Enable NotDropItemWhenDie");
-        //        return codes;
-        //    }
-        //    return instructions;
-        //}
         [HarmonyPatch(typeof(CollectableByToolHit), "Hit")]
         [HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> CollectableByToolHitHit(IEnumerable<CodeInstruction> instructions)
@@ -331,32 +315,19 @@ namespace SunkenlandUtil
                 }
                 worldObj.UpdateArrow();
                 worldOreObj.UpdateArrow();
-                //worldBluePrintObj.UpdateArrow();
             }
         }
-
-        //[HarmonyPatch(typeof(BlueprintContainer), "Start")]
-        //[HarmonyPostfix]
-        //public static void BlueprintContainer(ref BlueprintContainer __instance)
-        //{
-        //    var name = __instance.BlueprintItem.DisplayName;
-        //    var bp = __instance.Blueprint;
-        //    if (bp.UnlockItems?.Length > 0)
-        //        name = bp.UnlockItems[0].DisplayName;
-        //    if (bp.UnlockBuildings?.Length > 0)
-        //        name = bp.UnlockBuildings[0].DisplayName;
-        //    blueprints[name] = __instance;
-        //}
 
         private static void CreateUI()
         {
             GameObject canvas = UIControls.createUICanvas();
-            uiPanel = UIControls.createUIPanel(canvas, "150", "300", Screen.width - 150, Screen.height - 75, null);
+            var x = sensorX < 0 ? Screen.width + sensorX : sensorX;
+            var y = sensorY < 0 ? Screen.height + sensorY : sensorY;
+            uiPanel = UIControls.createUIPanel(canvas, "150", "300", x, y, null);
             uiPanel.GetComponent<Image>().color = UIControls.HTMLString2Color("#00000000");
 
             worldObj = new SensorUI(uiPanel, 0);
             worldOreObj = new SensorUI(uiPanel, -36);
-            //worldBluePrintObj = new SensorUI(uiPanel, -72);
         }
 
         public static void GetNearestObject(Vector3 position)
@@ -411,7 +382,8 @@ namespace SunkenlandUtil
                     y = -y;
                 }
 
-                worldObj.UpdateObjectAndText(nearestObj, $"{nearestDistanceSqr:0}  {y:0}{sy}  {GetObjName(nearestObj)}");
+                var hDist = Vector3.Distance(new Vector3(nearestObj.transform.position.x, 0f, nearestObj.transform.position.z), new Vector3(position.x, 0f, position.z));
+                worldObj.UpdateObjectAndText(nearestObj, $"{hDist:0}  {y:0}{sy}  {GetObjName(nearestObj)}");
             }
             else
             {
@@ -424,15 +396,18 @@ namespace SunkenlandUtil
                 CollectableByToolHit nearestOreObj = null;
                 foreach (var choppable in WorldScene.code.CollectableByToolHit)
                 {
-                    if (choppable && choppable.isActiveAndEnabled)
+                    if (choppable && choppable.GetComponent<CollectableByToolHit>())
                     {
-                        if (scanOreTypes != null && scanOreTypes.Length > 0 && Array.IndexOf(scanOreTypes, choppable.ChoppableType) < 0)
+                        var c = choppable.GetComponent<CollectableByToolHit>();
+                        if (!c.isActiveAndEnabled)
+                            continue;
+                        if (scanOreTypes != null && scanOreTypes.Length > 0 && Array.IndexOf(scanOreTypes, c.ChoppableType) < 0)
                             continue;
                         float num = Vector3.Distance(choppable.transform.position, position);
                         if (num < nearestOreDistanceSqr)
                         {
                             nearestOreDistanceSqr = num;
-                            nearestOreObj = choppable;
+                            nearestOreObj = c;
                         }
                     }
                 }
@@ -449,7 +424,8 @@ namespace SunkenlandUtil
                         y = -y;
                     }
                     var type = nearestOreObj.ChoppableType.ToString().Replace("Mine", "");
-                    worldOreObj.UpdateObjectAndText(nearestOreObj, $"{nearestOreDistanceSqr:0}  {y:0}{sy}  {type}");
+                    var hDist = Vector3.Distance(new Vector3(nearestOreObj.transform.position.x, 0f, nearestOreObj.transform.position.z), new Vector3(position.x, 0f, position.z));
+                    worldOreObj.UpdateObjectAndText(nearestOreObj, $"{hDist:0}  {y:0}{sy}  {type}");
                 }
                 else
                 {
