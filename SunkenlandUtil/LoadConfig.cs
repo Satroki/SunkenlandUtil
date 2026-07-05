@@ -11,6 +11,7 @@ namespace SunkenlandUtil
         public static ConfigEntry<float> MaxHealth;
         public static ConfigEntry<float> EnergyConsumptionRate;
         public static ConfigEntry<float> AirConsumtionRate;
+        public static ConfigEntry<float> AirTankRatio;
         public static ConfigEntry<float> StaminaRecoveryRate;
         public static ConfigEntry<float> HealthRecoveryRate;
         public static ConfigEntry<float> FoodConsumtionRate;
@@ -23,11 +24,14 @@ namespace SunkenlandUtil
         public static ConfigEntry<int> MaxItemsAmount;
 
         public static ConfigEntry<bool> WorldSensor;
+        public static ConfigEntry<string> SensorFilter;
+        public static ConfigEntry<string> SensorPriority;
         public static ConfigEntry<bool> ScanOre;
         public static ConfigEntry<string> ScanOreTypes;
         public static ConfigEntry<int> SensorSpan;
         public static ConfigEntry<float> SensorX;
         public static ConfigEntry<float> SensorY;
+        public static ConfigEntry<float> SensorScale;
 
         public static ConfigEntry<bool> DamageArmor;
         public static ConfigEntry<float> MetalProcessingDuration;
@@ -36,10 +40,12 @@ namespace SunkenlandUtil
         public static ConfigEntry<int> FirearmsRecoveryTime;
 
         public static ConfigEntry<float> HeadLightBatteryPowerConsumption;
+        public static ConfigEntry<float> NVDBatteryPowerConsumption;
         public static ConfigEntry<bool> SleepAnytime;
         public static ConfigEntry<bool> DestroyReturnAll;
         public static ConfigEntry<float> BoatSpeedRate;
         public static ConfigEntry<int> CollectableByToolHitDropRate;
+        public static ConfigEntry<int> EnemyDisplayCount;
 
         const string Section = "General";
         internal static void Init(ConfigFile config)
@@ -55,6 +61,7 @@ namespace SunkenlandUtil
             CollectableByToolHitDropRate = config.Bind(Section, nameof(CollectableByToolHitDropRate), defaultValue: 1, "工具采集掉落倍数 / Multiplier");
 
             AirConsumtionRate = config.Bind(Section, nameof(AirConsumtionRate), defaultValue: 1f, "空气消耗率 倍率 / Multiplier");
+            AirTankRatio = config.Bind(Section, nameof(AirTankRatio), defaultValue: 1f, "氧气罐效率 / Multiplier");
             EnergyConsumptionRate = config.Bind(Section, nameof(EnergyConsumptionRate), defaultValue: 1f, "能量消耗率 倍率 / Multiplier");
             StaminaRecoveryRate = config.Bind(Section, nameof(StaminaRecoveryRate), defaultValue: 1f, "体力恢复率 倍率 / Multiplier");
             HealthRecoveryRate = config.Bind(Section, nameof(HealthRecoveryRate), defaultValue: 1f, "HP恢复率 倍率 / Multiplier");
@@ -64,11 +71,14 @@ namespace SunkenlandUtil
             AdditionalWalkSpped = config.Bind(Section, nameof(AdditionalWalkSpped), defaultValue: 0f, "额外 行走速度 / Additional");
 
             WorldSensor = config.Bind(Section, nameof(WorldSensor), defaultValue: false, "启用世界探测器");
+            SensorFilter = config.Bind(Section, nameof(SensorFilter), defaultValue: "", "探测过滤 / Sensor Filter (Ignore objects with specified prefixes, e.g.:chair,table,cabinet)");
+            SensorPriority = config.Bind(Section, nameof(SensorPriority), defaultValue: "", "探测优先级 / Sensor Priority (Comma-separated list of object names)");
             ScanOre = config.Bind(Section, nameof(ScanOre), defaultValue: true, "探测矿石");
             ScanOreTypes = config.Bind(Section, nameof(ScanOreTypes), defaultValue: "", "探测矿石类型 Empty For All (MineCopper,MineIron,MineSulfur,MineAnatase,MineQuartz,Clay,IronOreVeins,CopperOreVeins,Other)");
             SensorSpan = config.Bind(Section, nameof(SensorSpan), defaultValue: 30, "探测器间隔");
             SensorX = config.Bind(Section, nameof(SensorX), defaultValue: 150f, "Sensor UI Position X, Set negative for right side");
             SensorY = config.Bind(Section, nameof(SensorY), defaultValue: -75f, "Sensor UI Position Y, Set negative for top side");
+            SensorScale = config.Bind(Section, nameof(SensorScale), defaultValue: 1f, "Sensor UI Scale");
 
             DamageArmor = config.Bind(Section, nameof(DamageArmor), defaultValue: true, "护甲损坏 / Toggle  Damage Armor");
 
@@ -78,11 +88,13 @@ namespace SunkenlandUtil
             FirearmsRecoveryTime = config.Bind(Section, nameof(FirearmsRecoveryTime), defaultValue: 0, "枪械回收速度/秒, 0 不变, 游戏默认 30");
 
             HeadLightBatteryPowerConsumption = config.Bind(Section, nameof(HeadLightBatteryPowerConsumption), defaultValue: 0f, "头灯电池消耗速度, 0 不变, 游戏默认 0.01");
+            NVDBatteryPowerConsumption = config.Bind(Section, nameof(NVDBatteryPowerConsumption), defaultValue: 0f, "夜视仪电池消耗速度, 0 不变, 游戏默认 0.01");
 
             SleepAnytime = config.Bind(Section, nameof(SleepAnytime), defaultValue: false, "随时睡觉");
 
             DestroyReturnAll = config.Bind(Section, nameof(DestroyReturnAll), defaultValue: false, "拆除返还全部材料");
             BoatSpeedRate = config.Bind(Section, nameof(BoatSpeedRate), defaultValue: 1f, "船速 倍率 / Multiplier");
+            EnemyDisplayCount = config.Bind(Section, nameof(EnemyDisplayCount), defaultValue: 5, "敌人标记显示阈值");
         }
     }
 }

@@ -1,0 +1,1032 @@
+	private void UpdateSwimming()
+	{
+		depth = GetViewerHeightAboveWater();
+		if (depth < -1.9f)
+		{
+			FPSRigidBodyWalker.code.characterController.height = 0.5f;
+			FPSRigidBodyWalker.code.characterController.center = new Vector3(0f, 0.7f, 0f);
+			FPSRigidBodyWalker.code.characterController.stepOffset = 0.01f;
+		}
+		else
+		{
+			FPSRigidBodyWalker.code.ChangeCharacterControllerState();
+			FPSRigidBodyWalker.code.characterController.stepOffset = 0.7f;
+			FPSRigidBodyWalker.code.characterController.center = new Vector3(0f, 0.2f, 0f);
+		}
+		if (depth < inWaterDepth || (bool)CurAquarium)
+		{
+			if (!FPSRigidBodyWalker.code.isInWater)
+			{
+				FPSRigidBodyWalker.code.isInWater = true;
+				FPSRigidBodyWalker.code.ResetParent();
+				if (!FPSPlayer.code.FPSWalkerComponent.isGrounded && drivingObject == null && seatObject == null)
+				{
+					RM.code.PlayOneShot(sndEnterWater, UnityEngine.Random.Range(0.9f, 1.1f));
+				}
+			}
+		}
+		else
+		{
+			FPSRigidBodyWalker.code.isInWater = false;
+			FPSRigidBodyWalker.code.isFloating = false;
+		}
+		if (MathF.Abs(depth) - MathF.Abs(ArrivedDepth) >= 10f)
+		{
+			ArrivedDepth = depth;
+			Global.code.EventChannelManager.DiveDepthEventChannel.Raise(depth);
+		}
+		if (depth < -60f && depth > -80f)
+		{
+			if (depthAirConsumptionRatio != 1.2f)
+			{
+				depthAirConsumptionRatio = 1.2f;
+			}
+		}
+		else if (depth < -80f)
+		{
+			if (depthAirConsumptionRatio != 1.4f)
+			{
+				depthAirConsumptionRatio = 1.4f;
+			}
+		}
+		else
+		{
+			depthAirConsumptionRatio = 1f;
+		}
+		if (depth < -0.1f || (bool)CurAquarium)
+		{
+			if (!FPSRigidBodyWalker.code.isFloating)
+			{
+				FPSRigidBodyWalker.code.isUnderWater = true;
+				EnviroManager.instance.PlayerUnderWater = true;
+				underwaterSnapshot.TransitionTo(0.2f);
+				if (InputManager.Instance.InteractSecondaryPressed && (bool)rebreather && rebreather.Condition > 0f && !breathing)
+				{
+					breathing = true;
+				}
+				if (breathing)
+				{
+					rebreatherTimer += Time.deltaTime;
+					if (rebreatherTimer >= 0f && rebreatherTimer < 0.4f)
+					{
+						rebreather.Condition -= Global.code.ConstantData.AirTankConsumingOnce / 0.4f * Time.deltaTime;
+						if (rebreather.Condition <= 0f)
+						{
+							rebreather.Condition = 0f;
+						}
+						if (BreatheState != 1)
+						{
+							BreatheState = 1;
+							FPSPlayer.code.ToggleBreathAudio(state: true);
+						}
+					}
+					else if (rebreatherTimer > 0.4f && rebreatherTimer < 1f)
+					{
+						float num = Mathf.Floor(rebreather.Condition / Global.code.ConstantData.AirTankConsumingOnce);
+						rebreather.Condition = num * Global.code.ConstantData.AirTankConsumingOnce;
+						if (rebreather.Condition <= 0f)
+						{
+							rebreather.Condition = 0f;
+						}
+						Air += Global.code.ConstantData.AirTankConsumingOnce / 0.7f * Time.deltaTime * Global.code.ConstantData.AirTankRatio;
+						if (BreatheState != 2)
+						{
+							FPSPlayer.code.ToggleBreathAudio(state: false);
+							BreatheState = 2;
+						}
+					}
+					else
+					{
+						BreatheState = 0;
+						rebreatherTimer = 0f;
+						FPSPlayer.code.ShowBreathBubble(showBubble: false);
+						breathing = false;
+					}
+					if (Air >= MaxAir)
+					{
+						Air = MaxAir;
+					}
+				}
+				else
+				{
+					rebreatherTimer = 0f;
+					BreatheState = 0;
+					FPSPlayer.code.ShowBreathBubble(showBubble: false);
+				}
+				float num2 = 1f;
+				if ((bool)rebreather && rebreather.ItemID == RM.code.RecyclableAirTank.ItemID)
+				{
+					num2 = 0.25f;
+				}
+				Air -= Time.deltaTime * AirConsumtionRate * depthAirConsumptionRatio * num2;
+				if (Air <= MaxAir * 0.1f && (bool)rebreather && rebreather.Condition > 0f && !breathing && autoBreath)
+				{
+					breathing = true;
+				}
+				audioSourceUnderwater.volume = Mathf.Lerp(audioSourceUnderwater.volume, 1f, Time.deltaTime);
+				DistinguishTorch();
+			}
+		}
+		else
+		{
+			if (FPSRigidBodyWalker.code.isUnderWater && !RM.code.aud.isPlaying && drivingObject == null && seatObject == null)
+			{
+				RM.code.PlayOneShot(sndExitWater, UnityEngine.Random.Range(0.9f, 1.1f));
+			}
+			FPSRigidBodyWalker.code.isUnderWater = false;
+			EnviroManager.instance.PlayerUnderWater = false;
+			onLandSnapshot.TransitionTo(0.2f);
+			Air += Time.deltaTime * AirConsumtionRate * 10.4f;
+			Air = Mathf.Clamp(Air, 0f, MaxAir);
+			audioSourceUnderwater.volume = Mathf.Lerp(audioSourceUnderwater.volume, 0f, Time.deltaTime);
+		}
+		if (depth < 0.4f || (bool)CurAquarium)
+		{
+			MainCamera.nearClipPlane = 0.08f;
+			if (!FPSRigidBodyWalker.code.isSwimming)
+			{
+				FPSRigidBodyWalker.code.isSwimming = true;
+			}
+			Wet = 30f;
+		}
+		else
+		{
+			RPGCamera.code.cam.nearClipPlane = 0.02f;
+			if (FPSRigidBodyWalker.code.isSwimming)
+			{
+				FPSRigidBodyWalker.code.isSwimming = false;
+			}
+			Wet = Mathf.Lerp(Wet, 0f, Time.deltaTime * 0.1f);
+		}
+		if (HasNoAir())
+		{
+			Air = 0f;
+			AddHealth((0f - Time.deltaTime) * 3.5f, 3, Vector3.zero, canBleed: false, showBiteFx: false, IsMeleeWeapon: false, ignoreArmor: false, isGrenade: false, PlayerDeathType.OutOfOxygen);
+			if (UnityEngine.Random.Range(0, 100) < 1 && !RM.code.aud.isPlaying)
+			{
+				RM.code.PlayOneShot(sndDrowning[IsFemale ? 1 : 0], UnityEngine.Random.Range(0.9f, 1.1f));
+			}
+			drowningEffect.weight = Mathf.Lerp(drowningEffect.weight, 1f, Time.deltaTime * 0.15f);
+		}
+		else
+		{
+			drowningEffect.weight = Mathf.Lerp(drowningEffect.weight, 0f, Time.deltaTime * 0.7f);
+		}
+		if (!weaponInHand || !weaponInHand.TryGetComponent<WaterContainer>(out var component))
+		{
+			return;
+		}
+		if (FPSRigidBodyWalker.code.isInWater)
+		{
+			if (component._item.Condition < component._item.MaxCondition && !FocusedInteraction)
+			{
+				Global.code.uiCombat.ShowHintWithKeycodePenal(InputManager.Instance.InteractKeyAction.keyCode, MyBuildController.FillSeaWater.GetLocalizedString());
+				if (InputManager.Instance.InteractPressed)
+				{
+					component._item.Condition = component._item.MaxCondition;
+					RM.code.PlayOneShot(sndFillSeawaterBucket, UnityEngine.Random.Range(0.9f, 1.1f));
+					Global.code.uiCombat.RefreshQuickSlot();
+					Global.code.uiCombat.HideHint();
+					PlayerWeapons.code.CurrentWeaponBehaviorComponent.ReFreshWaterBucketState();
+				}
+			}
+			else
+			{
+				Global.code.uiCombat.HideHintWithKeycodePenal();
+			}
+		}
+		else
+		{
+			Global.code.uiCombat.HideHintWithKeycodePenal();
+		}
+	}
+
+
+
+.method private hidebysig 
+	instance void UpdateSwimming () cil managed 
+{
+	// Method begins at RVA 0x38d88
+	// Header size: 12
+	// Code size: 2193 (0x891)
+	.maxstack 10
+	.locals init (
+		[0] class WaterContainer,
+		[1] float32,
+		[2] float32
+	)
+
+	// depth = GetViewerHeightAboveWater();
+	IL_0000: ldarg.0
+	IL_0001: ldarg.0
+	IL_0002: call instance float32 PlayerCharacter::GetViewerHeightAboveWater()
+	IL_0007: stfld float32 PlayerCharacter::depth
+	// if (depth < -1.9f)
+	IL_000c: ldarg.0
+	IL_000d: ldfld float32 PlayerCharacter::depth
+	IL_0012: ldc.r4 -1.9
+	IL_0017: bge.un.s IL_0066
+
+	// FPSRigidBodyWalker.code.characterController.height = 0.5f;
+	IL_0019: ldsfld class FPSRigidBodyWalker FPSRigidBodyWalker::code
+	IL_001e: ldfld class [UnityEngine.PhysicsModule]UnityEngine.CharacterController FPSRigidBodyWalker::characterController
+	IL_0023: ldc.r4 0.5
+	IL_0028: callvirt instance void [UnityEngine.PhysicsModule]UnityEngine.CharacterController::set_height(float32)
+	// FPSRigidBodyWalker.code.characterController.center = new Vector3(0f, 0.7f, 0f);
+	IL_002d: ldsfld class FPSRigidBodyWalker FPSRigidBodyWalker::code
+	IL_0032: ldfld class [UnityEngine.PhysicsModule]UnityEngine.CharacterController FPSRigidBodyWalker::characterController
+	IL_0037: ldc.r4 0.0
+	IL_003c: ldc.r4 0.7
+	IL_0041: ldc.r4 0.0
+	IL_0046: newobj instance void [UnityEngine.CoreModule]UnityEngine.Vector3::.ctor(float32, float32, float32)
+	IL_004b: callvirt instance void [UnityEngine.PhysicsModule]UnityEngine.CharacterController::set_center(valuetype [UnityEngine.CoreModule]UnityEngine.Vector3)
+	// FPSRigidBodyWalker.code.characterController.stepOffset = 0.01f;
+	IL_0050: ldsfld class FPSRigidBodyWalker FPSRigidBodyWalker::code
+	IL_0055: ldfld class [UnityEngine.PhysicsModule]UnityEngine.CharacterController FPSRigidBodyWalker::characterController
+	IL_005a: ldc.r4 0.01
+	IL_005f: callvirt instance void [UnityEngine.PhysicsModule]UnityEngine.CharacterController::set_stepOffset(float32)
+	// FPSRigidBodyWalker.code.ChangeCharacterControllerState();
+	IL_0064: br.s IL_00a7
+
+	IL_0066: ldsfld class FPSRigidBodyWalker FPSRigidBodyWalker::code
+	IL_006b: callvirt instance void FPSRigidBodyWalker::ChangeCharacterControllerState()
+	// FPSRigidBodyWalker.code.characterController.stepOffset = 0.7f;
+	IL_0070: ldsfld class FPSRigidBodyWalker FPSRigidBodyWalker::code
+	IL_0075: ldfld class [UnityEngine.PhysicsModule]UnityEngine.CharacterController FPSRigidBodyWalker::characterController
+	IL_007a: ldc.r4 0.7
+	IL_007f: callvirt instance void [UnityEngine.PhysicsModule]UnityEngine.CharacterController::set_stepOffset(float32)
+	// FPSRigidBodyWalker.code.characterController.center = new Vector3(0f, 0.2f, 0f);
+	IL_0084: ldsfld class FPSRigidBodyWalker FPSRigidBodyWalker::code
+	IL_0089: ldfld class [UnityEngine.PhysicsModule]UnityEngine.CharacterController FPSRigidBodyWalker::characterController
+	IL_008e: ldc.r4 0.0
+	IL_0093: ldc.r4 0.2
+	IL_0098: ldc.r4 0.0
+	IL_009d: newobj instance void [UnityEngine.CoreModule]UnityEngine.Vector3::.ctor(float32, float32, float32)
+	IL_00a2: callvirt instance void [UnityEngine.PhysicsModule]UnityEngine.CharacterController::set_center(valuetype [UnityEngine.CoreModule]UnityEngine.Vector3)
+
+	// if (depth < inWaterDepth || (bool)CurAquarium)
+	IL_00a7: ldarg.0
+	IL_00a8: ldfld float32 PlayerCharacter::depth
+	IL_00ad: ldarg.0
+	IL_00ae: ldfld float32 PlayerCharacter::inWaterDepth
+	IL_00b3: blt.s IL_00c2
+
+	IL_00b5: ldarg.0
+	IL_00b6: ldfld class Aquarium PlayerCharacter::CurAquarium
+	IL_00bb: call bool [UnityEngine.CoreModule]UnityEngine.Object::op_Implicit(class [UnityEngine.CoreModule]UnityEngine.Object)
+	IL_00c0: brfalse.s IL_0131
+
+	// if (!FPSRigidBodyWalker.code.isInWater)
+	IL_00c2: ldsfld class FPSRigidBodyWalker FPSRigidBodyWalker::code
+	IL_00c7: ldfld bool FPSRigidBodyWalker::isInWater
+	IL_00cc: brtrue.s IL_0147
+
+	// FPSRigidBodyWalker.code.isInWater = true;
+	IL_00ce: ldsfld class FPSRigidBodyWalker FPSRigidBodyWalker::code
+	IL_00d3: ldc.i4.1
+	IL_00d4: stfld bool FPSRigidBodyWalker::isInWater
+	// FPSRigidBodyWalker.code.ResetParent();
+	IL_00d9: ldsfld class FPSRigidBodyWalker FPSRigidBodyWalker::code
+	IL_00de: callvirt instance void FPSRigidBodyWalker::ResetParent()
+	// if (!FPSPlayer.code.FPSWalkerComponent.isGrounded && drivingObject == null && seatObject == null)
+	IL_00e3: ldsfld class FPSPlayer FPSPlayer::code
+	IL_00e8: ldfld class FPSRigidBodyWalker FPSPlayer::FPSWalkerComponent
+	IL_00ed: ldfld bool FPSRigidBodyWalker::isGrounded
+	IL_00f2: brtrue.s IL_0147
+
+	IL_00f4: ldarg.0
+	IL_00f5: ldfld class Boat PlayerCharacter::drivingObject
+	IL_00fa: ldnull
+	IL_00fb: call bool [UnityEngine.CoreModule]UnityEngine.Object::op_Equality(class [UnityEngine.CoreModule]UnityEngine.Object, class [UnityEngine.CoreModule]UnityEngine.Object)
+	IL_0100: brfalse.s IL_0147
+
+	// RM.code.PlayOneShot(sndEnterWater, UnityEngine.Random.Range(0.9f, 1.1f));
+	IL_0102: ldarg.0
+	IL_0103: ldfld class BoatSeat PlayerCharacter::seatObject
+	IL_0108: ldnull
+	IL_0109: call bool [UnityEngine.CoreModule]UnityEngine.Object::op_Equality(class [UnityEngine.CoreModule]UnityEngine.Object, class [UnityEngine.CoreModule]UnityEngine.Object)
+	IL_010e: brfalse.s IL_0147
+
+	IL_0110: ldsfld class RM RM::code
+	IL_0115: ldarg.0
+	IL_0116: ldfld class [UnityEngine.AudioModule]UnityEngine.AudioClip PlayerCharacter::sndEnterWater
+	IL_011b: ldc.r4 0.9
+	IL_0120: ldc.r4 1.1
+	IL_0125: call float32 [UnityEngine.CoreModule]UnityEngine.Random::Range(float32, float32)
+	IL_012a: callvirt instance void RM::PlayOneShot(class [UnityEngine.AudioModule]UnityEngine.AudioClip, float32)
+	// FPSRigidBodyWalker.code.isInWater = false;
+	IL_012f: br.s IL_0147
+
+	IL_0131: ldsfld class FPSRigidBodyWalker FPSRigidBodyWalker::code
+	IL_0136: ldc.i4.0
+	IL_0137: stfld bool FPSRigidBodyWalker::isInWater
+	// FPSRigidBodyWalker.code.isFloating = false;
+	IL_013c: ldsfld class FPSRigidBodyWalker FPSRigidBodyWalker::code
+	IL_0141: ldc.i4.0
+	IL_0142: stfld bool FPSRigidBodyWalker::isFloating
+
+	// if (MathF.Abs(depth) - MathF.Abs(ArrivedDepth) >= 10f)
+	IL_0147: ldarg.0
+	IL_0148: ldfld float32 PlayerCharacter::depth
+	IL_014d: call float32 [netstandard]System.MathF::Abs(float32)
+	IL_0152: ldarg.0
+	IL_0153: ldfld float32 PlayerCharacter::ArrivedDepth
+	IL_0158: call float32 [netstandard]System.MathF::Abs(float32)
+	IL_015d: sub
+	IL_015e: ldc.r4 10
+	IL_0163: blt.un.s IL_018c
+
+	// ArrivedDepth = depth;
+	IL_0165: ldarg.0
+	IL_0166: ldarg.0
+	IL_0167: ldfld float32 PlayerCharacter::depth
+	IL_016c: stfld float32 PlayerCharacter::ArrivedDepth
+	// Global.code.EventChannelManager.DiveDepthEventChannel.Raise(depth);
+	IL_0171: ldsfld class Global Global::code
+	IL_0176: callvirt instance class EventChannelManager Global::get_EventChannelManager()
+	IL_017b: callvirt instance class DiveDepthEventChannel EventChannelManager::get_DiveDepthEventChannel()
+	IL_0180: ldarg.0
+	IL_0181: ldfld float32 PlayerCharacter::depth
+	IL_0186: ldc.i4.0
+	IL_0187: callvirt instance void DiveDepthEventChannel::Raise(float32, bool)
+
+	// if (depth < -60f && depth > -80f)
+	IL_018c: ldarg.0
+	IL_018d: ldfld float32 PlayerCharacter::depth
+	IL_0192: ldc.r4 -60
+	IL_0197: bge.un.s IL_01c0
+
+	IL_0199: ldarg.0
+	IL_019a: ldfld float32 PlayerCharacter::depth
+	IL_019f: ldc.r4 -80
+	IL_01a4: ble.un.s IL_01c0
+
+	// if (depthAirConsumptionRatio != 1.2f)
+	IL_01a6: ldarg.0
+	IL_01a7: ldfld float32 PlayerCharacter::depthAirConsumptionRatio
+	IL_01ac: ldc.r4 1.2
+	IL_01b1: beq.s IL_01f2
+
+	// depthAirConsumptionRatio = 1.2f;
+	IL_01b3: ldarg.0
+	IL_01b4: ldc.r4 1.2
+	IL_01b9: stfld float32 PlayerCharacter::depthAirConsumptionRatio
+	// else if (depth < -80f)
+	IL_01be: br.s IL_01f2
+
+	IL_01c0: ldarg.0
+	IL_01c1: ldfld float32 PlayerCharacter::depth
+	IL_01c6: ldc.r4 -80
+	IL_01cb: bge.un.s IL_01e7
+
+	// if (depthAirConsumptionRatio != 1.4f)
+	IL_01cd: ldarg.0
+	IL_01ce: ldfld float32 PlayerCharacter::depthAirConsumptionRatio
+	IL_01d3: ldc.r4 1.4
+	IL_01d8: beq.s IL_01f2
+
+	// depthAirConsumptionRatio = 1.4f;
+	IL_01da: ldarg.0
+	IL_01db: ldc.r4 1.4
+	IL_01e0: stfld float32 PlayerCharacter::depthAirConsumptionRatio
+	// depthAirConsumptionRatio = 1f;
+	IL_01e5: br.s IL_01f2
+
+	IL_01e7: ldarg.0
+	IL_01e8: ldc.r4 1
+	IL_01ed: stfld float32 PlayerCharacter::depthAirConsumptionRatio
+
+	// if (depth < -0.1f || (bool)CurAquarium)
+	IL_01f2: ldarg.0
+	IL_01f3: ldfld float32 PlayerCharacter::depth
+	IL_01f8: ldc.r4 -0.1
+	IL_01fd: blt.s IL_020f
+
+	IL_01ff: ldarg.0
+	IL_0200: ldfld class Aquarium PlayerCharacter::CurAquarium
+	IL_0205: call bool [UnityEngine.CoreModule]UnityEngine.Object::op_Implicit(class [UnityEngine.CoreModule]UnityEngine.Object)
+	IL_020a: brfalse IL_0529
+
+	// if (!FPSRigidBodyWalker.code.isFloating)
+	IL_020f: ldsfld class FPSRigidBodyWalker FPSRigidBodyWalker::code
+	IL_0214: ldfld bool FPSRigidBodyWalker::isFloating
+	IL_0219: brtrue IL_0607
+
+	// FPSRigidBodyWalker.code.isUnderWater = true;
+	IL_021e: ldsfld class FPSRigidBodyWalker FPSRigidBodyWalker::code
+	IL_0223: ldc.i4.1
+	IL_0224: stfld bool FPSRigidBodyWalker::isUnderWater
+	// EnviroManager.instance.PlayerUnderWater = true;
+	IL_0229: call class [Enviro3.Runtime]Enviro.EnviroManager [Enviro3.Runtime]Enviro.EnviroManager::get_instance()
+	IL_022e: ldc.i4.1
+	IL_022f: stfld bool [Enviro3.Runtime]Enviro.EnviroManager::PlayerUnderWater
+	// underwaterSnapshot.TransitionTo(0.2f);
+	IL_0234: ldarg.0
+	IL_0235: ldfld class [UnityEngine.AudioModule]UnityEngine.Audio.AudioMixerSnapshot PlayerCharacter::underwaterSnapshot
+	IL_023a: ldc.r4 0.2
+	IL_023f: callvirt instance void [UnityEngine.AudioModule]UnityEngine.Audio.AudioMixerSnapshot::TransitionTo(float32)
+	// if (InputManager.Instance.InteractSecondaryPressed && (bool)rebreather && rebreather.Condition > 0f && !breathing)
+	IL_0244: ldsfld class InputManager InputManager::Instance
+	IL_0249: callvirt instance bool InputManager::get_InteractSecondaryPressed()
+	IL_024e: brfalse.s IL_027e
+
+	IL_0250: ldarg.0
+	IL_0251: ldfld class Item PlayerCharacter::rebreather
+	IL_0256: call bool [UnityEngine.CoreModule]UnityEngine.Object::op_Implicit(class [UnityEngine.CoreModule]UnityEngine.Object)
+	IL_025b: brfalse.s IL_027e
+
+	// (no C# code)
+	IL_025d: ldarg.0
+	IL_025e: ldfld class Item PlayerCharacter::rebreather
+	IL_0263: callvirt instance float32 Item::get_Condition()
+	IL_0268: ldc.r4 0.0
+	IL_026d: ble.un.s IL_027e
+
+	// breathing = true;
+	IL_026f: ldarg.0
+	IL_0270: ldfld bool PlayerCharacter::breathing
+	IL_0275: brtrue.s IL_027e
+
+	IL_0277: ldarg.0
+	IL_0278: ldc.i4.1
+	IL_0279: stfld bool PlayerCharacter::breathing
+
+	// if (breathing)
+	IL_027e: ldarg.0
+	IL_027f: ldfld bool PlayerCharacter::breathing
+	IL_0284: brfalse IL_043b
+
+	// rebreatherTimer += Time.deltaTime;
+	IL_0289: ldarg.0
+	IL_028a: ldarg.0
+	IL_028b: ldfld float32 PlayerCharacter::rebreatherTimer
+	IL_0290: call float32 [UnityEngine.CoreModule]UnityEngine.Time::get_deltaTime()
+	IL_0295: add
+	IL_0296: stfld float32 PlayerCharacter::rebreatherTimer
+	// if (rebreatherTimer >= 0f && rebreatherTimer < 0.4f)
+	IL_029b: ldarg.0
+	IL_029c: ldfld float32 PlayerCharacter::rebreatherTimer
+	IL_02a1: ldc.r4 0.0
+	IL_02a6: blt.un.s IL_0327
+
+	IL_02a8: ldarg.0
+	IL_02a9: ldfld float32 PlayerCharacter::rebreatherTimer
+	IL_02ae: ldc.r4 0.4
+	IL_02b3: bge.un.s IL_0327
+
+	// rebreather.Condition -= Global.code.ConstantData.AirTankConsumingOnce / 0.4f * Time.deltaTime;
+	IL_02b5: ldarg.0
+	IL_02b6: ldfld class Item PlayerCharacter::rebreather
+	IL_02bb: dup
+	IL_02bc: callvirt instance float32 Item::get_Condition()
+	IL_02c1: ldsfld class Global Global::code
+	IL_02c6: ldfld class ConstantData Global::ConstantData
+	IL_02cb: ldfld float32 ConstantData::AirTankConsumingOnce
+	IL_02d0: ldc.r4 0.4
+	IL_02d5: div
+	IL_02d6: call float32 [UnityEngine.CoreModule]UnityEngine.Time::get_deltaTime()
+	IL_02db: mul
+	IL_02dc: sub
+	// if (rebreather.Condition <= 0f)
+	IL_02dd: callvirt instance void Item::set_Condition(float32)
+	IL_02e2: ldarg.0
+	IL_02e3: ldfld class Item PlayerCharacter::rebreather
+	IL_02e8: callvirt instance float32 Item::get_Condition()
+	IL_02ed: ldc.r4 0.0
+	IL_02f2: bgt.un.s IL_0304
+
+	// rebreather.Condition = 0f;
+	IL_02f4: ldarg.0
+	IL_02f5: ldfld class Item PlayerCharacter::rebreather
+	IL_02fa: ldc.r4 0.0
+	IL_02ff: callvirt instance void Item::set_Condition(float32)
+
+	// if (BreatheState != 1)
+	IL_0304: ldarg.0
+	IL_0305: ldfld int32 PlayerCharacter::BreatheState
+	IL_030a: ldc.i4.1
+	IL_030b: beq IL_041f
+
+	// BreatheState = 1;
+	IL_0310: ldarg.0
+	IL_0311: ldc.i4.1
+	IL_0312: stfld int32 PlayerCharacter::BreatheState
+	// FPSPlayer.code.ToggleBreathAudio(state: true);
+	IL_0317: ldsfld class FPSPlayer FPSPlayer::code
+	IL_031c: ldc.i4.1
+	IL_031d: callvirt instance void FPSPlayer::ToggleBreathAudio(bool)
+	// else if (rebreatherTimer > 0.4f && rebreatherTimer < 1f)
+	IL_0322: br IL_041f
+
+	IL_0327: ldarg.0
+	IL_0328: ldfld float32 PlayerCharacter::rebreatherTimer
+	IL_032d: ldc.r4 0.4
+	IL_0332: ble.un IL_03fb
+
+	IL_0337: ldarg.0
+	IL_0338: ldfld float32 PlayerCharacter::rebreatherTimer
+	IL_033d: ldc.r4 1
+	IL_0342: bge.un IL_03fb
+
+	// float num = Mathf.Floor(rebreather.Condition / Global.code.ConstantData.AirTankConsumingOnce);
+	IL_0347: ldarg.0
+	IL_0348: ldfld class Item PlayerCharacter::rebreather
+	IL_034d: callvirt instance float32 Item::get_Condition()
+	IL_0352: ldsfld class Global Global::code
+	IL_0357: ldfld class ConstantData Global::ConstantData
+	IL_035c: ldfld float32 ConstantData::AirTankConsumingOnce
+	IL_0361: div
+	IL_0362: call float32 [UnityEngine.CoreModule]UnityEngine.Mathf::Floor(float32)
+	IL_0367: stloc.2
+	// rebreather.Condition = num * Global.code.ConstantData.AirTankConsumingOnce;
+	IL_0368: ldarg.0
+	IL_0369: ldfld class Item PlayerCharacter::rebreather
+	IL_036e: ldloc.2
+	IL_036f: ldsfld class Global Global::code
+	IL_0374: ldfld class ConstantData Global::ConstantData
+	IL_0379: ldfld float32 ConstantData::AirTankConsumingOnce
+	IL_037e: mul
+	IL_037f: callvirt instance void Item::set_Condition(float32)
+	// if (rebreather.Condition <= 0f)
+	IL_0384: ldarg.0
+	IL_0385: ldfld class Item PlayerCharacter::rebreather
+	IL_038a: callvirt instance float32 Item::get_Condition()
+	IL_038f: ldc.r4 0.0
+	IL_0394: bgt.un.s IL_03a6
+
+	// rebreather.Condition = 0f;
+	IL_0396: ldarg.0
+	IL_0397: ldfld class Item PlayerCharacter::rebreather
+	IL_039c: ldc.r4 0.0
+	IL_03a1: callvirt instance void Item::set_Condition(float32)
+
+	// Air += Global.code.ConstantData.AirTankConsumingOnce / 0.7f * Time.deltaTime * Global.code.ConstantData.AirTankRatio;
+	IL_03a6: ldarg.0
+	IL_03a7: ldarg.0
+	IL_03a8: call instance float32 PlayerCharacter::get_Air()
+	IL_03ad: ldsfld class Global Global::code
+	IL_03b2: ldfld class ConstantData Global::ConstantData
+	IL_03b7: ldfld float32 ConstantData::AirTankConsumingOnce
+	IL_03bc: ldc.r4 0.7
+	IL_03c1: div
+	IL_03c2: call float32 [UnityEngine.CoreModule]UnityEngine.Time::get_deltaTime()
+	IL_03c7: mul
+	IL_03c8: ldsfld class Global Global::code
+	IL_03cd: ldfld class ConstantData Global::ConstantData
+	IL_03d2: ldfld float32 ConstantData::AirTankRatio
+	IL_03d7: mul
+	IL_03d8: add
+	// if (BreatheState != 2)
+	IL_03d9: call instance void PlayerCharacter::set_Air(float32)
+	IL_03de: ldarg.0
+	IL_03df: ldfld int32 PlayerCharacter::BreatheState
+	IL_03e4: ldc.i4.2
+	IL_03e5: beq.s IL_041f
+
+	// FPSPlayer.code.ToggleBreathAudio(state: false);
+	IL_03e7: ldsfld class FPSPlayer FPSPlayer::code
+	IL_03ec: ldc.i4.0
+	IL_03ed: callvirt instance void FPSPlayer::ToggleBreathAudio(bool)
+	// BreatheState = 2;
+	IL_03f2: ldarg.0
+	IL_03f3: ldc.i4.2
+	IL_03f4: stfld int32 PlayerCharacter::BreatheState
+	// BreatheState = 0;
+	IL_03f9: br.s IL_041f
+
+	IL_03fb: ldarg.0
+	IL_03fc: ldc.i4.0
+	IL_03fd: stfld int32 PlayerCharacter::BreatheState
+	// rebreatherTimer = 0f;
+	IL_0402: ldarg.0
+	IL_0403: ldc.r4 0.0
+	IL_0408: stfld float32 PlayerCharacter::rebreatherTimer
+	// FPSPlayer.code.ShowBreathBubble(showBubble: false);
+	IL_040d: ldsfld class FPSPlayer FPSPlayer::code
+	IL_0412: ldc.i4.0
+	IL_0413: callvirt instance void FPSPlayer::ShowBreathBubble(bool)
+	// breathing = false;
+	IL_0418: ldarg.0
+	IL_0419: ldc.i4.0
+	IL_041a: stfld bool PlayerCharacter::breathing
+
+	// if (Air >= MaxAir)
+	IL_041f: ldarg.0
+	IL_0420: call instance float32 PlayerCharacter::get_Air()
+	IL_0425: ldarg.0
+	IL_0426: call instance float32 PlayerCharacter::get_MaxAir()
+	IL_042b: blt.un.s IL_0458
+
+	// Air = MaxAir;
+	IL_042d: ldarg.0
+	IL_042e: ldarg.0
+	IL_042f: call instance float32 PlayerCharacter::get_MaxAir()
+	IL_0434: call instance void PlayerCharacter::set_Air(float32)
+	// rebreatherTimer = 0f;
+	IL_0439: br.s IL_0458
+
+	IL_043b: ldarg.0
+	IL_043c: ldc.r4 0.0
+	IL_0441: stfld float32 PlayerCharacter::rebreatherTimer
+	// BreatheState = 0;
+	IL_0446: ldarg.0
+	IL_0447: ldc.i4.0
+	IL_0448: stfld int32 PlayerCharacter::BreatheState
+	// FPSPlayer.code.ShowBreathBubble(showBubble: false);
+	IL_044d: ldsfld class FPSPlayer FPSPlayer::code
+	IL_0452: ldc.i4.0
+	IL_0453: callvirt instance void FPSPlayer::ShowBreathBubble(bool)
+
+	// float num2 = 1f;
+	IL_0458: ldc.r4 1
+	IL_045d: stloc.1
+	// if ((bool)rebreather && rebreather.ItemID == RM.code.RecyclableAirTank.ItemID)
+	IL_045e: ldarg.0
+	IL_045f: ldfld class Item PlayerCharacter::rebreather
+	IL_0464: call bool [UnityEngine.CoreModule]UnityEngine.Object::op_Implicit(class [UnityEngine.CoreModule]UnityEngine.Object)
+	IL_0469: brfalse.s IL_048d
+
+	IL_046b: ldarg.0
+	IL_046c: ldfld class Item PlayerCharacter::rebreather
+	IL_0471: ldfld int32 Item::ItemID
+	IL_0476: ldsfld class RM RM::code
+	IL_047b: ldfld class Item RM::RecyclableAirTank
+	IL_0480: ldfld int32 Item::ItemID
+	IL_0485: bne.un.s IL_048d
+
+	// num2 = 0.25f;
+	IL_0487: ldc.r4 0.25
+	IL_048c: stloc.1
+
+	// Air -= Time.deltaTime * AirConsumtionRate * depthAirConsumptionRatio * num2;
+	IL_048d: ldarg.0
+	IL_048e: ldarg.0
+	IL_048f: call instance float32 PlayerCharacter::get_Air()
+	IL_0494: call float32 [UnityEngine.CoreModule]UnityEngine.Time::get_deltaTime()
+	IL_0499: ldarg.0
+	IL_049a: call instance float32 PlayerCharacter::get_AirConsumtionRate()
+	IL_049f: mul
+	IL_04a0: ldarg.0
+	IL_04a1: ldfld float32 PlayerCharacter::depthAirConsumptionRatio
+	IL_04a6: mul
+	IL_04a7: ldloc.1
+	IL_04a8: mul
+	IL_04a9: sub
+	// if (Air <= MaxAir * 0.1f && (bool)rebreather && rebreather.Condition > 0f && !breathing && autoBreath)
+	IL_04aa: call instance void PlayerCharacter::set_Air(float32)
+	IL_04af: ldarg.0
+	IL_04b0: call instance float32 PlayerCharacter::get_Air()
+	IL_04b5: ldarg.0
+	IL_04b6: call instance float32 PlayerCharacter::get_MaxAir()
+	IL_04bb: ldc.r4 0.1
+	IL_04c0: mul
+	IL_04c1: bgt.un.s IL_04f9
+
+	IL_04c3: ldarg.0
+	IL_04c4: ldfld class Item PlayerCharacter::rebreather
+	IL_04c9: call bool [UnityEngine.CoreModule]UnityEngine.Object::op_Implicit(class [UnityEngine.CoreModule]UnityEngine.Object)
+	IL_04ce: brfalse.s IL_04f9
+
+	// (no C# code)
+	IL_04d0: ldarg.0
+	IL_04d1: ldfld class Item PlayerCharacter::rebreather
+	IL_04d6: callvirt instance float32 Item::get_Condition()
+	IL_04db: ldc.r4 0.0
+	IL_04e0: ble.un.s IL_04f9
+
+	IL_04e2: ldarg.0
+	IL_04e3: ldfld bool PlayerCharacter::breathing
+	IL_04e8: brtrue.s IL_04f9
+
+	// breathing = true;
+	IL_04ea: ldarg.0
+	IL_04eb: ldfld bool PlayerCharacter::autoBreath
+	IL_04f0: brfalse.s IL_04f9
+
+	IL_04f2: ldarg.0
+	IL_04f3: ldc.i4.1
+	IL_04f4: stfld bool PlayerCharacter::breathing
+
+	// audioSourceUnderwater.volume = Mathf.Lerp(audioSourceUnderwater.volume, 1f, Time.deltaTime);
+	IL_04f9: ldarg.0
+	IL_04fa: ldfld class [UnityEngine.AudioModule]UnityEngine.AudioSource PlayerCharacter::audioSourceUnderwater
+	IL_04ff: ldarg.0
+	IL_0500: ldfld class [UnityEngine.AudioModule]UnityEngine.AudioSource PlayerCharacter::audioSourceUnderwater
+	IL_0505: callvirt instance float32 [UnityEngine.AudioModule]UnityEngine.AudioSource::get_volume()
+	IL_050a: ldc.r4 1
+	IL_050f: call float32 [UnityEngine.CoreModule]UnityEngine.Time::get_deltaTime()
+	IL_0514: call float32 [UnityEngine.CoreModule]UnityEngine.Mathf::Lerp(float32, float32, float32)
+	IL_0519: callvirt instance void [UnityEngine.AudioModule]UnityEngine.AudioSource::set_volume(float32)
+	// DistinguishTorch();
+	IL_051e: ldarg.0
+	IL_051f: call instance void PlayerCharacter::DistinguishTorch()
+	// if (FPSRigidBodyWalker.code.isUnderWater && !RM.code.aud.isPlaying && drivingObject == null && seatObject == null)
+	IL_0524: br IL_0607
+
+	IL_0529: ldsfld class FPSRigidBodyWalker FPSRigidBodyWalker::code
+	IL_052e: ldfld bool FPSRigidBodyWalker::isUnderWater
+	IL_0533: brfalse.s IL_0581
+
+	IL_0535: ldsfld class RM RM::code
+	IL_053a: ldfld class [UnityEngine.AudioModule]UnityEngine.AudioSource RM::aud
+	IL_053f: callvirt instance bool [UnityEngine.AudioModule]UnityEngine.AudioSource::get_isPlaying()
+	IL_0544: brtrue.s IL_0581
+
+	// (no C# code)
+	IL_0546: ldarg.0
+	IL_0547: ldfld class Boat PlayerCharacter::drivingObject
+	IL_054c: ldnull
+	IL_054d: call bool [UnityEngine.CoreModule]UnityEngine.Object::op_Equality(class [UnityEngine.CoreModule]UnityEngine.Object, class [UnityEngine.CoreModule]UnityEngine.Object)
+	IL_0552: brfalse.s IL_0581
+
+	// RM.code.PlayOneShot(sndExitWater, UnityEngine.Random.Range(0.9f, 1.1f));
+	IL_0554: ldarg.0
+	IL_0555: ldfld class BoatSeat PlayerCharacter::seatObject
+	IL_055a: ldnull
+	IL_055b: call bool [UnityEngine.CoreModule]UnityEngine.Object::op_Equality(class [UnityEngine.CoreModule]UnityEngine.Object, class [UnityEngine.CoreModule]UnityEngine.Object)
+	IL_0560: brfalse.s IL_0581
+
+	IL_0562: ldsfld class RM RM::code
+	IL_0567: ldarg.0
+	IL_0568: ldfld class [UnityEngine.AudioModule]UnityEngine.AudioClip PlayerCharacter::sndExitWater
+	IL_056d: ldc.r4 0.9
+	IL_0572: ldc.r4 1.1
+	IL_0577: call float32 [UnityEngine.CoreModule]UnityEngine.Random::Range(float32, float32)
+	IL_057c: callvirt instance void RM::PlayOneShot(class [UnityEngine.AudioModule]UnityEngine.AudioClip, float32)
+
+	// FPSRigidBodyWalker.code.isUnderWater = false;
+	IL_0581: ldsfld class FPSRigidBodyWalker FPSRigidBodyWalker::code
+	IL_0586: ldc.i4.0
+	IL_0587: stfld bool FPSRigidBodyWalker::isUnderWater
+	// EnviroManager.instance.PlayerUnderWater = false;
+	IL_058c: call class [Enviro3.Runtime]Enviro.EnviroManager [Enviro3.Runtime]Enviro.EnviroManager::get_instance()
+	IL_0591: ldc.i4.0
+	IL_0592: stfld bool [Enviro3.Runtime]Enviro.EnviroManager::PlayerUnderWater
+	// onLandSnapshot.TransitionTo(0.2f);
+	IL_0597: ldarg.0
+	IL_0598: ldfld class [UnityEngine.AudioModule]UnityEngine.Audio.AudioMixerSnapshot PlayerCharacter::onLandSnapshot
+	IL_059d: ldc.r4 0.2
+	IL_05a2: callvirt instance void [UnityEngine.AudioModule]UnityEngine.Audio.AudioMixerSnapshot::TransitionTo(float32)
+	// Air += Time.deltaTime * AirConsumtionRate * 10.4f;
+	IL_05a7: ldarg.0
+	IL_05a8: ldarg.0
+	IL_05a9: call instance float32 PlayerCharacter::get_Air()
+	IL_05ae: call float32 [UnityEngine.CoreModule]UnityEngine.Time::get_deltaTime()
+	IL_05b3: ldarg.0
+	IL_05b4: call instance float32 PlayerCharacter::get_AirConsumtionRate()
+	IL_05b9: mul
+	IL_05ba: ldc.r4 10.4
+	IL_05bf: mul
+	IL_05c0: add
+	// Air = Mathf.Clamp(Air, 0f, MaxAir);
+	IL_05c1: call instance void PlayerCharacter::set_Air(float32)
+	IL_05c6: ldarg.0
+	IL_05c7: ldarg.0
+	IL_05c8: call instance float32 PlayerCharacter::get_Air()
+	IL_05cd: ldc.r4 0.0
+	IL_05d2: ldarg.0
+	IL_05d3: call instance float32 PlayerCharacter::get_MaxAir()
+	IL_05d8: call float32 [UnityEngine.CoreModule]UnityEngine.Mathf::Clamp(float32, float32, float32)
+	IL_05dd: call instance void PlayerCharacter::set_Air(float32)
+	// audioSourceUnderwater.volume = Mathf.Lerp(audioSourceUnderwater.volume, 0f, Time.deltaTime);
+	IL_05e2: ldarg.0
+	IL_05e3: ldfld class [UnityEngine.AudioModule]UnityEngine.AudioSource PlayerCharacter::audioSourceUnderwater
+	IL_05e8: ldarg.0
+	IL_05e9: ldfld class [UnityEngine.AudioModule]UnityEngine.AudioSource PlayerCharacter::audioSourceUnderwater
+	IL_05ee: callvirt instance float32 [UnityEngine.AudioModule]UnityEngine.AudioSource::get_volume()
+	IL_05f3: ldc.r4 0.0
+	IL_05f8: call float32 [UnityEngine.CoreModule]UnityEngine.Time::get_deltaTime()
+	IL_05fd: call float32 [UnityEngine.CoreModule]UnityEngine.Mathf::Lerp(float32, float32, float32)
+	IL_0602: callvirt instance void [UnityEngine.AudioModule]UnityEngine.AudioSource::set_volume(float32)
+
+	// if (depth < 0.4f || (bool)CurAquarium)
+	IL_0607: ldarg.0
+	IL_0608: ldfld float32 PlayerCharacter::depth
+	IL_060d: ldc.r4 0.4
+	IL_0612: blt.s IL_0621
+
+	IL_0614: ldarg.0
+	IL_0615: ldfld class Aquarium PlayerCharacter::CurAquarium
+	IL_061a: call bool [UnityEngine.CoreModule]UnityEngine.Object::op_Implicit(class [UnityEngine.CoreModule]UnityEngine.Object)
+	IL_061f: brfalse.s IL_0655
+
+	// MainCamera.nearClipPlane = 0.08f;
+	IL_0621: ldarg.0
+	IL_0622: call instance class [UnityEngine.CoreModule]UnityEngine.Camera PlayerCharacter::get_MainCamera()
+	IL_0627: ldc.r4 0.08
+	IL_062c: callvirt instance void [UnityEngine.CoreModule]UnityEngine.Camera::set_nearClipPlane(float32)
+	// if (!FPSRigidBodyWalker.code.isSwimming)
+	IL_0631: ldsfld class FPSRigidBodyWalker FPSRigidBodyWalker::code
+	IL_0636: ldfld bool FPSRigidBodyWalker::isSwimming
+	IL_063b: brtrue.s IL_0648
+
+	// FPSRigidBodyWalker.code.isSwimming = true;
+	IL_063d: ldsfld class FPSRigidBodyWalker FPSRigidBodyWalker::code
+	IL_0642: ldc.i4.1
+	IL_0643: stfld bool FPSRigidBodyWalker::isSwimming
+
+	// Wet = 30f;
+	IL_0648: ldarg.0
+	IL_0649: ldc.r4 30
+	IL_064e: call instance void PlayerCharacter::set_Wet(float32)
+	// RPGCamera.code.cam.nearClipPlane = 0.02f;
+	IL_0653: br.s IL_06a1
+
+	IL_0655: ldsfld class RPGCamera RPGCamera::code
+	IL_065a: ldfld class [UnityEngine.CoreModule]UnityEngine.Camera RPGCamera::cam
+	IL_065f: ldc.r4 0.02
+	IL_0664: callvirt instance void [UnityEngine.CoreModule]UnityEngine.Camera::set_nearClipPlane(float32)
+	// if (FPSRigidBodyWalker.code.isSwimming)
+	IL_0669: ldsfld class FPSRigidBodyWalker FPSRigidBodyWalker::code
+	IL_066e: ldfld bool FPSRigidBodyWalker::isSwimming
+	IL_0673: brfalse.s IL_0680
+
+	// FPSRigidBodyWalker.code.isSwimming = false;
+	IL_0675: ldsfld class FPSRigidBodyWalker FPSRigidBodyWalker::code
+	IL_067a: ldc.i4.0
+	IL_067b: stfld bool FPSRigidBodyWalker::isSwimming
+
+	// Wet = Mathf.Lerp(Wet, 0f, Time.deltaTime * 0.1f);
+	IL_0680: ldarg.0
+	IL_0681: ldarg.0
+	IL_0682: call instance float32 PlayerCharacter::get_Wet()
+	IL_0687: ldc.r4 0.0
+	IL_068c: call float32 [UnityEngine.CoreModule]UnityEngine.Time::get_deltaTime()
+	IL_0691: ldc.r4 0.1
+	IL_0696: mul
+	IL_0697: call float32 [UnityEngine.CoreModule]UnityEngine.Mathf::Lerp(float32, float32, float32)
+	IL_069c: call instance void PlayerCharacter::set_Wet(float32)
+
+	// if (HasNoAir())
+	IL_06a1: ldarg.0
+	IL_06a2: call instance bool PlayerCharacter::HasNoAir()
+	IL_06a7: brfalse IL_074a
+
+	// Air = 0f;
+	IL_06ac: ldarg.0
+	IL_06ad: ldc.r4 0.0
+	IL_06b2: call instance void PlayerCharacter::set_Air(float32)
+	// AddHealth((0f - Time.deltaTime) * 3.5f, 3, Vector3.zero, canBleed: false, showBiteFx: false, IsMeleeWeapon: false, ignoreArmor: false, isGrenade: false, PlayerDeathType.OutOfOxygen);
+	IL_06b7: ldarg.0
+	IL_06b8: call float32 [UnityEngine.CoreModule]UnityEngine.Time::get_deltaTime()
+	IL_06bd: neg
+	IL_06be: ldc.r4 3.5
+	IL_06c3: mul
+	IL_06c4: ldc.i4.3
+	IL_06c5: call valuetype [UnityEngine.CoreModule]UnityEngine.Vector3 [UnityEngine.CoreModule]UnityEngine.Vector3::get_zero()
+	IL_06ca: ldc.i4.0
+	IL_06cb: ldc.i4.0
+	IL_06cc: ldc.i4.0
+	IL_06cd: ldc.i4.0
+	IL_06ce: ldc.i4.0
+	IL_06cf: ldc.i4.1
+	IL_06d0: call instance void PlayerCharacter::AddHealth(float32, int32, valuetype [UnityEngine.CoreModule]UnityEngine.Vector3, bool, bool, bool, bool, bool, valuetype PlayerDeathType)
+	// if (UnityEngine.Random.Range(0, 100) < 1 && !RM.code.aud.isPlaying)
+	IL_06d5: ldc.i4.0
+	IL_06d6: ldc.i4.s 100
+	IL_06d8: call int32 [UnityEngine.CoreModule]UnityEngine.Random::Range(int32, int32)
+	IL_06dd: ldc.i4.1
+	IL_06de: bge.s IL_071d
+
+	IL_06e0: ldsfld class RM RM::code
+	IL_06e5: ldfld class [UnityEngine.AudioModule]UnityEngine.AudioSource RM::aud
+	IL_06ea: callvirt instance bool [UnityEngine.AudioModule]UnityEngine.AudioSource::get_isPlaying()
+	IL_06ef: brtrue.s IL_071d
+
+	// RM.code.PlayOneShot(sndDrowning[IsFemale ? 1 : 0], UnityEngine.Random.Range(0.9f, 1.1f));
+	IL_06f1: ldsfld class RM RM::code
+	IL_06f6: ldarg.0
+	IL_06f7: ldfld class [UnityEngine.AudioModule]UnityEngine.AudioClip[] PlayerCharacter::sndDrowning
+	IL_06fc: ldarg.0
+	IL_06fd: call instance bool PlayerCharacter::get_IsFemale()
+	IL_0702: brtrue.s IL_0707
+
+	IL_0704: ldc.i4.0
+	IL_0705: br.s IL_0708
+
+	IL_0707: ldc.i4.1
+
+	IL_0708: ldelem.ref
+	IL_0709: ldc.r4 0.9
+	IL_070e: ldc.r4 1.1
+	IL_0713: call float32 [UnityEngine.CoreModule]UnityEngine.Random::Range(float32, float32)
+	// drowningEffect.weight = Mathf.Lerp(drowningEffect.weight, 1f, Time.deltaTime * 0.15f);
+	IL_0718: callvirt instance void RM::PlayOneShot(class [UnityEngine.AudioModule]UnityEngine.AudioClip, float32)
+
+	IL_071d: ldarg.0
+	IL_071e: ldfld class [Unity.RenderPipelines.Core.Runtime]UnityEngine.Rendering.Volume PlayerCharacter::drowningEffect
+	IL_0723: ldarg.0
+	IL_0724: ldfld class [Unity.RenderPipelines.Core.Runtime]UnityEngine.Rendering.Volume PlayerCharacter::drowningEffect
+	IL_0729: ldfld float32 [Unity.RenderPipelines.Core.Runtime]UnityEngine.Rendering.Volume::weight
+	IL_072e: ldc.r4 1
+	IL_0733: call float32 [UnityEngine.CoreModule]UnityEngine.Time::get_deltaTime()
+	IL_0738: ldc.r4 0.15
+	IL_073d: mul
+	IL_073e: call float32 [UnityEngine.CoreModule]UnityEngine.Mathf::Lerp(float32, float32, float32)
+	IL_0743: stfld float32 [Unity.RenderPipelines.Core.Runtime]UnityEngine.Rendering.Volume::weight
+	// drowningEffect.weight = Mathf.Lerp(drowningEffect.weight, 0f, Time.deltaTime * 0.7f);
+	IL_0748: br.s IL_0775
+
+	IL_074a: ldarg.0
+	IL_074b: ldfld class [Unity.RenderPipelines.Core.Runtime]UnityEngine.Rendering.Volume PlayerCharacter::drowningEffect
+	IL_0750: ldarg.0
+	IL_0751: ldfld class [Unity.RenderPipelines.Core.Runtime]UnityEngine.Rendering.Volume PlayerCharacter::drowningEffect
+	IL_0756: ldfld float32 [Unity.RenderPipelines.Core.Runtime]UnityEngine.Rendering.Volume::weight
+	IL_075b: ldc.r4 0.0
+	IL_0760: call float32 [UnityEngine.CoreModule]UnityEngine.Time::get_deltaTime()
+	IL_0765: ldc.r4 0.7
+	IL_076a: mul
+	IL_076b: call float32 [UnityEngine.CoreModule]UnityEngine.Mathf::Lerp(float32, float32, float32)
+	IL_0770: stfld float32 [Unity.RenderPipelines.Core.Runtime]UnityEngine.Rendering.Volume::weight
+
+	// if (!weaponInHand || !weaponInHand.TryGetComponent<WaterContainer>(out var component))
+	IL_0775: ldarg.0
+	IL_0776: ldfld class WeaponRaycast PlayerCharacter::weaponInHand
+	IL_077b: call bool [UnityEngine.CoreModule]UnityEngine.Object::op_Implicit(class [UnityEngine.CoreModule]UnityEngine.Object)
+	IL_0780: brfalse IL_0890
+
+	IL_0785: ldarg.0
+	IL_0786: ldfld class WeaponRaycast PlayerCharacter::weaponInHand
+	IL_078b: ldloca.s 0
+	IL_078d: callvirt instance bool [UnityEngine.CoreModule]UnityEngine.Component::TryGetComponent<class WaterContainer>(!!0&)
+	IL_0792: brfalse IL_0890
+
+	// if (FPSRigidBodyWalker.code.isInWater)
+	IL_0797: ldsfld class FPSRigidBodyWalker FPSRigidBodyWalker::code
+	IL_079c: ldfld bool FPSRigidBodyWalker::isInWater
+	IL_07a1: brfalse IL_0881
+
+	// if (component._item.Condition < component._item.MaxCondition && !FocusedInteraction)
+	IL_07a6: ldloc.0
+	IL_07a7: ldfld class Item WaterContainer::_item
+	IL_07ac: callvirt instance float32 Item::get_Condition()
+	IL_07b1: ldloc.0
+	IL_07b2: ldfld class Item WaterContainer::_item
+	IL_07b7: ldfld float32 Item::MaxCondition
+	IL_07bc: bge.un IL_0871
+
+	IL_07c1: ldarg.0
+	IL_07c2: ldfld class Interaction PlayerCharacter::FocusedInteraction
+	IL_07c7: call bool [UnityEngine.CoreModule]UnityEngine.Object::op_Implicit(class [UnityEngine.CoreModule]UnityEngine.Object)
+	IL_07cc: brtrue IL_0871
+
+	// Global.code.uiCombat.ShowHintWithKeycodePenal(InputManager.Instance.InteractKeyAction.keyCode, MyBuildController.FillSeaWater.GetLocalizedString());
+	IL_07d1: ldsfld class Global Global::code
+	IL_07d6: ldfld class UICombat Global::uiCombat
+	IL_07db: ldsfld class InputManager InputManager::Instance
+	IL_07e0: callvirt instance class KeyAction InputManager::get_InteractKeyAction()
+	IL_07e5: ldfld valuetype [UnityEngine.CoreModule]UnityEngine.KeyCode KeyAction::keyCode
+	IL_07ea: ldarg.0
+	IL_07eb: ldfld class BuildController PlayerCharacter::MyBuildController
+	IL_07f0: ldfld class [Unity.Localization]UnityEngine.Localization.LocalizedString BuildController::FillSeaWater
+	IL_07f5: callvirt instance string [Unity.Localization]UnityEngine.Localization.LocalizedString::GetLocalizedString()
+	IL_07fa: callvirt instance void UICombat::ShowHintWithKeycodePenal(valuetype [UnityEngine.CoreModule]UnityEngine.KeyCode, string)
+	// if (InputManager.Instance.InteractPressed)
+	IL_07ff: ldsfld class InputManager InputManager::Instance
+	IL_0804: callvirt instance bool InputManager::get_InteractPressed()
+	IL_0809: brfalse IL_0890
+
+	// component._item.Condition = component._item.MaxCondition;
+	IL_080e: ldloc.0
+	IL_080f: ldfld class Item WaterContainer::_item
+	IL_0814: ldloc.0
+	IL_0815: ldfld class Item WaterContainer::_item
+	IL_081a: ldfld float32 Item::MaxCondition
+	IL_081f: callvirt instance void Item::set_Condition(float32)
+	// RM.code.PlayOneShot(sndFillSeawaterBucket, UnityEngine.Random.Range(0.9f, 1.1f));
+	IL_0824: ldsfld class RM RM::code
+	IL_0829: ldarg.0
+	IL_082a: ldfld class [UnityEngine.AudioModule]UnityEngine.AudioClip PlayerCharacter::sndFillSeawaterBucket
+	IL_082f: ldc.r4 0.9
+	IL_0834: ldc.r4 1.1
+	IL_0839: call float32 [UnityEngine.CoreModule]UnityEngine.Random::Range(float32, float32)
+	IL_083e: callvirt instance void RM::PlayOneShot(class [UnityEngine.AudioModule]UnityEngine.AudioClip, float32)
+	// Global.code.uiCombat.RefreshQuickSlot();
+	IL_0843: ldsfld class Global Global::code
+	IL_0848: ldfld class UICombat Global::uiCombat
+	IL_084d: callvirt instance void UICombat::RefreshQuickSlot()
+	// Global.code.uiCombat.HideHint();
+	IL_0852: ldsfld class Global Global::code
+	IL_0857: ldfld class UICombat Global::uiCombat
+	IL_085c: callvirt instance void UICombat::HideHint()
+	// PlayerWeapons.code.CurrentWeaponBehaviorComponent.ReFreshWaterBucketState();
+	IL_0861: ldsfld class PlayerWeapons PlayerWeapons::code
+	IL_0866: ldfld class WeaponBehavior PlayerWeapons::CurrentWeaponBehaviorComponent
+	IL_086b: callvirt instance void WeaponBehavior::ReFreshWaterBucketState()
+	// Global.code.uiCombat.HideHintWithKeycodePenal();
+	IL_0870: ret
+
+	IL_0871: ldsfld class Global Global::code
+	IL_0876: ldfld class UICombat Global::uiCombat
+	IL_087b: callvirt instance void UICombat::HideHintWithKeycodePenal()
+	// }
+	IL_0880: ret
+
+	// Global.code.uiCombat.HideHintWithKeycodePenal();
+	IL_0881: ldsfld class Global Global::code
+	IL_0886: ldfld class UICombat Global::uiCombat
+	IL_088b: callvirt instance void UICombat::HideHintWithKeycodePenal()
+
+	// (no C# code)
+	IL_0890: ret
+} // end of method PlayerCharacter::UpdateSwimming
