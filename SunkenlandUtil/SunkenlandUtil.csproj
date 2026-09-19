@@ -1,8 +1,29 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
+
+  <!-- ===== 生成后部署到 mod 目录的配置 ===== -->
+  <!-- 开关：设为 false 可只生成不复制（dotnet build -p:CopyToModFolder=false） -->
+  <PropertyGroup>
+    <CopyToModFolder Condition="'$(CopyToModFolder)' == ''">true</CopyToModFolder>
+  </PropertyGroup>
+  <!-- 目标目录（BepInEx 插件目录），按优先级取：
+       1) 命令行 -p:ModPluginsDir=...  2) 环境变量 SUNKENLAND_MOD_DIR  3) 下面的默认值 -->
+  <PropertyGroup>
+    <ModPluginsDir Condition="'$(ModPluginsDir)' == '' and '$(SUNKENLAND_MOD_DIR)' != ''">$(SUNKENLAND_MOD_DIR)</ModPluginsDir>
+    <ModPluginsDir Condition="'$(ModPluginsDir)' == ''">$(MSBuildThisFileDirectory)..\..\..\Program Files (x86)\Steam\steamapps\common\Sunkenland\BepInEx\plugins</ModPluginsDir>
+  </PropertyGroup>
+
+  <!-- 生成后把插件 DLL 复制到 mod 目录。
+       若游戏正在运行，DLL 被占用导致复制失败并报错（不会破坏已部署的文件）：
+       关闭游戏后重新生成，或加 -p:CopyToModFolder=false 只生成不复制。 -->
+  <Target Name="CopyToModFolder" AfterTargets="Build" Condition="'$(CopyToModFolder)' == 'true' and '$(ModPluginsDir)' != ''">
+    <MakeDir Directories="$(ModPluginsDir)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModPluginsDir)" SkipUnchangedFiles="true" />
+    <Message Importance="high" Text="SunkenlandUtil: $(TargetFileName) -&gt; $(ModPluginsDir)" />
+  </Target>
 
   <ItemGroup>
     <Reference Include="0Harmony">

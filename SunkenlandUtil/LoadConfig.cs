@@ -1,4 +1,4 @@
-﻿using BepInEx.Configuration;
+using BepInEx.Configuration;
 
 namespace SunkenlandUtil
 {
@@ -94,7 +94,7 @@ namespace SunkenlandUtil
 
             DestroyReturnAll = config.Bind(Section, nameof(DestroyReturnAll), defaultValue: false, "拆除返还全部材料");
             BoatSpeedRate = config.Bind(Section, nameof(BoatSpeedRate), defaultValue: 1f, "船速 倍率 / Multiplier");
-            EnemyDisplayCount = config.Bind(Section, nameof(EnemyDisplayCount), defaultValue: 5, "敌人标记显示阈值");
+            EnemyDisplayCount = config.Bind(Section, nameof(EnemyDisplayCount), defaultValue: 12, "敌人标记显示数量 / Enemy marker count (游戏当前上限 12, 填 12 等于原版)");
         }
     }
 }

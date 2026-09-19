@@ -1,4 +1,4 @@
-﻿using BepInEx;
+using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
@@ -16,7 +16,7 @@ using UnityGameUI;
 
 namespace SunkenlandUtil
 {
-    [BepInPlugin("satroki.sunkenland.util", "Util Plugin", "0.3.3")]
+    [BepInPlugin("satroki.sunkenland.util", "Util Plugin", "0.4.0")]
     public class SunkenlandUtil : BaseUnityPlugin
     {
         private readonly Harmony _harmony = new Harmony("satroki.sunkenland.util");
@@ -43,6 +43,8 @@ namespace SunkenlandUtil
         private static ChoppableType[] scanOreTypes;
         private static string[] sensorFilter;
         private static string[] sensorPriority;
+        // 复用查询结果列表，避免每次扫描产生 GC
+        private static readonly List<Transform> nearbyInteractables = new List<Transform>();
 
         private void Awake()
         {
@@ -198,7 +200,7 @@ namespace SunkenlandUtil
 
         public static void ChangeStackAmount(RM rm)
         {
-            if (!rm || !rm.ItemDictionary.Any())
+            if (!rm || rm.ItemDatas.Count == 0)
                 return;
             var m = LoadConfig.StackAmount.Value;
             if (m <= 1)
@@ -219,14 +221,40 @@ namespace SunkenlandUtil
             //    }
             //}
 
-            stackBakDict ??= rm.ItemDictionary.Where(v => v.Value.stackAmount > 1).ToDictionary(v => v.Key, v => v.Value.stackAmount);
+            stackBakDict ??= rm.ItemDatas.Where(v => v.Value.stackAmount > 1).ToDictionary(v => v.Key, v => v.Value.stackAmount);
 
-            foreach (var kv in rm.ItemDictionary)
+            foreach (var kv in rm.ItemDatas)
             {
                 if (stackBakDict.TryGetValue(kv.Key, out var amt))
                     kv.Value.stackAmount = amt * m;
             }
             _logger.LogInfo($"Change StackAmount × {m}");
+        }
+
+        // 改写后新实例化的物品即按新上限堆叠。
+        [HarmonyPatch(typeof(RM), "GetItemPrefab")]
+        [HarmonyPostfix]
+        public static void GetItemPrefab(ref Item __result)
+        {
+            ApplyStackAmount(__result);
+        }
+
+        // 兜底：不经 GetItemPrefab 拿到的 prefab（例如 EnsureGunsLoaded 用 Resources.LoadAll
+        // 直接加载并缓存的武器）在实例化时统一修正
+        [HarmonyPatch(typeof(Item), "Awake")]
+        [HarmonyPostfix]
+        public static void ItemAwake(Item __instance)
+        {
+            ApplyStackAmount(__instance);
+        }
+
+        private static void ApplyStackAmount(Item item)
+        {
+            if (!item || stackBakDict == null)
+                return;
+            var m = LoadConfig.StackAmount.Value;
+            if (m > 1 && stackBakDict.TryGetValue(item.ItemID, out var original))
+                item.stackAmount = original * m;
         }
 
         [HarmonyPatch(typeof(Furnace), "Awake")]
@@ -359,19 +387,53 @@ namespace SunkenlandUtil
         [HarmonyPatch(typeof(Location), "CS")]
         public static IEnumerable<CodeInstruction> CS(IEnumerable<CodeInstruction> instructions)
         {
-            if (enemyDisplayCount == 5)
-            {
-                return instructions;
-            }
-
             var v = enemyDisplayCount;
             var codes = instructions.ToList();
 
-            var i = codes.FindIndex(c => c.opcode == OpCodes.Ldc_I4_5);
-            codes[i] = new CodeInstruction(OpCodes.Ldc_I4_0);
+            // 新版 CS:
+            //   displayCount = Mathf.CeilToInt((float)maxArmyPower * ShowEnemyRatio);
+            //   if (displayCount >= 12) displayCount = 12;
+            // 旧版上限是常量 5，新版改成 12 后按 Ldc_I4_5 定位会失败（第二次 FindIndex 返回 -1，
+            // 随后 codes[-1] 抛 ArgumentOutOfRangeException，导致 PatchAll 中断）。
+            // 改为按 Mathf.CeilToInt 之后的“比较常量 + 赋值常量”定位，不再依赖具体数值。
 
-            i = codes.FindIndex(i + 1, c => c.opcode == OpCodes.Ldc_I4_5);
-            codes[i] = new CodeInstruction(OpCodes.Ldc_I4, v);
+            static bool IsIntConst(OpCode op)
+            {
+                return op.Value >= OpCodes.Ldc_I4_M1.Value && op.Value <= OpCodes.Ldc_I4_8.Value
+                    || op == OpCodes.Ldc_I4_S || op == OpCodes.Ldc_I4;
+            }
+
+            var ceil = codes.FindIndex(c => c.opcode == OpCodes.Call
+                && c.operand is MethodInfo mi
+                && mi.DeclaringType == typeof(Mathf)
+                && mi.Name == nameof(Mathf.CeilToInt));
+            if (ceil < 0)
+            {
+                _logger.LogWarning("Location.CS: 未找到 Mathf.CeilToInt，跳过 EnemyDisplayCount");
+                return instructions;
+            }
+
+            // 上限比较：常量后面紧跟条件跳转
+            var cmp = codes.FindIndex(ceil, c => IsIntConst(c.opcode));
+            if (cmp < 0 || cmp + 1 >= codes.Count || codes[cmp + 1].opcode.FlowControl != FlowControl.Cond_Branch)
+            {
+                _logger.LogWarning("Location.CS: 未找到上限比较常量，跳过 EnemyDisplayCount");
+                return instructions;
+            }
+
+            // 上限赋值：紧随其后的常量，后面是 stfld/stloc
+            var assign = codes.FindIndex(cmp + 1, c => IsIntConst(c.opcode));
+            if (assign < 0 || assign + 1 >= codes.Count || !codes[assign + 1].opcode.Name.StartsWith("st", StringComparison.Ordinal))
+            {
+                _logger.LogWarning("Location.CS: 未找到上限赋值常量，跳过 EnemyDisplayCount");
+                return instructions;
+            }
+
+            // 原地修改，保留指令上的 label/异常块
+            codes[cmp].opcode = OpCodes.Ldc_I4_0;
+            codes[cmp].operand = null;
+            codes[assign].opcode = OpCodes.Ldc_I4;
+            codes[assign].operand = v;
             _logger.LogInfo($"Set EnemyDisplayCount {v}");
             return codes;
         }
@@ -445,6 +507,7 @@ namespace SunkenlandUtil
                 || name.StartsWith("Wind_pumping_station", StringComparison.OrdinalIgnoreCase);
         }
 
+        //private static Component lastNearestObj;
 
         public static void GetNearestObject(Vector3 position)
         {
@@ -462,7 +525,10 @@ namespace SunkenlandUtil
                 return false;
             }
 
-            foreach (var iitem in WorldScene.code.interactableItems)
+            // 新版游戏将可交互物从 List 改为八叉树，需按球形范围查询
+            WorldScene.code.GetNearbyInteractables(position, distLimit, nearbyInteractables);
+
+            foreach (var iitem in nearbyInteractables)
             {
                 if (!iitem || !iitem.gameObject.activeSelf)
                     continue;
@@ -516,6 +582,11 @@ namespace SunkenlandUtil
 
                 var hDist = Vector3.Distance(new Vector3(nearestObj.transform.position.x, 0f, nearestObj.transform.position.z), new Vector3(position.x, 0f, position.z));
                 worldObj.UpdateObjectAndText(nearestObj, $"{hDist:0}  {y:0}{sy}  {GetObjName(nearestObj)}");
+                //if (nearestObj != lastNearestObj)
+                //{
+                //    _logger.LogInfo($"NearestObj: {GetObjName(nearestObj)}  Dist: {hDist:0}  Y: {y:0}{sy}");
+                //    lastNearestObj = nearestObj;
+                //}
             }
             else
             {
